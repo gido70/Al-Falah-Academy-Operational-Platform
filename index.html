@@ -33,7 +33,7 @@
     <div id="directorInboxBadge" class="inbox-badge zero">0</div>
   </div>
   <div class="inbox-actions">
-    <button class="btn teal" type="button" onclick="toggleDirectorInbox()">فتح الردود</button><button class="btn outline" type="button" onclick="copyManagementLink()">نسخ رابط الإدارة العليا</button>
+    <button class="btn teal" type="button" onclick="toggleDirectorInbox()">فتح الردود الجديدة</button><button class="btn outline" type="button" onclick="copyManagementLink()">نسخ رابط الإدارة العليا</button>
     <button class="btn outline" type="button" onclick="refreshDirectorInbox()">تحديث</button>
     <button class="btn gold" type="button" onclick="markDirectorFeedbackRead()">تعليم كمقروء</button>
     <a class="btn outline" href="management/index.html">الملخص التنفيذي للإدارة التعليمية</a>
@@ -98,19 +98,21 @@ async function loadDirectorFeedback(showStatus=false){
     console.warn('director feedback load failed',e);
     if(showStatus) setInboxStatus('تعذر جلب الردود من Supabase. سيتم عرض النسخة المحلية إن وجدت. تأكد من إنشاء جدول director_feedback وصلاحياته.','errmsg');
   }
-  const unread=rows.filter(r=>r.is_read===false || r.is_read===0 || r.is_read==null).length;
-  badge.textContent=unread || rows.length || 0;
-  badge.classList.toggle('zero',!(unread||rows.length));
-  if(!rows.length){
-    list.innerHTML='<div class="inbox-empty">لا توجد ردود من الإدارة حتى الآن.</div>';
-    if(showStatus) setInboxStatus('تم التحديث: لا توجد ردود حتى الآن.','okmsg');
+  const unreadRows=rows.filter(r=>r.is_read===false || r.is_read===0 || r.is_read==null);
+  const unread=unreadRows.length;
+  badge.textContent=unread;
+  badge.classList.toggle('zero',!unread);
+  const renderRows = unreadRows;
+  if(!renderRows.length){
+    list.innerHTML='<div class="inbox-empty okmsg">لا توجد ردود جديدة غير مقروءة. الردود المقروءة محفوظة في قاعدة البيانات ولا تظهر هنا حتى لا تزحم الصفحة.</div>';
+    if(showStatus) setInboxStatus(`تم التحديث من ${source}: لا توجد ردود جديدة.`, 'okmsg');
     return rows;
   }
-  list.innerHTML=rows.map(r=>{
-    const unreadCls=(r.is_read===false||r.is_read===0||r.is_read==null)?' unread':'';
+  const limited = renderRows.slice(0,3);
+  list.innerHTML=limited.map(r=>{
     const pr=escapeHTML(r.importance||r.priority||'عادي');
     const txt=escapeHTML(r.comment_text||r.comment||'لا توجد ملاحظة نصية.');
-    return `<div class="inbox-item${unreadCls}">
+    return `<div class="inbox-item unread">
       <div class="inbox-meta">
         <span class="inbox-pill ok">${escapeHTML(r.decision||'رد إداري')}</span>
         <span class="inbox-pill ${pr==='عاجل'?'urgent':''}">${pr}</span>
@@ -120,8 +122,8 @@ async function loadDirectorFeedback(showStatus=false){
       </div>
       <div class="inbox-comment">${txt}</div>
     </div>`
-  }).join('');
-  if(showStatus) setInboxStatus(`تم التحديث من ${source}: عدد الردود ${rows.length}، غير المقروء ${unread}.`,'okmsg');
+  }).join('') + (unread>3 ? `<div class="inbox-empty">يوجد ${unread-3} ردود جديدة أخرى. اضغط «تعليم كمقروء» بعد مراجعة الظاهر، ثم «تحديث» لعرض الدفعة التالية.</div>` : '');
+  if(showStatus) setInboxStatus(`تم التحديث من ${source}: لديك ${unread} ردود جديدة غير مقروءة.`, 'okmsg');
   return rows;
 }
 async function refreshDirectorInbox(){
@@ -159,7 +161,7 @@ async function markDirectorFeedbackRead(){
   await loadDirectorFeedback(false);
   const badge=document.getElementById('directorInboxBadge');
   if(badge){badge.textContent='0'; badge.classList.add('zero');}
-  setInboxStatus('تم تعليم الردود كمقروءة.','okmsg');
+  setInboxStatus('تم إخفاء الردود المقروءة من الواجهة، وبقيت محفوظة في قاعدة البيانات.','okmsg');
 }
 document.addEventListener('DOMContentLoaded',()=>{setTimeout(loadDirectorFeedback,700);setInterval(loadDirectorFeedback,45000);});
 </script>
