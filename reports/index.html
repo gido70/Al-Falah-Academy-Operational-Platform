@@ -69,6 +69,226 @@ label{display:block;font-weight:900;color:var(--navy);margin-bottom:6px;font-siz
 .bar-row > b:first-child{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;font-size:16px!important;line-height:1.7!important;text-align:right!important;color:#0c447c!important}
 .bar-row > b:last-child{white-space:nowrap!important;text-align:left!important}
 
+
+/* FINAL FIX: prevent school names from being clipped in comparison charts */
+.chart .bar-row,
+.visual-compare-box .bar-row,
+.visual-school-row{
+  direction:ltr!important;
+  display:grid!important;
+  grid-template-columns:320px minmax(260px,1fr) 82px!important;
+  column-gap:16px!important;
+  align-items:center!important;
+  width:100%!important;
+}
+.chart .bar-row > b:first-child,
+.visual-school-name{
+  direction:rtl!important;
+  unicode-bidi:plaintext!important;
+  text-align:right!important;
+  display:block!important;
+  width:100%!important;
+  max-width:320px!important;
+  min-width:0!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.65!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  padding:2px 6px!important;
+}
+.chart .bar-row > b:last-child,
+.visual-school-score{
+  direction:ltr!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  min-width:70px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+}
+.chart .bar{
+  width:100%!important;
+  min-width:0!important;
+}
+@media(max-width:850px){
+  .chart .bar-row,
+  .visual-compare-box .bar-row,
+  .visual-school-row{
+    grid-template-columns:1fr!important;
+    direction:rtl!important;
+  }
+  .chart .bar-row > b:first-child,
+  .visual-school-name{
+    max-width:100%!important;
+    text-align:center!important;
+  }
+  .chart .bar-row > b:last-child,
+  .visual-school-score{
+    text-align:center!important;
+  }
+}
+
+
+/* ULTIMATE FIX V4: comparison chart labels */
+#reportBody .chart .bar-row{
+  position:relative!important;
+  display:block!important;
+  min-height:44px!important;
+  margin:12px 0!important;
+  padding-right:290px!important;   /* reserve a visible label area on the right */
+  padding-left:76px!important;     /* reserve score area on the left */
+  direction:rtl!important;
+}
+#reportBody .chart .bar-row > b:first-child{
+  position:absolute!important;
+  right:12px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:260px!important;
+  max-width:260px!important;
+  text-align:right!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.55!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  z-index:3!important;
+  background:transparent!important;
+}
+#reportBody .chart .bar-row > .bar{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  position:relative!important;
+  top:14px!important;
+}
+#reportBody .chart .bar-row > b:last-child{
+  position:absolute!important;
+  left:8px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:68px!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  direction:ltr!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c2a4a!important;
+}
+#reportBody .chart{
+  overflow:visible!important;
+}
+@media(max-width:850px){
+  #reportBody .chart .bar-row{
+    padding:34px 6px 28px 6px!important;
+    min-height:88px!important;
+  }
+  #reportBody .chart .bar-row > b:first-child{
+    position:absolute!important;
+    top:8px!important;
+    right:0!important;
+    left:0!important;
+    transform:none!important;
+    width:100%!important;
+    max-width:100%!important;
+    text-align:center!important;
+    font-size:14px!important;
+  }
+  #reportBody .chart .bar-row > .bar{
+    top:35px!important;
+  }
+  #reportBody .chart .bar-row > b:last-child{
+    left:0!important;
+    right:0!important;
+    top:auto!important;
+    bottom:2px!important;
+    transform:none!important;
+    width:100%!important;
+    text-align:center!important;
+  }
+}
+
+
+
+/* MANAGEMENT FIX: clear right-side school labels in graphical comparison */
+.graph-compare-fixed{
+  background:#f8fbff;
+  border:1px solid #edf3fb;
+  border-radius:18px;
+  padding:28px 24px 38px;
+  overflow:visible;
+}
+.graph-compare-fixed .compare-row-fixed{
+  display:grid;
+  grid-template-columns:minmax(230px,300px) minmax(260px,1fr) 86px;
+  gap:18px;
+  align-items:center;
+  margin:14px 0;
+  direction:rtl;
+}
+.graph-compare-fixed .school-label-fixed{
+  color:#0c2a4a;
+  font-weight:900;
+  font-size:15px;
+  line-height:1.55;
+  text-align:right;
+  white-space:normal;
+  overflow:visible;
+  word-break:normal;
+  overflow-wrap:anywhere;
+  padding-inline:4px;
+}
+.graph-compare-fixed .bar-fixed{
+  height:24px;
+  background:#edf3fb;
+  border-radius:999px;
+  overflow:hidden;
+  box-shadow:inset 0 0 0 1px #d8e6f5;
+}
+.graph-compare-fixed .fill-fixed{
+  height:100%;
+  border-radius:999px;
+}
+.graph-compare-fixed .score-fixed{
+  direction:ltr;
+  text-align:left;
+  font-weight:900;
+  color:#0c2a4a;
+  white-space:nowrap;
+  font-size:15px;
+}
+.graph-axis-fixed{
+  display:grid;
+  grid-template-columns:minmax(230px,300px) minmax(260px,1fr) 86px;
+  gap:18px;
+  align-items:center;
+  margin-top:10px;
+  direction:rtl;
+  color:#0c2a4a;
+  font-weight:900;
+}
+.graph-axis-fixed .axis-line-fixed{
+  border-top:2px solid #d8e6f5;
+  display:flex;
+  justify-content:space-between;
+  padding-top:8px;
+  direction:ltr;
+}
+@media(max-width:900px){
+  .graph-compare-fixed .compare-row-fixed,
+  .graph-axis-fixed{grid-template-columns:1fr;gap:8px;}
+  .graph-compare-fixed .school-label-fixed,.graph-compare-fixed .score-fixed{text-align:center;}
+}
+
 </style>
 </head><body><a class="home" href="../index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="../assets/logo.png" alt="شعار أكاديمية الفلاح" onerror="this.style.display='none'"><h1>التقرير التحليلي النهائي</h1><p>مركز التحليل الداخلي: التقييمات، الدوام، الزيارات، الأيام، الأسابيع، والشهور.</p></section><section class="card builder"><h2>خيارات التقرير التحليلي</h2><div class="grid3"><div><label>نوع التقرير</label><select id="type"><option value="">— بدون تحديد —</option><option value="all">تقرير شامل</option><option value="evaluation">تقييم المكتبات</option><option value="work">الدوام والزيارات</option><option value="school">مدرسة محددة</option><option value="special">موضوع خاص</option></select></div><div><label>المدرسة / المدارس</label><div class="multi" id="schoolPicker"><button type="button" class="multi-btn" onclick="toggleSchoolPicker(event)"><span id="schoolPickerText">— بدون تحديد —</span></button><div class="multi-panel" id="schoolPanel"><label><input type="checkbox" value="all" onchange="updateSchoolPicker()"> كل المدارس</label><label><input type="checkbox" value="khb" onchange="updateSchoolPicker()"> الخبيصي</label><label><input type="checkbox" value="jmi" onchange="updateSchoolPicker()"> الجيمي</label><label><input type="checkbox" value="shj" onchange="updateSchoolPicker()"> الشارقة</label><label><input type="checkbox" value="bny" onchange="updateSchoolPicker()"> بني ياس</label><label><input type="checkbox" value="mzd" onchange="updateSchoolPicker()"> محمد بن زايد</label><label><input type="checkbox" value="dan" onchange="updateSchoolPicker()"> الدانة</label></div></div><div class="hint">القائمة لا تبقى مفتوحة، ويمكن اختيار أكثر من مدرسة.</div></div><div><label>الشهر</label><select id="month"><option value="">— بدون تحديد —</option><option value="04">أبريل</option><option value="05">مايو</option><option value="06">يونيو</option><option value="07">يوليو</option><option value="08">أغسطس</option><option value="09">سبتمبر</option><option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option></select></div><div><label>بداية أسبوع العمل</label><input id="weekFrom" type="date"><div class="hint">اختر يوم الاثنين لبداية الأسبوع.</div></div><div><label>نهاية أسبوع العمل</label><input id="weekTo" type="date"><div class="hint">اختر يوم الجمعة لنهاية الأسبوع.</div></div><div><label>يوم محدد</label><input id="day" type="date"><div class="hint">إذا اخترت يومًا محددًا سيعرض هذا اليوم فقط.</div></div><div><label>من تاريخ</label><input id="from" type="date"></div><div><label>إلى تاريخ</label><input id="to" type="date"></div><div><label>مستوى العرض</label><select id="level"><option value="full">تفصيلي</option><option value="medium">متوسط</option><option value="brief">مختصر</option></select></div><div><label>عنوان خاص اختياري</label><input id="title" placeholder="مثال: تقرير شهر مايو"></div><div><label>ملاحظة تحليلية</label><input id="note" placeholder="مثال: التركيز على الزيارات"></div></div><div class="actions"><button class="btn teal" onclick="renderReport()">🔄 تحديث التقرير</button><button class="btn gold" onclick="window.print()">🖨️ طباعة / PDF</button><button class="btn outline" onclick="copyReportText()">📋 نسخ نص التقرير</button></div></section><section id="reportBody" class="card"><div class="empty">اختر الفلاتر ثم اضغط تحديث التقرير.</div></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=20260511final"></script>
@@ -557,6 +777,154 @@ function copyReportText(){let t=$('reportBody')?.innerText||$('briefBody')?.inne
 .bar-row > b:first-child{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;font-size:16px!important;line-height:1.7!important;text-align:right!important;color:#0c447c!important}
 .bar-row > b:last-child{white-space:nowrap!important;text-align:left!important}
 
+
+/* FINAL FIX: prevent school names from being clipped in comparison charts */
+.chart .bar-row,
+.visual-compare-box .bar-row,
+.visual-school-row{
+  direction:ltr!important;
+  display:grid!important;
+  grid-template-columns:320px minmax(260px,1fr) 82px!important;
+  column-gap:16px!important;
+  align-items:center!important;
+  width:100%!important;
+}
+.chart .bar-row > b:first-child,
+.visual-school-name{
+  direction:rtl!important;
+  unicode-bidi:plaintext!important;
+  text-align:right!important;
+  display:block!important;
+  width:100%!important;
+  max-width:320px!important;
+  min-width:0!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.65!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  padding:2px 6px!important;
+}
+.chart .bar-row > b:last-child,
+.visual-school-score{
+  direction:ltr!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  min-width:70px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+}
+.chart .bar{
+  width:100%!important;
+  min-width:0!important;
+}
+@media(max-width:850px){
+  .chart .bar-row,
+  .visual-compare-box .bar-row,
+  .visual-school-row{
+    grid-template-columns:1fr!important;
+    direction:rtl!important;
+  }
+  .chart .bar-row > b:first-child,
+  .visual-school-name{
+    max-width:100%!important;
+    text-align:center!important;
+  }
+  .chart .bar-row > b:last-child,
+  .visual-school-score{
+    text-align:center!important;
+  }
+}
+
+
+/* ULTIMATE FIX V4: comparison chart labels */
+#reportBody .chart .bar-row{
+  position:relative!important;
+  display:block!important;
+  min-height:44px!important;
+  margin:12px 0!important;
+  padding-right:290px!important;   /* reserve a visible label area on the right */
+  padding-left:76px!important;     /* reserve score area on the left */
+  direction:rtl!important;
+}
+#reportBody .chart .bar-row > b:first-child{
+  position:absolute!important;
+  right:12px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:260px!important;
+  max-width:260px!important;
+  text-align:right!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.55!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  z-index:3!important;
+  background:transparent!important;
+}
+#reportBody .chart .bar-row > .bar{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  position:relative!important;
+  top:14px!important;
+}
+#reportBody .chart .bar-row > b:last-child{
+  position:absolute!important;
+  left:8px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:68px!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  direction:ltr!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c2a4a!important;
+}
+#reportBody .chart{
+  overflow:visible!important;
+}
+@media(max-width:850px){
+  #reportBody .chart .bar-row{
+    padding:34px 6px 28px 6px!important;
+    min-height:88px!important;
+  }
+  #reportBody .chart .bar-row > b:first-child{
+    position:absolute!important;
+    top:8px!important;
+    right:0!important;
+    left:0!important;
+    transform:none!important;
+    width:100%!important;
+    max-width:100%!important;
+    text-align:center!important;
+    font-size:14px!important;
+  }
+  #reportBody .chart .bar-row > .bar{
+    top:35px!important;
+  }
+  #reportBody .chart .bar-row > b:last-child{
+    left:0!important;
+    right:0!important;
+    top:auto!important;
+    bottom:2px!important;
+    transform:none!important;
+    width:100%!important;
+    text-align:center!important;
+  }
+}
+
 </style>
 <script>
 (function(){
@@ -659,6 +1027,154 @@ function copyReportText(){let t=$('reportBody')?.innerText||$('briefBody')?.inne
 .bar-row > b:first-child{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;font-size:16px!important;line-height:1.7!important;text-align:right!important;color:#0c447c!important}
 .bar-row > b:last-child{white-space:nowrap!important;text-align:left!important}
 
+
+/* FINAL FIX: prevent school names from being clipped in comparison charts */
+.chart .bar-row,
+.visual-compare-box .bar-row,
+.visual-school-row{
+  direction:ltr!important;
+  display:grid!important;
+  grid-template-columns:320px minmax(260px,1fr) 82px!important;
+  column-gap:16px!important;
+  align-items:center!important;
+  width:100%!important;
+}
+.chart .bar-row > b:first-child,
+.visual-school-name{
+  direction:rtl!important;
+  unicode-bidi:plaintext!important;
+  text-align:right!important;
+  display:block!important;
+  width:100%!important;
+  max-width:320px!important;
+  min-width:0!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.65!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  padding:2px 6px!important;
+}
+.chart .bar-row > b:last-child,
+.visual-school-score{
+  direction:ltr!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  min-width:70px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+}
+.chart .bar{
+  width:100%!important;
+  min-width:0!important;
+}
+@media(max-width:850px){
+  .chart .bar-row,
+  .visual-compare-box .bar-row,
+  .visual-school-row{
+    grid-template-columns:1fr!important;
+    direction:rtl!important;
+  }
+  .chart .bar-row > b:first-child,
+  .visual-school-name{
+    max-width:100%!important;
+    text-align:center!important;
+  }
+  .chart .bar-row > b:last-child,
+  .visual-school-score{
+    text-align:center!important;
+  }
+}
+
+
+/* ULTIMATE FIX V4: comparison chart labels */
+#reportBody .chart .bar-row{
+  position:relative!important;
+  display:block!important;
+  min-height:44px!important;
+  margin:12px 0!important;
+  padding-right:290px!important;   /* reserve a visible label area on the right */
+  padding-left:76px!important;     /* reserve score area on the left */
+  direction:rtl!important;
+}
+#reportBody .chart .bar-row > b:first-child{
+  position:absolute!important;
+  right:12px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:260px!important;
+  max-width:260px!important;
+  text-align:right!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.55!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  z-index:3!important;
+  background:transparent!important;
+}
+#reportBody .chart .bar-row > .bar{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  position:relative!important;
+  top:14px!important;
+}
+#reportBody .chart .bar-row > b:last-child{
+  position:absolute!important;
+  left:8px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:68px!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  direction:ltr!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c2a4a!important;
+}
+#reportBody .chart{
+  overflow:visible!important;
+}
+@media(max-width:850px){
+  #reportBody .chart .bar-row{
+    padding:34px 6px 28px 6px!important;
+    min-height:88px!important;
+  }
+  #reportBody .chart .bar-row > b:first-child{
+    position:absolute!important;
+    top:8px!important;
+    right:0!important;
+    left:0!important;
+    transform:none!important;
+    width:100%!important;
+    max-width:100%!important;
+    text-align:center!important;
+    font-size:14px!important;
+  }
+  #reportBody .chart .bar-row > .bar{
+    top:35px!important;
+  }
+  #reportBody .chart .bar-row > b:last-child{
+    left:0!important;
+    right:0!important;
+    top:auto!important;
+    bottom:2px!important;
+    transform:none!important;
+    width:100%!important;
+    text-align:center!important;
+  }
+}
+
 </style>
 <script id="advanced-consulting-report-engine">
 (function(){
@@ -731,9 +1247,15 @@ function copyReportText(){let t=$('reportBody')?.innerText||$('briefBody')?.inne
   function comparisonSVG(evals){
     if(!evals||evals.length<2) return '';
     const items=evals.map((e,i)=>({label:e.school,score:+e.score||0,color:scoreColor(e.score,i)})).slice(0,8);
-    const w=760,h=260,pad=48,barH=18,gap=12;
-    const rows=items.map((it,i)=>{let y=pad+i*(barH+gap); let bw=Math.max(6,(w-230)*(it.score/6)); return `<text x="${w-10}" y="${y+14}" text-anchor="end">${esc(it.label).slice(0,34)}</text><rect x="90" y="${y}" width="${bw}" height="${barH}" rx="9" fill="${it.color}"/><text x="${80}" y="${y+14}" text-anchor="end">${it.score.toFixed(1)}/6</text>`}).join('');
-    return `<div class="graph-wide"><h4>مقارنة بيانية بين المدارس المختارة</h4><svg class="compare-svg" viewBox="0 0 ${w} ${h}">${rows}<line x1="90" y1="${h-36}" x2="${w-130}" y2="${h-36}" stroke="#d8e6f5"/><text x="90" y="${h-12}">0</text><text x="${(w-130)}" y="${h-12}" text-anchor="middle">6</text></svg><p class="graph-explain"><b>قراءة المقارنة:</b> يوضح طول كل شريط متوسط تقييم المدرسة من 6. المدارس ذات الأشرطة الأقصر تحتاج متابعة إدارية أقرب وخطة تحسين زمنية.</p></div>`;
+    const rows=items.map((it,i)=>{
+      let p=Math.max(0,Math.min(100,(it.score/6)*100));
+      return `<div class="compare-row-fixed">
+        <div class="school-label-fixed">${esc(it.label)}</div>
+        <div class="bar-fixed"><div class="fill-fixed" style="width:${p}%;background:${it.color}"></div></div>
+        <div class="score-fixed">${it.score.toFixed(1)}/6</div>
+      </div>`;
+    }).join('');
+    return `<div class="graph-wide"><h4>مقارنة بيانية بين المدارس المختارة</h4><div class="graph-compare-fixed">${rows}<div class="graph-axis-fixed"><div></div><div class="axis-line-fixed"><span>0</span><span>6</span></div><div></div></div></div><p class="graph-explain"><b>قراءة المقارنة:</b> يوضح طول كل شريط متوسط تقييم المدرسة من 6. المدارس ذات الأشرطة الأقصر تحتاج متابعة إدارية أقرب وخطة تحسين زمنية.</p></div>`;
   }
   function graphicalSchoolHTML(e){
     let pct=Math.round(((+e.score||0)/6)*100); let weak=weakestAxes(e), strong=strongestAxes(e); let mainColor=scoreColor(e.score);
