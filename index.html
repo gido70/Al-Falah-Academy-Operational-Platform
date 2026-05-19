@@ -108,16 +108,17 @@ async function loadDirectorFeedback(showStatus=false){
   }
   list.innerHTML=rows.map(r=>{
     const unreadCls=(r.is_read===false||r.is_read===0||r.is_read==null)?' unread':'';
-    const pr=escapeHTML(r.priority||'عادي');
+    const pr=escapeHTML(r.importance||r.priority||'عادي');
+    const txt=escapeHTML(r.comment_text||r.comment||'لا توجد ملاحظة نصية.');
     return `<div class="inbox-item${unreadCls}">
       <div class="inbox-meta">
         <span class="inbox-pill ok">${escapeHTML(r.decision||'رد إداري')}</span>
         <span class="inbox-pill ${pr==='عاجل'?'urgent':''}">${pr}</span>
         <span class="inbox-pill">${feedbackLabel(r.report_type)}</span>
-        <span class="inbox-pill">${schoolLabel(r.school_id)}</span>
+        <span class="inbox-pill">${escapeHTML(r.school_name||schoolLabel(r.school_id))}</span>
         <span class="inbox-pill">${new Date(r.created_at||Date.now()).toLocaleString('ar-AE')}</span>
       </div>
-      <div class="inbox-comment">${escapeHTML(r.comment||'لا توجد ملاحظة نصية، فقط اختيار من المدير.')}</div>
+      <div class="inbox-comment">${txt}</div>
     </div>`
   }).join('');
   if(showStatus) setInboxStatus(`تم التحديث من ${source}: عدد الردود ${rows.length}، غير المقروء ${unread}.`,'okmsg');
