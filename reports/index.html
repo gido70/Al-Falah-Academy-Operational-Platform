@@ -9,9 +9,66 @@
 label{display:block;font-weight:900;color:var(--navy);margin-bottom:6px;font-size:15px} select,input,textarea{width:100%;min-height:48px;border:2px solid var(--border);border-radius:13px;background:#f8fbff;padding:10px 12px;font-family:Cairo,sans-serif;font-size:14px;color:var(--text);outline:none} select:focus,input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #185fa522;background:white} textarea{min-height:92px;resize:vertical}.hint{font-size:12px;color:var(--muted);line-height:1.7;margin-top:4px}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.btn{border:0;border-radius:12px;padding:11px 20px;font-family:Cairo,sans-serif;font-weight:900;cursor:pointer;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:6px}.btn.teal{background:linear-gradient(135deg,#0f6e56,#0f9d8a);color:#fff}.btn.gold{background:linear-gradient(135deg,#ba7517,#f0a500);color:#fff}.btn.outline{background:#fff;border:2px solid var(--border);color:var(--navy)}
 .multi{position:relative}.multi-btn{width:100%;min-height:46px;border:2px solid var(--border);border-radius:13px;background:#f8fbff;padding:10px 12px;text-align:right;font-family:Cairo,sans-serif;font-size:14px;color:var(--text);cursor:pointer}.multi.open .multi-btn{border-color:var(--blue);background:#fff}.multi-panel{display:none;position:absolute;right:0;left:0;top:calc(100% + 5px);z-index:50;background:#fff;border:2px solid var(--border);border-radius:14px;box-shadow:0 16px 36px #0c447c30;max-height:245px;overflow:auto;padding:8px}.multi.open .multi-panel{display:block}.multi-panel label{display:flex;align-items:center;gap:9px;margin:0;padding:9px;border-radius:10px;font-weight:700;color:var(--text);cursor:pointer}.multi-panel label:hover{background:#eef6ff}.multi-panel input{width:auto;accent-color:var(--teal)}
 .notice{background:linear-gradient(90deg,#fff8e6,#fffdf5);border-right:6px solid var(--gold);border-radius:14px;padding:14px 16px;line-height:1.9}.smart{background:linear-gradient(90deg,#eefbf7,#f8fffd);border-right:6px solid var(--teal);border-radius:14px;padding:14px 16px;line-height:1.9}.empty{background:#fff8e6;border-right:5px solid var(--gold);border-radius:12px;padding:14px;text-align:center;color:#603b06}.muted{color:var(--muted)}
-.kpi{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:18px;text-align:center}.kpi strong{display:block;font-size:32px;color:var(--navy);font-weight:900}.kpi span{display:block;color:var(--muted);font-weight:900;margin-top:4px}.chart{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:18px;min-height:170px}.chart h3{font-size:20px;color:var(--navy);margin:0 0 14px;font-weight:900}.bar-row{display:grid;grid-template-columns:minmax(120px,1fr) 2fr 56px;gap:10px;align-items:center;margin:10px 0}.bar{height:15px;background:#e6eef7;border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal),var(--pink),var(--amber));border-radius:999px}.donut{width:150px;height:150px;border-radius:50%;margin:8px auto;background:conic-gradient(var(--teal) var(--p), var(--pink) 0 72%, var(--amber) 0 100%);position:relative}.donut:after{content:attr(data-label);position:absolute;inset:26px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--navy);font-size:22px}.legend{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-left:4px}.day-card{border:1.5px solid var(--border);background:#f8fbff;border-radius:14px;padding:14px;margin:10px 0;line-height:1.9}.day-card b{color:var(--navy)}.week-box{border:2px solid var(--border);border-radius:16px;padding:14px;margin:14px 0;background:#fff}.week-title{font-size:18px;font-weight:900;color:var(--navy);padding-bottom:8px;border-bottom:1px solid #dce9f8;margin-bottom:8px}.footer-note{font-size:12px;color:var(--muted);text-align:center;margin-top:18px}.feedback{border:2px solid var(--border);border-radius:18px;background:#f8fbff;padding:22px;margin-top:18px}
-@media(max-width:850px){.grid,.grid3,.grid4{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr}.hero h1{font-size:26px}.wrap{padding:12px 10px 80px}.card{padding:16px}.multi-panel{position:absolute;right:0;left:0;top:calc(100% + 5px);bottom:auto;max-height:245px}.home{top:auto;bottom:12px;right:12px}}
+.kpi{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:18px;text-align:center}.kpi strong{display:block;font-size:32px;color:var(--navy);font-weight:900}.kpi span{display:block;color:var(--muted);font-weight:900;margin-top:4px}.chart{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:18px;min-height:170px}.chart h3{font-size:20px;color:var(--navy);margin:0 0 14px;font-weight:900}.bar-row{display:grid;grid-template-columns:minmax(260px,1.5fr) 2fr 70px;gap:12px;align-items:center;margin:12px 0}.bar-row b:first-child{white-space:normal;word-break:break-word;line-height:1.7;font-size:18px;overflow:visible;padding-inline:6px}.bar{height:15px;background:#e6eef7;border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal),var(--pink),var(--amber));border-radius:999px}.donut{width:150px;height:150px;border-radius:50%;margin:8px auto;background:conic-gradient(var(--teal) var(--p), var(--pink) 0 72%, var(--amber) 0 100%);position:relative}.donut:after{content:attr(data-label);position:absolute;inset:26px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--navy);font-size:22px}.legend{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-left:4px}.day-card{border:1.5px solid var(--border);background:#f8fbff;border-radius:14px;padding:14px;margin:10px 0;line-height:1.9}.day-card b{color:var(--navy)}.week-box{border:2px solid var(--border);border-radius:16px;padding:14px;margin:14px 0;background:#fff}.week-title{font-size:18px;font-weight:900;color:var(--navy);padding-bottom:8px;border-bottom:1px solid #dce9f8;margin-bottom:8px}.footer-note{font-size:12px;color:var(--muted);text-align:center;margin-top:18px}.feedback{border:2px solid var(--border);border-radius:18px;background:#f8fbff;padding:22px;margin-top:18px}
+@media(max-width:850px){.grid,.grid3,.grid4{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr}.bar-row b:first-child{font-size:17px;text-align:center}.hero h1{font-size:26px}.wrap{padding:12px 10px 80px}.card{padding:16px}.multi-panel{position:absolute;right:0;left:0;top:calc(100% + 5px);bottom:auto;max-height:245px}.home{top:auto;bottom:12px;right:12px}}
 @media print{.home,.builder,.top-actions,.feedback,.no-print{display:none!important}.wrap{max-width:100%;padding:0}.card{box-shadow:none;break-inside:avoid}.hero{box-shadow:none}}
+
+/* ══════ COMPARATIVE FINAL REPORT - تقرير المقارنة النهائي ══════ */
+.compare-final{background:#fff;border:1.5px solid #b8d4f0;border-radius:26px;padding:24px;margin-top:22px;box-shadow:0 8px 28px rgba(12,68,124,.08);break-inside:avoid;page-break-inside:avoid}.compare-final h3{color:#0c447c;font-size:27px;margin:0 0 12px}.compare-lead{background:linear-gradient(135deg,#f8fbff,#fff8e6);border-right:7px solid #ba7517;border-radius:18px;padding:16px;line-height:2;margin-bottom:16px}.rank-list{display:grid;gap:10px;margin:14px 0}.rank-row{display:grid;grid-template-columns:46px 220px 1fr 70px;gap:10px;align-items:center;background:#f8fbff;border:1px solid #d8e6f5;border-radius:14px;padding:10px}.rank-no{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}.rank-name{font-weight:900;color:#0c447c}.rank-track{height:16px;background:#edf3fb;border-radius:99px;overflow:hidden;box-shadow:inset 0 0 0 1px #d8e6f5}.rank-fill{height:100%;border-radius:99px}.rank-score{font-weight:900;text-align:left}.compare-matrix{overflow:auto;background:#fbfdff;border:1px solid #edf3fb;border-radius:18px;margin:16px 0}.compare-matrix table{width:100%;border-collapse:collapse;min-width:720px}.compare-matrix th{background:#0c447c;color:#fff;padding:10px;font-size:13px;text-align:center}.compare-matrix td{border-bottom:1px solid #edf3fb;border-left:1px solid #edf3fb;padding:9px;text-align:center;font-size:12px}.axis-cell{border-radius:999px;color:#fff;font-weight:900;display:inline-block;min-width:54px;padding:5px 8px}.compare-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}.compare-card{border:1.5px solid #d8e6f5;border-top:6px solid #185fa5;border-radius:20px;padding:16px;background:#fff;box-shadow:0 4px 18px rgba(12,68,124,.05);break-inside:avoid;page-break-inside:avoid}.compare-card h4{color:#0c447c;margin:0 0 10px;font-size:18px}.compare-card ul{margin:0;padding-right:18px;line-height:1.9}.fair-note{background:#eefbf7;border-right:5px solid #0f9d8a;border-radius:14px;padding:10px 12px;margin-top:10px;line-height:1.8;color:#0c2a4a}.common-box{background:#fff8e6;border-right:6px solid #ba7517;border-radius:18px;padding:14px;margin:14px 0;line-height:1.9}.best-weak-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.best-weak-grid .panel{background:#f8fbff;border:1px solid #d8e6f5;border-radius:16px;padding:14px}.best-weak-grid h4{color:#0c447c;margin:0 0 10px}.final-decision{background:linear-gradient(135deg,#0c447c,#0f9d8a);color:#fff;border-radius:22px;padding:18px;margin-top:18px;line-height:2}.final-decision h4{font-size:21px;margin:0 0 8px;color:#fff}@media(max-width:900px){.rank-row{grid-template-columns:36px 1fr}.rank-track,.rank-score{grid-column:2}.compare-cards,.best-weak-grid{grid-template-columns:1fr}}@media print{.compare-final,.compare-card{box-shadow:none;page-break-inside:avoid}.rank-fill,.axis-cell,.rank-no{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+
+/* FIX: school labels in visual comparison chart */
+.visual-school-row,
+.bar-row.visual-school-row{
+  display:grid!important;
+  grid-template-columns:minmax(300px,1.6fr) 2fr 76px!important;
+  gap:14px!important;
+  align-items:center!important;
+}
+.visual-school-name{
+  display:block!important;
+  min-width:0!important;
+  width:100%!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.75!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  text-align:right!important;
+  padding:4px 8px!important;
+}
+.visual-school-score{
+  min-width:64px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c2a4a!important;
+  text-align:left!important;
+}
+@media(max-width:850px){
+  .visual-school-row,
+  .bar-row.visual-school-row{
+    grid-template-columns:1fr!important;
+  }
+  .visual-school-name{
+    text-align:center!important;
+    font-size:15px!important;
+  }
+  .visual-school-score{
+    text-align:center!important;
+  }
+}
+
+
+/* stronger generic bar label fix */
+.chart{overflow:visible!important}
+.bar-row{direction:rtl!important;grid-template-columns:minmax(280px,1.6fr) 2fr 76px!important}
+.bar-row > b:first-child{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;font-size:16px!important;line-height:1.7!important;text-align:right!important;color:#0c447c!important}
+.bar-row > b:last-child{white-space:nowrap!important;text-align:left!important}
+
 </style>
 </head><body><a class="home" href="../index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="../assets/logo.png" alt="شعار أكاديمية الفلاح" onerror="this.style.display='none'"><h1>التقرير التحليلي النهائي</h1><p>مركز التحليل الداخلي: التقييمات، الدوام، الزيارات، الأيام، الأسابيع، والشهور.</p></section><section class="card builder"><h2>خيارات التقرير التحليلي</h2><div class="grid3"><div><label>نوع التقرير</label><select id="type"><option value="">— بدون تحديد —</option><option value="all">تقرير شامل</option><option value="evaluation">تقييم المكتبات</option><option value="work">الدوام والزيارات</option><option value="school">مدرسة محددة</option><option value="special">موضوع خاص</option></select></div><div><label>المدرسة / المدارس</label><div class="multi" id="schoolPicker"><button type="button" class="multi-btn" onclick="toggleSchoolPicker(event)"><span id="schoolPickerText">— بدون تحديد —</span></button><div class="multi-panel" id="schoolPanel"><label><input type="checkbox" value="all" onchange="updateSchoolPicker()"> كل المدارس</label><label><input type="checkbox" value="khb" onchange="updateSchoolPicker()"> الخبيصي</label><label><input type="checkbox" value="jmi" onchange="updateSchoolPicker()"> الجيمي</label><label><input type="checkbox" value="shj" onchange="updateSchoolPicker()"> الشارقة</label><label><input type="checkbox" value="bny" onchange="updateSchoolPicker()"> بني ياس</label><label><input type="checkbox" value="mzd" onchange="updateSchoolPicker()"> محمد بن زايد</label><label><input type="checkbox" value="dan" onchange="updateSchoolPicker()"> الدانة</label></div></div><div class="hint">القائمة لا تبقى مفتوحة، ويمكن اختيار أكثر من مدرسة.</div></div><div><label>الشهر</label><select id="month"><option value="">— بدون تحديد —</option><option value="04">أبريل</option><option value="05">مايو</option><option value="06">يونيو</option><option value="07">يوليو</option><option value="08">أغسطس</option><option value="09">سبتمبر</option><option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option></select></div><div><label>بداية أسبوع العمل</label><input id="weekFrom" type="date"><div class="hint">اختر يوم الاثنين لبداية الأسبوع.</div></div><div><label>نهاية أسبوع العمل</label><input id="weekTo" type="date"><div class="hint">اختر يوم الجمعة لنهاية الأسبوع.</div></div><div><label>يوم محدد</label><input id="day" type="date"><div class="hint">إذا اخترت يومًا محددًا سيعرض هذا اليوم فقط.</div></div><div><label>من تاريخ</label><input id="from" type="date"></div><div><label>إلى تاريخ</label><input id="to" type="date"></div><div><label>مستوى العرض</label><select id="level"><option value="full">تفصيلي</option><option value="medium">متوسط</option><option value="brief">مختصر</option></select></div><div><label>عنوان خاص اختياري</label><input id="title" placeholder="مثال: تقرير شهر مايو"></div><div><label>ملاحظة تحليلية</label><input id="note" placeholder="مثال: التركيز على الزيارات"></div></div><div class="actions"><button class="btn teal" onclick="renderReport()">🔄 تحديث التقرير</button><button class="btn gold" onclick="window.print()">🖨️ طباعة / PDF</button><button class="btn outline" onclick="copyReportText()">📋 نسخ نص التقرير</button></div></section><section id="reportBody" class="card"><div class="empty">اختر الفلاتر ثم اضغط تحديث التقرير.</div></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=20260511final"></script>
@@ -447,6 +504,59 @@ function copyReportText(){let t=$('reportBody')?.innerText||$('briefBody')?.inne
 <style>
 /* ===== Story report enhancement: preserves filters/options, changes report output only ===== */
 .story-report{display:grid;gap:18px}.story-hero{background:linear-gradient(135deg,#f8fbff,#eefbf7);border:1.5px solid var(--border);border-right:7px solid var(--teal);border-radius:22px;padding:22px}.story-hero h2{margin:0 0 8px;color:var(--navy);font-size:28px}.story-hero p{margin:0;color:var(--text);line-height:1.9}.story-badge{display:inline-flex;align-items:center;gap:7px;background:#e1f5ee;color:#085041;border:1px solid #9fdfd7;border-radius:999px;padding:6px 13px;font-weight:900;font-size:13px;margin-bottom:10px}.story-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.story-kpi{background:#fff;border:1.5px solid var(--border);border-top:5px solid var(--blue);border-radius:18px;padding:18px;box-shadow:0 4px 14px rgba(12,68,124,.06)}.story-kpi .ico{font-size:26px;margin-bottom:8px}.story-kpi strong{display:block;font-size:31px;color:var(--navy);line-height:1;font-weight:900}.story-kpi span{display:block;color:var(--muted);font-weight:900;margin-top:7px;font-size:13px}.story-kpi p{font-size:12px;color:var(--muted);line-height:1.7;margin:8px 0 0}.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.story-card{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 4px 14px rgba(12,68,124,.06)}.story-card h3{margin:0 0 14px;color:var(--navy);font-size:21px}.story-note{background:#fff8e6;border-right:6px solid var(--gold);border-radius:14px;padding:14px 16px;line-height:1.9;color:#5c3b00}.story-good{background:#eefbf7;border-right:6px solid var(--teal);border-radius:14px;padding:14px 16px;line-height:1.9;color:#064535}.story-warn{background:#fff6e8;border-right:6px solid var(--amber);border-radius:14px;padding:14px 16px;line-height:1.9;color:#633806}.story-risk{background:#fff0f0;border-right:6px solid #d33;border-radius:14px;padding:14px 16px;line-height:1.9;color:#7a1515}.story-progress{display:grid;grid-template-columns:minmax(160px,1fr) 2fr 70px;gap:10px;align-items:center;margin:12px 0}.story-bar{height:17px;background:#e8eef6;border-radius:999px;overflow:hidden}.story-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#185fa5,#0f9d8a,#f0a500)}.story-progress b{color:var(--navy)}.axis-list{display:grid;gap:10px}.axis-item{background:#f8fbff;border:1px solid var(--border);border-radius:14px;padding:12px}.axis-title{display:flex;justify-content:space-between;gap:10px;font-weight:900;color:var(--navy);margin-bottom:8px}.story-pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;font-weight:900;font-size:12px}.pill-good{background:#e1f5ee;color:#085041}.pill-mid{background:#fff8e6;color:#7a4a00}.pill-risk{background:#fff0f0;color:#a32d2d}.story-list{display:grid;gap:10px;margin:0;padding:0;list-style:none}.story-list li{background:#f8fbff;border:1px solid var(--border);border-radius:13px;padding:11px 13px;line-height:1.8}.story-list li strong{color:var(--navy)}.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.insight{background:#f8fbff;border:1px solid var(--border);border-radius:16px;padding:14px}.insight .t{font-weight:900;color:var(--navy);margin-bottom:6px}.insight .d{font-size:13px;color:var(--text);line-height:1.8}.day-block{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:16px;margin:10px 0}.day-block h4{margin:0 0 8px;color:var(--navy)}.empty-soft{background:#fff8e6;border-right:5px solid var(--gold);border-radius:14px;padding:14px;line-height:1.9;color:#5c3b00}.print-hint{font-size:12px;color:var(--muted);line-height:1.8;margin-top:8px}.radar-lite{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.radar-lite .axis-item{min-height:74px}@media(max-width:850px){.story-kpis,.story-grid,.insight-grid,.radar-lite{grid-template-columns:1fr}.story-progress{grid-template-columns:1fr}}
+
+/* FIX: school labels in visual comparison chart */
+.visual-school-row,
+.bar-row.visual-school-row{
+  display:grid!important;
+  grid-template-columns:minmax(300px,1.6fr) 2fr 76px!important;
+  gap:14px!important;
+  align-items:center!important;
+}
+.visual-school-name{
+  display:block!important;
+  min-width:0!important;
+  width:100%!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.75!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  text-align:right!important;
+  padding:4px 8px!important;
+}
+.visual-school-score{
+  min-width:64px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c2a4a!important;
+  text-align:left!important;
+}
+@media(max-width:850px){
+  .visual-school-row,
+  .bar-row.visual-school-row{
+    grid-template-columns:1fr!important;
+  }
+  .visual-school-name{
+    text-align:center!important;
+    font-size:15px!important;
+  }
+  .visual-school-score{
+    text-align:center!important;
+  }
+}
+
+
+/* stronger generic bar label fix */
+.chart{overflow:visible!important}
+.bar-row{direction:rtl!important;grid-template-columns:minmax(280px,1.6fr) 2fr 76px!important}
+.bar-row > b:first-child{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;font-size:16px!important;line-height:1.7!important;text-align:right!important;color:#0c447c!important}
+.bar-row > b:last-child{white-space:nowrap!important;text-align:left!important}
+
 </style>
 <script>
 (function(){
@@ -495,6 +605,59 @@ function copyReportText(){let t=$('reportBody')?.innerText||$('briefBody')?.inne
 
 /* Visual graph layer — added without changing written analysis */
 .graph-section{background:#fff;border:1.5px solid #b8d4f0;border-radius:24px;padding:22px;margin-top:20px;box-shadow:0 8px 24px rgba(12,68,124,.07);break-inside:avoid;page-break-inside:avoid}.graph-section h3{color:#0c447c;font-size:26px;margin:0 0 12px}.graph-intro{background:linear-gradient(135deg,#f8fbff,#eefbf7);border-right:7px solid #0f9d8a;border-radius:18px;padding:16px;line-height:2;margin-bottom:14px}.graph-legend{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}.graph-legend span{background:#f8fbff;border:1px solid #d8e6f5;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900;color:#0c447c}.graph-legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-left:6px;vertical-align:middle}.graph-grid{display:grid;grid-template-columns:1fr;gap:18px}.graph-card{background:#fff;border:1.5px solid #d8e6f5;border-top:6px solid #185fa5;border-radius:22px;padding:18px;box-shadow:0 4px 18px rgba(12,68,124,.06);break-inside:avoid;page-break-inside:avoid}.graph-card h4{color:#0c447c;font-size:20px;margin:0 0 14px}.visual-dashboard{display:grid;grid-template-columns:170px minmax(220px,320px) 1fr;gap:16px;align-items:center}.donut-wrap{text-align:center}.graph-score-ring{--p:0%;--c:#0f9d8a;width:136px;height:136px;border-radius:50%;margin:0 auto 8px;background:conic-gradient(var(--c) var(--p),#edf3fb 0);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;box-shadow:inset 0 0 0 1px #d8e6f5}.graph-score-ring::after{content:"";position:absolute;inset:18px;background:#fff;border-radius:50%;box-shadow:0 0 0 1px #edf3fb}.graph-score-ring strong,.graph-score-ring span{position:relative;z-index:1}.graph-score-ring strong{font-size:28px;color:#0c447c}.graph-score-ring span{font-size:13px;color:#5a7fa8;font-weight:900}.donut-wrap p{font-size:13px;color:#5a7fa8;font-weight:900}.radar-svg{width:100%;max-width:320px;height:auto;display:block;margin:auto;background:#f8fbff;border:1px solid #e3edf8;border-radius:18px}.radar-svg text{font-family:Cairo,Tahoma,Arial,sans-serif;font-size:9px;fill:#0c447c;font-weight:800}.graph-score-text{background:#f8fbff;border:1px solid #d8e6f5;border-radius:16px;padding:14px;line-height:1.9}.bar-panel{margin-top:16px;background:#fbfdff;border:1px solid #edf3fb;border-radius:18px;padding:14px}.bar-panel h5{color:#0c447c;font-size:16px;margin:0 0 10px}.axis-graph-row{display:grid;grid-template-columns:210px 1fr 58px;gap:10px;align-items:center;margin:8px 0}.axis-graph-row b{font-size:13px;color:#0c2a4a}.axis-track{height:15px;background:#edf3fb;border-radius:999px;overflow:hidden;box-shadow:inset 0 0 0 1px #d8e6f5}.axis-fill{height:100%;border-radius:999px;transition:width .4s ease}.axis-num{font-weight:900;text-align:left}.graph-explain{background:#fff8e6;border-right:6px solid #ba7517;border-radius:14px;padding:12px 14px;line-height:1.9;margin:14px 0;color:#5c3b00}.graph-table{width:100%;border-collapse:collapse;margin-top:12px;border-radius:14px;overflow:hidden;font-size:13px}.graph-table th{background:#0c447c;color:#fff;padding:10px;text-align:right}.graph-table td{border-bottom:1px solid #edf3fb;padding:10px;vertical-align:top}.graph-table tr:nth-child(even) td{background:#f8fbff}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:6px}.graph-wide{background:#fff;border:1.5px solid #d8e6f5;border-radius:22px;padding:18px;margin:16px 0;box-shadow:0 4px 18px rgba(12,68,124,.05);break-inside:avoid;page-break-inside:avoid}.graph-wide h4{color:#0c447c;font-size:20px;margin:0 0 10px}.compare-svg{width:100%;height:auto;background:#f8fbff;border:1px solid #edf3fb;border-radius:18px}.compare-svg text{font-family:Cairo,Tahoma,Arial,sans-serif;font-size:13px;fill:#0c2a4a;font-weight:800}.graph-soft{background:#fff8e6;border-radius:14px;padding:12px;line-height:1.8;color:#5c3b00}@media(max-width:900px){.visual-dashboard{grid-template-columns:1fr}.axis-graph-row{grid-template-columns:1fr}.axis-num{text-align:right}.graph-score-ring{width:120px;height:120px}}@media print{.graph-section,.graph-card,.graph-wide{box-shadow:none}.graph-card{page-break-inside:avoid}.visual-dashboard{grid-template-columns:150px 260px 1fr}.graph-score-ring{print-color-adjust:exact;-webkit-print-color-adjust:exact}.axis-fill,.graph-legend i{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+
+/* FIX: school labels in visual comparison chart */
+.visual-school-row,
+.bar-row.visual-school-row{
+  display:grid!important;
+  grid-template-columns:minmax(300px,1.6fr) 2fr 76px!important;
+  gap:14px!important;
+  align-items:center!important;
+}
+.visual-school-name{
+  display:block!important;
+  min-width:0!important;
+  width:100%!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.75!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  color:#0c447c!important;
+  text-align:right!important;
+  padding:4px 8px!important;
+}
+.visual-school-score{
+  min-width:64px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  color:#0c2a4a!important;
+  text-align:left!important;
+}
+@media(max-width:850px){
+  .visual-school-row,
+  .bar-row.visual-school-row{
+    grid-template-columns:1fr!important;
+  }
+  .visual-school-name{
+    text-align:center!important;
+    font-size:15px!important;
+  }
+  .visual-school-score{
+    text-align:center!important;
+  }
+}
+
+
+/* stronger generic bar label fix */
+.chart{overflow:visible!important}
+.bar-row{direction:rtl!important;grid-template-columns:minmax(280px,1.6fr) 2fr 76px!important}
+.bar-row > b:first-child{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;font-size:16px!important;line-height:1.7!important;text-align:right!important;color:#0c447c!important}
+.bar-row > b:last-child{white-space:nowrap!important;text-align:left!important}
 
 </style>
 <script id="advanced-consulting-report-engine">
@@ -582,11 +745,38 @@ function copyReportText(){let t=$('reportBody')?.innerText||$('briefBody')?.inne
     let avg=evals.reduce((a,e)=>a+(+e.score||0),0)/evals.length; let best=[...evals].sort((a,b)=>b.score-a.score)[0]; let weak=[...evals].filter(e=>e.score>0).sort((a,b)=>a.score-b.score)[0];
     return `<div class="graph-section"><h3>صفحة التحليل البياني للمكتبات</h3><div class="graph-intro">يعرض هذا القسم قراءة رقمية وبصرية لكل مكتبة بناءً على المحاور المقيمة. متوسط الأداء العام في هذا الاختيار هو <b>${avg?avg.toFixed(1):'—'}/6</b>، وأعلى أداء ظاهر هو <b>${esc(best?.school||'—')}</b>، بينما تحتاج <b>${esc(weak?.school||'—')}</b> إلى متابعة أكبر حسب البيانات المختارة.</div><div class="graph-legend"><span><i style="background:#0f9d8a"></i> قوي/مستقر</span><span><i style="background:#2f80ed"></i> جيد</span><span><i style="background:#f0a500"></i> متوسط</span><span><i style="background:#e67e22"></i> منخفض</span><span><i style="background:#c0392b"></i> تدخل عاجل</span></div>${comparisonSVG(evals)}<div class="graph-grid">${evals.map(graphicalSchoolHTML).join('')}</div></div>`
   }
+
+  function avgAxis(evals,axisId){let vals=[];(evals||[]).forEach(e=>{let a=(e.axes||[]).find(x=>x.id===axisId);if(a&&+a.score>0)vals.push(+a.score)});return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;}
+  function schoolText(e){let parts=[];try{parts.push(JSON.stringify(e.data||{}));}catch(_){} (e.manual||[]).forEach(x=>parts.push(x[0]+' '+x[1]));return parts.join(' ').toLowerCase();}
+  function axisById(e,id){return (e.axes||[]).find(a=>a.id===id)||{score:0,name:id};}
+  function contextFactors(e){let t=schoolText(e);let env=+axisById(e,'environment').score||0, staff=+axisById(e,'staff').score||0, collections=+axisById(e,'collections').score||0;let notes=[];if(/مكتبة واحدة|مكتبه واحدة|مكتب واحد|مكتبه واحده/.test(t))notes.push('تقرأ نتائج البيئة في ضوء وجود مكتبة واحدة أو مساحة محدودة، لذلك لا يُحمّل الكادر وحده مسؤولية هذا القيد.');if(/1400|١٤٠٠|ألف|الف|كثافة|كثيف/.test(t))notes.push('تؤخذ كثافة الطلبة وحجم المدرسة في الاعتبار عند قراءة مؤشرات الإنجاز والمجموعات.');if(staff>=4.5 && env<3.5)notes.push('يظهر جهد مهني واضح للكادر رغم محدودية البيئة، وهذا مؤشر يستحق الدعم لا المحاسبة.');if(staff>=4.5 && collections<3)notes.push('قوة الكادر لا تعوض وحدها نقص المجموعات؛ المطلوب دعم مصادر لا مجرد متابعة فردية.');if(/ملصق|ليبل|label|باركود|ترميز|تصنيف/.test(t))notes.push('توجد مبادرات تنظيمية ملموسة مثل الترميز أو الليبل أو ترتيب المصادر، ويجب احتسابها كجهد مهني إيجابي.');return notes;}
+  function axisComparativeTable(evals){if(!evals||evals.length<2)return '';let rows=AXES.map((ax,i)=>{let vals=evals.map(e=>({school:e.school,score:+axisById(e,ax.id).score||0})).filter(x=>x.score>0);let best=[...vals].sort((a,b)=>b.score-a.score)[0];let weak=[...vals].sort((a,b)=>a.score-b.score)[0];let avg=vals.length?vals.reduce((a,b)=>a+b.score,0)/vals.length:0;let note=avg<3?rec(ax,avg):(avg>=4.5?'المحور يمثل نقطة قوة نسبية يمكن تعميم ممارساتها.':'المحور يحتاج متابعة وتحسينات مرحلية.');return `<tr><td><b>${esc(ax.name)}</b></td><td>${best?esc(best.school):'—'}<br><span class="axis-cell" style="background:${scoreColor(best?.score||0,i)}">${best?best.score.toFixed(1):'—'}</span></td><td>${weak?esc(weak.school):'—'}<br><span class="axis-cell" style="background:${scoreColor(weak?.score||0,i)}">${weak?weak.score.toFixed(1):'—'}</span></td><td>${avg?avg.toFixed(1)+'/6':'—'}</td><td>${esc(note)}</td></tr>`}).join('');return `<div class="compare-matrix"><table><thead><tr><th>المحور</th><th>الأفضل نسبياً</th><th>الأكثر احتياجاً</th><th>متوسط المحور</th><th>قراءة إدارية</th></tr></thead><tbody>${rows}</tbody></table></div>`;}
+  function rankingHTML(evals){let items=[...(evals||[])].filter(e=>+e.score>0).sort((a,b)=>(+b.score||0)-(+a.score||0));if(items.length<2)return '';return `<div class="rank-list">${items.map((e,i)=>{let c=scoreColor(e.score,i),p=Math.round((+e.score||0)/6*100);return `<div class="rank-row"><div class="rank-no" style="background:${c}">${i+1}</div><div class="rank-name">${esc(e.school)}</div><div class="rank-track"><div class="rank-fill" style="width:${p}%;background:${c}"></div></div><div class="rank-score">${(+e.score||0).toFixed(1)}/6</div></div>`}).join('')}</div>`;}
+  function commonFindings(evals){let weakAxes=AXES.map(ax=>({ax,avg:avgAxis(evals,ax.id)})).filter(x=>x.avg>0&&x.avg<3.5).sort((a,b)=>a.avg-b.avg);let strongAxes=AXES.map(ax=>({ax,avg:avgAxis(evals,ax.id)})).filter(x=>x.avg>=4.2).sort((a,b)=>b.avg-a.avg);let txt=[];if(weakAxes.length)txt.push('تتكرر الحاجة إلى دعم مؤسسي في: '+weakAxes.slice(0,3).map(x=>x.ax.name).join('، ')+'.');if(strongAxes.length)txt.push('تظهر قوة مشتركة نسبية في: '+strongAxes.slice(0,3).map(x=>x.ax.name).join('، ')+'.');txt.push('لا تُقرأ الأرقام بمعزل عن ظروف كل مدرسة؛ فمحدودية البيئة أو وجود مكتبة واحدة أو كثافة الطلبة تؤثر في النتائج، بينما يظهر جهد الكادر في بعض المدارس رغم هذه القيود.');return `<div class="common-box"><b>القواسم المشتركة والقراءة المنصفة:</b><br>${txt.map(esc).join('<br>')}</div>`;}
+  function schoolAdvantageCards(evals){return `<div class="compare-cards">${(evals||[]).map(e=>{let strong=strongestAxes(e),weak=weakestAxes(e),fair=contextFactors(e);return `<div class="compare-card"><h4>${esc(e.school)}</h4><ul><li><b>تتقدم في:</b> ${esc(strong.map(x=>x.name+' ('+(+x.score||0).toFixed(1)+'/6)').join('، ')||'لا توجد بيانات كافية')}</li><li><b>تحتاج دعماً في:</b> ${esc(weak.map(x=>x.name+' ('+(+x.score||0).toFixed(1)+'/6)').join('، ')||'لا توجد بيانات كافية')}</li><li><b>قراءة مختصرة:</b> ${esc(level(e.score)[2])}</li></ul>${fair.length?`<div class="fair-note"><b>عامل إنصاف مهم:</b><br>${fair.map(esc).join('<br>')}</div>`:''}</div>`}).join('')}</div>`;}
+  function comparativeFinalReport(evals){if(!evals||evals.length<2)return '';let ranked=[...evals].filter(e=>+e.score>0).sort((a,b)=>b.score-a.score);let best=ranked[0],need=ranked[ranked.length-1];return `<div class="compare-final"><h3>التقرير المقارن الشامل بين المكتبات</h3><div class="compare-lead">هذا القسم لا يكتفي بترتيب المدارس رقمياً، بل يقرأ النتائج بعدل وفق ظروف كل مكتبة: عدد المكتبات أو المساحات المتاحة، كثافة الطلبة، قوة الكادر، جودة البيئة، مستوى المجموعات، والجهد الميداني الموثق في الملاحظات اليدوية. لذلك قد تظهر مدرسة قوية في الكادر رغم ضعف البيئة، أو تحتاج مدرسة ذات بيئة جيدة إلى دعم في المجموعات أو التقنية.</div><h4>أولاً: الترتيب العام حسب متوسط التقييم</h4>${rankingHTML(evals)}<div class="best-weak-grid"><div class="panel"><h4>الأعلى أداءً</h4>${best?`<b>${esc(best.school)}</b><br>متوسط ${(+best.score||0).toFixed(1)}/6<br>أبرز قوة: ${esc(strongestAxes(best).map(x=>x.name).join('، ')||'—')}`:'—'}</div><div class="panel"><h4>أولوية المتابعة</h4>${need?`<b>${esc(need.school)}</b><br>متوسط ${(+need.score||0).toFixed(1)}/6<br>أكثر احتياجاً: ${esc(weakestAxes(need).map(x=>x.name).join('، ')||'—')}`:'—'}</div></div>${commonFindings(evals)}<h4>ثانياً: مقارنة المحاور المشتركة</h4>${axisComparativeTable(evals)}<h4>ثالثاً: أين تتفوق كل مدرسة؟ وما الذي تحتاجه؟</h4>${schoolAdvantageCards(evals)}<div class="final-decision"><h4>الخلاصة الإدارية المقارنة</h4>التحليل المقارن يؤكد أن التطوير لا ينبغي أن يكون موحداً بصورة عمياء. المدارس ذات البيئة المحدودة تحتاج تجهيزاً ومساحات ومساندة تشغيلية، والمدارس ذات المجموعات الضعيفة تحتاج خطة تنمية مصادر، والمدارس التي يظهر فيها كادر قوي رغم ضعف الإمكانات تحتاج تمكيناً لا محاسبة. أما التوصية الجامعة فهي اعتماد برنامج تطوير مكتبات موحد يشمل: نظاماً آلياً مركزياً، تدريباً مهنياً للكادر، خطة تنمية مجموعات، ودعماً تشغيلياً للأنشطة والمشاركات الخارجية.</div></div>`;}
+
   function isWorkKind(s){return s.type==='work'||(!s.schools?.length&&(s.day||s.weekFrom||s.weekTo||s.month||s.from||s.to));}
   window.loadEvaluations=loadEvals; window.schoolMatch=schoolMatch;
-  window.buildReportHTML=async function(mode='full'){let s=(window.selected&&window.selected())||{}; if(window.hasSelection&&!window.hasSelection(s))return '<div class="empty-soft">اختر نوع التقرير أو المدرسة أو اليوم/الأسبوع/الشهر، ثم اضغط تحديث التقرير.</div>'; let evals=await loadEvals(); let days=[]; try{days=(window.loadWorkDays?await window.loadWorkDays():[]); if(window.selectDaysByPeriod)days=window.selectDaysByPeriod(days,s)}catch(e){} let picked=filterEvals(evals,s); let workOnly=isWorkKind(s); let m=metrics(picked,days); let scope=(window.scopeText&&window.scopeText(s))||'حسب الاختيارات الحالية'; let title=s.title||(workOnly?'تقرير تشغيلي أسبوعي/زمني':'تقرير تطوير مكتبات أكاديمية الفلاح'); let html=`<div class="consult-report"><div class="consult-hero"><span class="consult-badge">تقرير تحليلي استشاري</span><h2>${esc(title)}</h2><p><b>النطاق:</b> ${esc(scope)}<br>${s.note?'<b>ملاحظة:</b> '+esc(s.note):'يعتمد التقرير على التقييمات المحفوظة، مع إعطاء أولوية للملاحظات اليدوية والواقع الميداني المسجل.'}</p></div>${kpis(m)}`; if(workOnly&&!picked.length){html+=workHTML(days,s)+`<div class="consult-note">هذا تقرير تشغيلي زمني؛ لعرض تحليل المكتبات اختر مدرسة أو نوع تقرير التقييم.</div></div>`; return html;} html+=`<div class="consult-section"><h3>الخلاصة التنفيذية</h3><div class="consult-good">${m.libs?`شمل التقرير ${m.libs} سجل تقييم، بمتوسط أداء ${m.avg}/6. المدرسة/المكتبة ذات الأولوية في المتابعة: ${m.worst?esc(m.worst.school):'غير محددة'}.`:'لا توجد تقييمات مطابقة للاختيار الحالي.'}</div></div>`; html+=picked.map(schoolHTML).join('')||'<div class="empty-soft">لا توجد تقييمات مكتبات مطابقة للاختيار الحالي.</div>'; html+=strategic()+graphicalAnalysis(picked)+workHTML(days,s)+`</div>`; return html;}
+  window.buildReportHTML=async function(mode='full'){let s=(window.selected&&window.selected())||{}; if(window.hasSelection&&!window.hasSelection(s))return '<div class="empty-soft">اختر نوع التقرير أو المدرسة أو اليوم/الأسبوع/الشهر، ثم اضغط تحديث التقرير.</div>'; let evals=await loadEvals(); let days=[]; try{days=(window.loadWorkDays?await window.loadWorkDays():[]); if(window.selectDaysByPeriod)days=window.selectDaysByPeriod(days,s)}catch(e){} let picked=filterEvals(evals,s); let workOnly=isWorkKind(s); let m=metrics(picked,days); let scope=(window.scopeText&&window.scopeText(s))||'حسب الاختيارات الحالية'; let title=s.title||(workOnly?'تقرير تشغيلي أسبوعي/زمني':'تقرير تطوير مكتبات أكاديمية الفلاح'); let html=`<div class="consult-report"><div class="consult-hero"><span class="consult-badge">تقرير تحليلي استشاري</span><h2>${esc(title)}</h2><p><b>النطاق:</b> ${esc(scope)}<br>${s.note?'<b>ملاحظة:</b> '+esc(s.note):'يعتمد التقرير على التقييمات المحفوظة، مع إعطاء أولوية للملاحظات اليدوية والواقع الميداني المسجل.'}</p></div>${kpis(m)}`; if(workOnly&&!picked.length){html+=workHTML(days,s)+`<div class="consult-note">هذا تقرير تشغيلي زمني؛ لعرض تحليل المكتبات اختر مدرسة أو نوع تقرير التقييم.</div></div>`; return html;} html+=`<div class="consult-section"><h3>الخلاصة التنفيذية</h3><div class="consult-good">${m.libs?`شمل التقرير ${m.libs} سجل تقييم، بمتوسط أداء ${m.avg}/6. المدرسة/المكتبة ذات الأولوية في المتابعة: ${m.worst?esc(m.worst.school):'غير محددة'}.`:'لا توجد تقييمات مطابقة للاختيار الحالي.'}</div></div>`; html+=picked.map(schoolHTML).join('')||'<div class="empty-soft">لا توجد تقييمات مكتبات مطابقة للاختيار الحالي.</div>'; html+=strategic()+graphicalAnalysis(picked)+comparativeFinalReport(picked)+workHTML(days,s)+`</div>`; return html;}
   window.renderReport=async function(){let b=document.getElementById('reportBody')||document.getElementById('briefBody')||document.getElementById('aiOutput'); if(!b)return; b.innerHTML='<div class="empty-soft">جاري إعداد التقرير التحليلي من البيانات المحفوظة...</div>'; try{b.innerHTML=await window.buildReportHTML((document.getElementById('level')&&document.getElementById('level').value)||'full')}catch(e){console.error(e);b.innerHTML='<div class="empty-soft">حدث خطأ أثناء إعداد التقرير: '+esc(e.message||e)+'</div>'}}
 })();
 </script>
 
-</body></html>
+<script>
+function renderVisualCompare(evals){
+  const rows = (evals || []).map(e => {
+    const score = Number(e.score || e.avg || e.average || 0);
+    const name = e.school || e.school_name || e.name || 'مدرسة غير محددة';
+    return {name, score, pct: Math.max(0, Math.min(100, (score/6)*100))};
+  }).filter(x => x.name);
+  if(!rows.length) return '<div class="empty">لا توجد بيانات كافية للرسم.</div>';
+  return `<div class="visual-compare-box">
+    ${rows.map(x => `<div class="visual-school-row bar-row">
+      <div class="visual-school-name">${esc(x.name)}</div>
+      <div class="bar"><div class="fill" style="width:${x.pct}%"></div></div>
+      <div class="visual-school-score">${x.score ? x.score.toFixed(1) : '—'}/6</div>
+    </div>`).join('')}
+  </div>`;
+}
+</script></body></html>
