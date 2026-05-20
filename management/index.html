@@ -110,12 +110,10 @@
       </div>
       <div id="presentationsBadge" class="presentation-badge zero">0</div>
     </div>
-    <div class="form-grid" style="margin-top:14px">
-      <div><label>اسم الإدارة / المدير/ة</label><select id="presentationViewerName" onchange="loadManagementPresentations(true)"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">يستخدم الاسم لتمييز العروض الجديدة التي تمت مشاهدتها.</div></div>
-      <div style="display:flex;align-items:end"><button class="btn teal" type="button" onclick="loadManagementPresentations(true)">🔄 عرض العروض التقديمية</button></div>
-    </div>
+    <div class="smart" style="margin-top:14px"><b>عرض مباشر:</b> تظهر العروض المنشورة تلقائيًا دون اختيار اسم. الأحدث يظهر أولًا، ويظهر تنبيه للعروض الجديدة حتى يتم فتحها.</div>
+    <div class="actions" style="justify-content:center;margin-top:14px"><button class="btn teal" type="button" onclick="loadManagementPresentations(true)">🔄 تحديث العروض التقديمية</button></div>
     <div id="presentationsStatus" class="presentation-status"></div>
-    <div id="presentationsList" class="presentations-list"><div class="presentation-empty">اختر الاسم ثم اضغط عرض العروض التقديمية.</div></div>
+    <div id="presentationsList" class="presentations-list"><div class="presentation-empty">جاري تحميل العروض التقديمية...</div></div>
   </div>
 </section>
 <section id="feedback" class="section"><div class="card"><h2>تعليق الإدارة</h2><div class="smart"><b>ملاحظة مهمة:</b> يظهر نموذج تعليق الإدارة مباشرة أسفل التقرير بعد الضغط على زر <b>عرض التقرير</b>، حتى يكون التعليق مرتبطًا بالتقرير المعروض نفسه: يومي، أسبوعي، شهري، تقييم مدرسة، أو تقرير شامل.</div><div class="empty" style="margin-top:14px">افتح تبويب التقارير التفصيلية، اختر التقرير المطلوب، ثم اضغط عرض التقرير. سيظهر نموذج التعليق أسفل التقرير مباشرة.</div></div><div class="card admin-replies-box"><h2>ردود مدير المنصة على تعليقات الإدارة</h2><div class="smart"><b>عرض خاص:</b> اختر اسمك لعرض الردود المرتبطة بتعليقاتك فقط.</div><div class="form-grid" style="margin-top:16px"><div><label>اسم الإدارة / المدير/ة</label><select id="replyManagerName"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">لا تظهر إلا ردود مدير المنصة المرتبطة بالاسم المختار.</div></div><div style="display:flex;align-items:end"><button class="btn teal" type="button" onclick="loadAdminRepliesForManager()">🔄 عرض ردود مدير المنصة</button></div></div><div id="adminRepliesStatus" class="status"></div><div id="adminRepliesList" class="admin-replies-list"></div></div></section>
@@ -284,13 +282,11 @@ updateDirectorControls();
 
 /* === MANAGEMENT PRESENTATIONS VIEW JS === */
 function presStatus(msg,type){const el=document.getElementById('presentationsStatus');if(!el)return;el.textContent=msg||'';el.className='presentation-status '+(type||'');}
-function getPresentationViewer(){return (document.getElementById('presentationViewerName')?.value || localStorage.getItem('director_manager_name') || '').trim();}
+function getPresentationViewer(){return 'الإدارة';}
 function setPresentationBadge(n){const b=document.getElementById('presentationsBadge'); if(!b)return; b.textContent=n||0; b.classList.toggle('zero',!n);}
 async function loadManagementPresentations(markOpen=false){
   const list=document.getElementById('presentationsList'); if(!list)return;
   const name=getPresentationViewer();
-  if(!name){list.innerHTML='<div class="presentation-empty">اختر اسمك أولًا لعرض العروض المرتبطة بمنصة الإدارة.</div>'; setPresentationBadge(0); presStatus('اختر الاسم ثم اضغط عرض العروض التقديمية.',''); return;}
-  try{localStorage.setItem('director_manager_name',name); const r=document.getElementById('replyManagerName'); if(r)r.value=name;}catch(e){}
   const c=sb();
   if(!c){list.innerHTML='<div class="presentation-empty">تعذر الاتصال بقاعدة البيانات.</div>';return;}
   presStatus('جاري تحميل العروض التقديمية...','');
@@ -321,7 +317,6 @@ async function markPresentationViewed(id){
     setTimeout(()=>loadManagementPresentations(false),700);
   }catch(e){console.warn('mark presentation viewed failed',e);}
 }
-try{const pn=document.getElementById('presentationViewerName'); const saved=localStorage.getItem('director_manager_name'); if(pn&&saved)pn.value=saved;}catch(e){}
 setTimeout(()=>{ if(document.getElementById('presentationsList')) loadManagementPresentations(false); },1600);
 
 </script>
