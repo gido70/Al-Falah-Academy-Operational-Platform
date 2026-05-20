@@ -21,6 +21,21 @@
 .director-inbox:before{content:"";position:absolute;left:-70px;top:-70px;width:180px;height:180px;border-radius:50%;background:rgba(15,157,138,.08)}
 .inbox-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;position:relative;z-index:1}.inbox-title{display:flex;align-items:center;gap:12px}.inbox-icon{width:56px;height:56px;border-radius:18px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 20px rgba(12,68,124,.2)}.inbox-title h2{font-size:24px;margin:0;color:var(--navy)}.inbox-title p{margin:3px 0 0;color:var(--muted);font-weight:700}.inbox-badge{min-width:48px;height:48px;border-radius:999px;background:linear-gradient(135deg,#b83232,#e24b4a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;box-shadow:0 8px 18px rgba(184,50,50,.25)}.inbox-badge.zero{background:linear-gradient(135deg,#5a7ea8,#8db5e5)}.inbox-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.inbox-list{display:none;margin-top:14px;gap:10px}.inbox-list.show{display:grid}.inbox-item{background:#f8fbff;border:1px solid var(--border);border-radius:16px;padding:12px;display:grid;gap:6px}.inbox-item.unread{border-right:5px solid var(--red);background:#fffafa}.inbox-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.inbox-pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;background:#e6f1fb;color:var(--navy);font-size:12px;font-weight:900}.inbox-pill.urgent{background:#fcebeb;color:#791f1f}.inbox-pill.ok{background:#e1f5ee;color:#085041}.inbox-empty{background:#fff8e6;border-right:5px solid var(--gold);border-radius:14px;padding:12px;color:#5c3b00;font-weight:700}.inbox-empty.okmsg{background:#e1f5ee;border-right-color:var(--teal);color:#085041}.inbox-empty.errmsg{background:#fcebeb;border-right-color:var(--red);color:#791f1f}.inbox-comment{font-size:14px;line-height:1.9;color:var(--text)}
 @media(max-width:850px){.director-inbox{padding:16px}.inbox-title h2{font-size:20px}.inbox-icon{width:48px;height:48px}.inbox-badge{width:42px;height:42px;font-size:18px}.inbox-actions .btn{flex:1 1 140px;justify-content:center}}
+
+/* === MANAGEMENT PRESENTATIONS ADMIN PANEL === */
+.presenter-admin{margin:18px 0 24px;background:linear-gradient(135deg,#fff,#f8fbff);border:1.8px solid var(--border);border-right:8px solid var(--gold);border-radius:24px;padding:20px;box-shadow:0 10px 28px rgba(12,68,124,.11)}
+.presenter-admin .presenter-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.presenter-admin .presenter-title{display:flex;align-items:center;gap:12px}
+.presenter-admin .presenter-icon{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--gold),var(--amber));color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 20px rgba(186,117,23,.22)}
+.presenter-admin h2{font-size:24px;margin:0;color:var(--navy)}
+.presenter-admin p{margin:3px 0 0;color:var(--muted);font-weight:700;line-height:1.8}
+.presenter-form{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.presenter-form .full{grid-column:1/-1}.presenter-form label{margin-top:0}
+.presenter-list{display:grid;gap:10px;margin-top:14px}
+.presenter-row{background:#f8fbff;border:1px solid var(--border);border-radius:16px;padding:12px;display:grid;gap:8px}
+.presenter-row.off{opacity:.65}.presenter-meta{display:flex;gap:8px;flex-wrap:wrap}.presenter-meta .tag{background:#e6f1fb;color:var(--navy)}
+.presenter-actions{display:flex;gap:8px;flex-wrap:wrap}.presenter-status{margin-top:12px;border-radius:14px;padding:12px;font-weight:900;display:none}.presenter-status.ok{display:block;background:#e1f5ee;color:#085041;border-right:5px solid var(--teal)}.presenter-status.err{display:block;background:#fcebeb;color:#791f1f;border-right:5px solid var(--red)}
+@media(max-width:850px){.presenter-form{grid-template-columns:1fr}.presenter-admin{padding:16px}.presenter-admin h2{font-size:20px}.presenter-admin .presenter-icon{width:48px;height:48px}}
 </style></head><body><a class="alfalah-fixed-home" href="index.html">🏠 الرئيسية</a><a class="home-return-btn" href="./index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="./assets/logo.png" alt="شعار أكاديمية الفلاح"><h1>منصة تطوير مكتبات أكاديمية الفلاح</h1><p>واجهة موحدة للتقييم، الدوام، المتابعة، التقارير، والملخص التنفيذي للإدارة التعليمية</p><div class="nav"><a class="btn primary" href="index.html">🏠 الرئيسية</a><a class="btn gold" href="reports/index.html">📊 التقرير التحليلي النهائي</a></div></section><section class="director-inbox" id="directorInbox">
   <div class="inbox-head">
     <div class="inbox-title">
@@ -42,7 +57,31 @@
   <div id="directorInboxList" class="inbox-list">
     <div class="inbox-empty">جاري فحص ردود الإدارة...</div>
   </div>
-</section><h2 class="channels-title">القنوات الرئيسية للنظام</h2><section class="channels-grid">
+</section>
+<section class="presenter-admin" id="presentationsAdmin">
+  <div class="presenter-head">
+    <div class="presenter-title">
+      <div class="presenter-icon">🎞️</div>
+      <div>
+        <h2>العروض التقديمية للإدارة</h2>
+        <p>أضف هنا روابط العروض النهائية التي أعددتها، لتظهر للمدراء في منصة المتابعة الإدارية فقط.</p>
+      </div>
+    </div>
+    <button class="btn outline" type="button" onclick="loadManagementPresentationsAdmin(true)">تحديث العروض</button>
+  </div>
+  <div class="presenter-form">
+    <div><label>عنوان العرض</label><input id="mpTitle" placeholder="مثال: العرض التنفيذي الشهري - جميع المدارس"></div>
+    <div><label>المدرسة</label><select id="mpSchool"><option value="all">كل المدارس</option><option value="الخبيصي">الخبيصي</option><option value="الجيمي">الجيمي</option><option value="الشارقة">الشارقة</option><option value="بني ياس">بني ياس</option><option value="محمد بن زايد">محمد بن زايد</option><option value="الدانة">الدانة</option></select></div>
+    <div><label>نوع التقرير</label><select id="mpType"><option value="تقرير تنفيذي">تقرير تنفيذي</option><option value="تقييم مكتبة">تقييم مكتبة</option><option value="تقرير أسبوعي">تقرير أسبوعي</option><option value="تقرير شهري">تقرير شهري</option><option value="تقرير شامل">تقرير شامل</option></select></div>
+    <div><label>الفترة</label><input id="mpPeriod" placeholder="مثال: مايو 2026 / 20-24 أبريل"></div>
+    <div class="full"><label>رابط العرض</label><input id="mpUrl" placeholder="ضع رابط NotebookLM أو Google Slides أو PDF المنشور"></div>
+    <div class="full"><label>وصف مختصر</label><textarea id="mpDesc" placeholder="ملخص قصير يظهر للمدراء قبل فتح العرض"></textarea></div>
+  </div>
+  <div class="actions"><button class="btn teal" type="button" onclick="saveManagementPresentation()">📤 نشر العرض للإدارة</button></div>
+  <div id="mpAdminStatus" class="presenter-status"></div>
+  <div id="mpAdminList" class="presenter-list"></div>
+</section>
+<h2 class="channels-title">القنوات الرئيسية للنظام</h2><section class="channels-grid">
   <article class="channel-card" data-num="1">
     <div><div class="ico">📋</div><h2>نظام تقييم المكتبات</h2><p class="muted">تقييم ميداني لكل مكتبة، حفظ في قاعدة البيانات، تقرير تلقائي، وتصدير النتائج.</p></div>
     <a class="btn teal" href="evaluation/index.html">فتح الصفحة</a>
@@ -60,7 +99,7 @@
     <a class="btn teal" href="reports/index.html">فتح الصفحة</a>
   </article>
   <article class="channel-card report" data-num="5">
-    <div><div class="ico">🎞️</div><h2>العروض التقديمية الذكية</h2><p class="muted">إعداد عروض تقديمية تنفيذية للتقارير الأسبوعية والشهرية وتقييمات المدارس، وفق هوية أكاديمية الفلاح البصرية.</p></div>
+    <div><div class="ico">🎞️</div><h2>العروض التقديمية للإدارة</h2><p class="muted">نشر العروض التنفيذية النهائية التي يتم إعدادها للإدارة، ومتابعة إتاحتها ضمن منصة المتابعة الإدارية.</p></div>
     <a class="btn teal" href="presentations/index.html">فتح الصفحة</a>
   </article>
 </section><section class="card"><h2>ملفات المدارس الست</h2><p class="muted">كل مدرسة لها فولدر مستقل للتقييم والشواهد.</p><div class="grid"><div class="card"><h3>الخبيصي</h3><p class="muted">العين — 2026-04-28</p><div class="actions"><a class="btn outline" href="schools/index.html?school=khb&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=khb&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=khb&section=library-documents">النماذج</a></div></div><div class="card"><h3>الجيمي</h3><p class="muted">العين — 2026-04-29</p><div class="actions"><a class="btn outline" href="schools/index.html?school=jmi&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=jmi&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=jmi&section=library-documents">النماذج</a></div></div><div class="card"><h3>الشارقة</h3><p class="muted">الشارقة — 2026-05-05</p><div class="actions"><a class="btn outline" href="schools/index.html?school=shj&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=shj&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=shj&section=library-documents">النماذج</a></div></div><div class="card"><h3>بني ياس</h3><p class="muted">أبوظبي — 2026-05-07</p><div class="actions"><a class="btn outline" href="schools/index.html?school=bny&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=bny&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=bny&section=library-documents">النماذج</a></div></div><div class="card"><h3>محمد بن زايد</h3><p class="muted">أبوظبي — 2026-05-11</p><div class="actions"><a class="btn outline" href="schools/index.html?school=mzd&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=mzd&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=mzd&section=library-documents">النماذج</a></div></div><div class="card"><h3>الدانة</h3><p class="muted">أبوظبي — 2026-05-12</p><div class="actions"><a class="btn outline" href="schools/index.html?school=dan&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=dan&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=dan&section=library-documents">النماذج</a></div></div></div></section><section class="card"><h2>رفع JSON بوضوح</h2><ol><li>افتح صفحة التقييم أو الدوام.</li><li>اضغط زر رفع/استيراد JSON.</li><li>اختر الملف، وستظهر البيانات في مكانها الصحيح.</li><li>ملفات المدرسة تظهر داخل فولدر المدرسة، وسجلات الدوام داخل المتابعة.</li></ol></section><div class="footer">أكاديمية الفلاح — منصة تطوير المكتبات ومراكز مصادر التعلم 2026</div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=20260510f"></script>
@@ -168,6 +207,49 @@ async function markDirectorFeedbackRead(){
   setInboxStatus('تم إخفاء الردود المقروءة من الواجهة، وبقيت محفوظة في قاعدة البيانات.','okmsg');
 }
 document.addEventListener('DOMContentLoaded',()=>{setTimeout(loadDirectorFeedback,700);setInterval(loadDirectorFeedback,45000);});
+
+/* === MANAGEMENT PRESENTATIONS ADMIN JS === */
+function mpStatus(msg,type){const el=document.getElementById('mpAdminStatus');if(!el)return;el.textContent=msg||'';el.className='presenter-status '+(type||'');}
+function mpVal(id){return (document.getElementById(id)?.value||'').trim();}
+async function saveManagementPresentation(){
+  const client=getSupabaseClient();
+  if(!client){mpStatus('تعذر الاتصال بقاعدة البيانات. تأكد من supabase-config.js','err');return;}
+  const title=mpVal('mpTitle'), url=mpVal('mpUrl');
+  if(!title||!url){mpStatus('اكتب عنوان العرض ورابط العرض أولًا.','err');return;}
+  const payload={title,school_name:mpVal('mpSchool')||'all',report_type:mpVal('mpType')||'تقرير تنفيذي',period_value:mpVal('mpPeriod'),presentation_url:url,description:mpVal('mpDesc'),is_active:true};
+  try{
+    const res=await client.from('management_presentations').insert(payload).select().single();
+    if(res.error) throw res.error;
+    ['mpTitle','mpUrl','mpPeriod','mpDesc'].forEach(id=>{const e=document.getElementById(id); if(e)e.value='';});
+    mpStatus('تم نشر العرض للإدارة بنجاح.','ok');
+    loadManagementPresentationsAdmin(false);
+  }catch(e){mpStatus('فشل نشر العرض: '+(e.message||e),'err');}
+}
+async function loadManagementPresentationsAdmin(showStatus=false){
+  const list=document.getElementById('mpAdminList'); if(!list)return;
+  const client=getSupabaseClient();
+  if(!client){list.innerHTML='<div class="inbox-empty errmsg">تعذر الاتصال بقاعدة البيانات.</div>';return;}
+  if(showStatus) mpStatus('جاري تحديث قائمة العروض...','');
+  try{
+    const res=await client.from('management_presentations').select('*').order('created_at',{ascending:false}).limit(20);
+    if(res.error) throw res.error;
+    const rows=res.data||[];
+    if(!rows.length){list.innerHTML='<div class="inbox-empty">لا توجد عروض منشورة بعد.</div>'; if(showStatus)mpStatus('لا توجد عروض منشورة بعد.','ok'); return;}
+    list.innerHTML=rows.map(r=>`<div class="presenter-row ${r.is_active?'':'off'}">
+      <b>${escapeHTML(r.title||'عرض بدون عنوان')}</b>
+      <div class="presenter-meta"><span class="tag">${escapeHTML(r.school_name||'كل المدارس')}</span><span class="tag">${escapeHTML(r.report_type||'تقرير')}</span><span class="tag">${escapeHTML(r.period_value||'—')}</span><span class="tag">${r.is_active?'ظاهر للإدارة':'مخفي'}</span></div>
+      <div class="muted">${escapeHTML(r.description||'')}</div>
+      <div class="presenter-actions"><a class="btn outline" target="_blank" href="${escapeHTML(r.presentation_url||'#')}">فتح العرض</a><button class="btn gold" type="button" onclick="togglePresentationActive('${r.id}',${r.is_active?'false':'true'})">${r.is_active?'إخفاء':'إظهار'}</button></div>
+    </div>`).join('');
+    if(showStatus) mpStatus('تم تحديث قائمة العروض.','ok');
+  }catch(e){list.innerHTML='<div class="inbox-empty errmsg">تعذر تحميل العروض: '+escapeHTML(e.message||e)+'</div>'; if(showStatus)mpStatus('تعذر تحميل العروض.','err');}
+}
+async function togglePresentationActive(id,nextState){
+  const client=getSupabaseClient(); if(!client)return;
+  try{const res=await client.from('management_presentations').update({is_active:!!nextState}).eq('id',id); if(res.error)throw res.error; loadManagementPresentationsAdmin(false);}catch(e){mpStatus('تعذر تعديل حالة العرض: '+(e.message||e),'err');}
+}
+setTimeout(()=>loadManagementPresentationsAdmin(false),1200);
+
 </script>
 <script src="./assets/reset-demo-data.js?v=20260510f"></script>
 </body></html>
