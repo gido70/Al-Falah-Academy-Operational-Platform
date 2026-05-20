@@ -289,8 +289,18 @@ label{display:block;font-weight:900;color:var(--navy);margin-bottom:6px;font-siz
   .graph-compare-fixed .school-label-fixed,.graph-compare-fixed .score-fixed{text-align:center;}
 }
 
+
+/* === EXECUTIVE PDF + PRESENTATION EXPORT TOOLS === */
+.presentation-panel{display:none;background:#fff;border:1.5px solid var(--border);border-right:8px solid var(--teal);border-radius:24px;padding:22px;margin:18px 0;box-shadow:0 8px 26px rgba(12,68,124,.10)}
+.presentation-panel.show{display:block}
+.presentation-panel h2{color:var(--navy);margin:0 0 12px;font-size:28px;font-weight:900}
+.presentation-panel .smart{background:linear-gradient(90deg,#eefbf7,#f8fffd);border-right:7px solid var(--teal);border-radius:16px;padding:14px 16px;line-height:2;margin-bottom:14px}
+.presentation-panel textarea{width:100%;min-height:260px;border:2px solid var(--border);border-radius:16px;background:#f8fbff;padding:14px;font-family:Cairo,Tahoma,Arial,sans-serif;font-size:14px;line-height:1.9;color:var(--text);direction:rtl;resize:vertical}
+.presentation-tools-note{background:linear-gradient(90deg,#fff8e6,#fffdf5);border-right:7px solid var(--gold);border-radius:16px;padding:13px 16px;line-height:1.9;color:#5c3b00;margin-top:12px;font-weight:800}
+@media print{.presentation-panel{display:none!important}}
+
 </style>
-</head><body><a class="home" href="../index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="../assets/logo.png" alt="شعار أكاديمية الفلاح" onerror="this.style.display='none'"><h1>التقرير التحليلي النهائي</h1><p>مركز التحليل الداخلي: التقييمات، الدوام، الزيارات، الأيام، الأسابيع، والشهور.</p></section><section class="card builder"><h2>خيارات التقرير التحليلي</h2><div class="grid3"><div><label>نوع التقرير</label><select id="type"><option value="">— بدون تحديد —</option><option value="all">تقرير شامل</option><option value="evaluation">تقييم المكتبات</option><option value="work">الدوام والزيارات</option><option value="school">مدرسة محددة</option><option value="special">موضوع خاص</option></select></div><div><label>المدرسة / المدارس</label><div class="multi" id="schoolPicker"><button type="button" class="multi-btn" onclick="toggleSchoolPicker(event)"><span id="schoolPickerText">— بدون تحديد —</span></button><div class="multi-panel" id="schoolPanel"><label><input type="checkbox" value="all" onchange="updateSchoolPicker()"> كل المدارس</label><label><input type="checkbox" value="khb" onchange="updateSchoolPicker()"> الخبيصي</label><label><input type="checkbox" value="jmi" onchange="updateSchoolPicker()"> الجيمي</label><label><input type="checkbox" value="shj" onchange="updateSchoolPicker()"> الشارقة</label><label><input type="checkbox" value="bny" onchange="updateSchoolPicker()"> بني ياس</label><label><input type="checkbox" value="mzd" onchange="updateSchoolPicker()"> محمد بن زايد</label><label><input type="checkbox" value="dan" onchange="updateSchoolPicker()"> الدانة</label></div></div><div class="hint">القائمة لا تبقى مفتوحة، ويمكن اختيار أكثر من مدرسة.</div></div><div><label>الشهر</label><select id="month"><option value="">— بدون تحديد —</option><option value="04">أبريل</option><option value="05">مايو</option><option value="06">يونيو</option><option value="07">يوليو</option><option value="08">أغسطس</option><option value="09">سبتمبر</option><option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option></select></div><div><label>بداية أسبوع العمل</label><input id="weekFrom" type="date"><div class="hint">اختر يوم الاثنين لبداية الأسبوع.</div></div><div><label>نهاية أسبوع العمل</label><input id="weekTo" type="date"><div class="hint">اختر يوم الجمعة لنهاية الأسبوع.</div></div><div><label>يوم محدد</label><input id="day" type="date"><div class="hint">إذا اخترت يومًا محددًا سيعرض هذا اليوم فقط.</div></div><div><label>من تاريخ</label><input id="from" type="date"></div><div><label>إلى تاريخ</label><input id="to" type="date"></div><div><label>مستوى العرض</label><select id="level"><option value="full">تفصيلي</option><option value="medium">متوسط</option><option value="brief">مختصر</option></select></div><div><label>عنوان خاص اختياري</label><input id="title" placeholder="مثال: تقرير شهر مايو"></div><div><label>ملاحظة تحليلية</label><input id="note" placeholder="مثال: التركيز على الزيارات"></div></div><div class="actions"><button class="btn teal" onclick="renderReport()">🔄 تحديث التقرير</button><button class="btn gold" onclick="window.print()">🖨️ طباعة / PDF</button><button class="btn outline" onclick="copyReportText()">📋 نسخ نص التقرير</button></div></section><section id="reportBody" class="card"><div class="empty">اختر الفلاتر ثم اضغط تحديث التقرير.</div></section></div>
+</head><body><a class="home" href="../index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="../assets/logo.png" alt="شعار أكاديمية الفلاح" onerror="this.style.display='none'"><h1>التقرير التحليلي النهائي</h1><p>مركز التحليل الداخلي: التقييمات، الدوام، الزيارات، الأيام، الأسابيع، والشهور.</p></section><section class="card builder"><h2>خيارات التقرير التحليلي</h2><div class="grid3"><div><label>نوع التقرير</label><select id="type"><option value="">— بدون تحديد —</option><option value="all">تقرير شامل</option><option value="evaluation">تقييم المكتبات</option><option value="work">الدوام والزيارات</option><option value="school">مدرسة محددة</option><option value="special">موضوع خاص</option></select></div><div><label>المدرسة / المدارس</label><div class="multi" id="schoolPicker"><button type="button" class="multi-btn" onclick="toggleSchoolPicker(event)"><span id="schoolPickerText">— بدون تحديد —</span></button><div class="multi-panel" id="schoolPanel"><label><input type="checkbox" value="all" onchange="updateSchoolPicker()"> كل المدارس</label><label><input type="checkbox" value="khb" onchange="updateSchoolPicker()"> الخبيصي</label><label><input type="checkbox" value="jmi" onchange="updateSchoolPicker()"> الجيمي</label><label><input type="checkbox" value="shj" onchange="updateSchoolPicker()"> الشارقة</label><label><input type="checkbox" value="bny" onchange="updateSchoolPicker()"> بني ياس</label><label><input type="checkbox" value="mzd" onchange="updateSchoolPicker()"> محمد بن زايد</label><label><input type="checkbox" value="dan" onchange="updateSchoolPicker()"> الدانة</label></div></div><div class="hint">القائمة لا تبقى مفتوحة، ويمكن اختيار أكثر من مدرسة.</div></div><div><label>الشهر</label><select id="month"><option value="">— بدون تحديد —</option><option value="04">أبريل</option><option value="05">مايو</option><option value="06">يونيو</option><option value="07">يوليو</option><option value="08">أغسطس</option><option value="09">سبتمبر</option><option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option></select></div><div><label>بداية أسبوع العمل</label><input id="weekFrom" type="date"><div class="hint">اختر يوم الاثنين لبداية الأسبوع.</div></div><div><label>نهاية أسبوع العمل</label><input id="weekTo" type="date"><div class="hint">اختر يوم الجمعة لنهاية الأسبوع.</div></div><div><label>يوم محدد</label><input id="day" type="date"><div class="hint">إذا اخترت يومًا محددًا سيعرض هذا اليوم فقط.</div></div><div><label>من تاريخ</label><input id="from" type="date"></div><div><label>إلى تاريخ</label><input id="to" type="date"></div><div><label>مستوى العرض</label><select id="level"><option value="full">تفصيلي</option><option value="medium">متوسط</option><option value="brief">مختصر</option></select></div><div><label>عنوان خاص اختياري</label><input id="title" placeholder="مثال: تقرير شهر مايو"></div><div><label>ملاحظة تحليلية</label><input id="note" placeholder="مثال: التركيز على الزيارات"></div></div><div class="actions"><button class="btn teal" onclick="renderReport()">🔄 تحديث التقرير</button><button class="btn gold" onclick="exportExecutivePDF()">📄 تصدير PDF للإدارة</button><button class="btn outline" onclick="preparePresentationDeck()">🎞️ إنشاء عرض تقديمي</button><button class="btn outline" onclick="copyReportText()">📋 نسخ نص التقرير</button></div></section><section id="reportBody" class="card"><div class="empty">اختر الفلاتر ثم اضغط تحديث التقرير.</div></section><section id="presentationPanel" class="presentation-panel no-print"><h2>🎞️ تجهيز عرض تقديمي من التقرير الحالي</h2><div class="smart"><b>طريقة الاستخدام:</b> اضغط أولًا تصدير PDF للإدارة واحفظ التقرير، ثم انسخ النص أدناه، وافتح أداة العروض، وارفع ملف PDF المحفوظ كمصدر لإنشاء العرض.</div><textarea id="presentationPrompt" readonly></textarea><div class="actions"><button class="btn teal" onclick="copyPresentationPrompt()">📋 نسخ تعليمات العرض</button><button class="btn gold" onclick="openNotebookTool()">🎞️ فتح أداة العروض</button><button class="btn outline" onclick="exportExecutivePDF()">📄 تصدير PDF للإدارة</button></div><div class="presentation-tools-note">هذا المسار يحافظ على جودة التقرير ورسومه: التقرير التحليلي ← PDF ← أداة العروض ← عرض تقديمي متناسق مع هوية أكاديمية الفلاح.</div></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=20260511final"></script>
 <script src="../supabase-config.js?v=20260511final"></script>
 <script>
@@ -366,6 +376,86 @@ function donut(m){let p=Math.max(0,Math.min(100,m.evalPct||0));return `<div clas
 function dayHTML(d){let hasAction=(d.tasks&&d.tasks!=='—')||(d.note&&d.note!=='—');return `<div class="day-card"><b>${esc(d.name)} — ${dmy(d.date)}</b><br><b>نوع اليوم:</b> ${esc(d.type||'—')}<br><b>الموقع/الزيارة:</b> ${esc(d.loc||'—')}<br><b>الأعمال التي تمت:</b> ${esc(d.tasks||'لا توجد مهام مكتوبة لهذا اليوم.')}<br><b>ملاحظة:</b> ${esc(d.note||'—')}${hasAction?'':'<div class="muted">هذا اليوم موجود في السجل ولكن لا يحتوي وصف أعمال مفصل.</div>'}</div>`}
 function details(days,s){days=dedupeDays(days);if(!days.length)return '<div class="empty">لا توجد بيانات دوام أو زيارات ضمن هذا الاختيار.</div>';if(s.day)return `<h2>تفاصيل اليوم المختار</h2>${days.map(dayHTML).join('')}`;let groups=groupWeeks(days,'');let head=s.month?'تفاصيل الشهر المختار: الأسابيع وأيام كل أسبوع':((s.weekFrom||s.weekTo)?'تفاصيل أسبوع العمل المختار: من الاثنين إلى الجمعة':'تحليل الدوام والزيارات حسب الفترة');return `<h2>${head}</h2>${groups.map((g,idx)=>`<div class="week-box"><div class="week-title">الأسبوع ${s.month?g.monthSeq:g.seq} — ${dmy(g.start)} إلى ${dmy(g.end)}</div>${g.days.map(dayHTML).join('')}</div>`).join('')}`}
 async function buildReportHTML(mode='full'){let s=selected();if(!hasSelection(s))return '<div class="empty">اختر نوع التقرير أو المدرسة أو التاريخ، ثم اضغط تحديث التقرير.</div>';let evals=await loadEvaluations(), allDays=await loadWorkDays();let f=filterAll(evals,allDays,s);let m=metrics(f.evals,f.days);let title=s.title||((mode==='brief')?'ملخص تنفيذي':'تقرير تحليلي');let html=`<h2>${esc(title)}</h2><div class="smart"><b>النطاق:</b> ${esc(scopeText(s))}<br>${s.note?'<b>ملاحظة:</b> '+esc(s.note):'يعرض هذا التقرير البيانات الفعلية حسب الاختيارات المحددة فقط.'}</div>${kpis(m)}<div class="grid"><div class="chart"><h3>نسبة إنجاز التقييمات</h3><div class="bar-row"><b>الإنجاز</b><div class="bar"><div class="fill" style="width:${m.evalPct}%"></div></div><b>${m.evalPct}%</b></div><p class="muted">تم تقييم ${m.schools} من أصل 6 مدارس.</p></div><div class="chart"><h3>متوسط الأداء العام</h3><div class="bar-row"><b>الأداء</b><div class="bar"><div class="fill" style="width:${Math.round((m.avg/6)*100)}%"></div></div><b>${m.avg}/6</b></div><p class="muted">الأعلى أداء: ${esc(m.best?.school||'—')}، الأكثر احتياجًا للتحسين: ${esc(m.worst?.school||'—')}.</p></div></div>`;html+= mode==='brief'?`<div class="grid">${bars('مقارنة مختصرة بين المدارس',Object.entries(f.evals.reduce((o,e)=>{(o[e.school]??=[]).push(e.score);return o},{})).map(([k,a])=>{let v=a.reduce((x,y)=>x+y,0)/a.length;return{label:k,value:v.toFixed(1),pct:v/6*100}}))}${donut(m)}</div><div class="notice"><b>المطلوب إداريًا:</b> مراجعة المؤشرات، واعتماد التوجيهات، وإرسال ملاحظة مختصرة عبر نموذج الرد أسفل الصفحة.</div>`:`${evalCharts(f.evals)}<div class="grid">${donut(m)}${bars('مؤشرات العمل الميداني',[{label:'زيارات',value:m.visits,pct:Math.min(100,m.visits*20)},{label:'أسابيع عمل',value:m.weeks,pct:Math.min(100,m.weeks*20)}])}</div>${details(f.days,s)}`;return html}
+
+function exportExecutivePDF(){
+  const b=document.getElementById('reportBody');
+  const txt=(b&&b.innerText||'').trim();
+  if(!txt || txt.includes('اختر الفلاتر')){
+    alert('اختر التقرير أولًا ثم اضغط تحديث التقرير قبل التصدير.');
+    return;
+  }
+  window.print();
+}
+function selectedLabelForPresentation(){
+  try{
+    const type=document.getElementById('type')?.selectedOptions?.[0]?.textContent?.trim()||'';
+    const level=document.getElementById('level')?.selectedOptions?.[0]?.textContent?.trim()||'';
+    const month=document.getElementById('month')?.selectedOptions?.[0]?.textContent?.trim()||'';
+    const title=document.getElementById('title')?.value?.trim()||'';
+    const schools=(typeof getSelectedSchools==='function'?getSelectedSchools():[]).map(s=> (typeof schoolName==='function'?schoolName(s):s)).join('، ');
+    const weekFrom=document.getElementById('weekFrom')?.value||'';
+    const weekTo=document.getElementById('weekTo')?.value||'';
+    const day=document.getElementById('day')?.value||'';
+    const from=document.getElementById('from')?.value||'';
+    const to=document.getElementById('to')?.value||'';
+    return {type,level,month,title,schools,weekFrom,weekTo,day,from,to};
+  }catch(e){return {}}
+}
+async function preparePresentationDeck(){
+  const b=document.getElementById('reportBody');
+  if(!b)return;
+  let txt=(b.innerText||'').trim();
+  if(!txt || txt.includes('اختر الفلاتر')){
+    await renderReport();
+    txt=(b.innerText||'').trim();
+  }
+  const s=selectedLabelForPresentation();
+  const prompt=`أنشئ عرضًا تقديميًا احترافيًا باللغة العربية اعتمادًا على ملف PDF المرفوع للتقرير التحليلي الخاص بمنصة تطوير مكتبات أكاديمية الفلاح.
+
+بيانات العرض:
+- نوع التقرير: ${s.type||'حسب التقرير المرفوع'}
+- المدرسة/المدارس: ${s.schools||'حسب التقرير المرفوع'}
+- الفترة: ${s.day || (s.weekFrom&&s.weekTo ? s.weekFrom+' إلى '+s.weekTo : '') || (s.from&&s.to ? s.from+' إلى '+s.to : '') || s.month || 'حسب التقرير المرفوع'}
+- مستوى العرض المطلوب: ${s.level||'تفصيلي'}
+- العنوان المقترح: ${s.title||'عرض تقديمي تنفيذي لتطوير مكتبات أكاديمية الفلاح'}
+
+إطار الهوية البصرية المطلوب:
+- استخدم ألوانًا قريبة من هوية أكاديمية الفلاح: الأزرق للعناوين، الفيروزي/الأخضر للمؤشرات الإيجابية، والذهبي للتوصيات والتنبيهات المهمة.
+- استخدم خلفيات فاتحة ونظيفة وخطوط عربية واضحة مثل Cairo أو Tajawal.
+- اجعل الشرائح مناسبة للعرض على شاشة كبيرة وموبايل، مع عناوين كبيرة ومساحات بيضاء كافية.
+- لا تزدحم الشرائح بالنصوص، واجعل كل شريحة تركز على فكرة واحدة.
+- استخدم الرسوم البيانية والمؤشرات الموجودة في التقرير عند توفرها.
+
+هيكل العرض المطلوب:
+1. غلاف رسمي بشعار أكاديمية الفلاح وعنوان العرض والفترة.
+2. ملخص تنفيذي مختصر يوضح الصورة العامة.
+3. مؤشرات الأداء الرئيسية KPI.
+4. قراءة الرسوم البيانية والمحاور.
+5. أفضل جوانب الأداء ونقاط القوة.
+6. أولويات التحسين أو المدارس/المحاور التي تحتاج متابعة.
+7. توصيات تنفيذية عملية قصيرة وواضحة.
+8. شريحة ختامية مختصرة بعنوان: التوصية العامة وخطوة المتابعة التالية.
+
+تعليمات مهمة:
+- لا تضف معلومات غير موجودة في التقرير.
+- حافظ على الطابع الإداري الرسمي.
+- اجعل النتيجة عرضًا تقديميًا مختصرًا وواضحًا، وليس تقريرًا نصيًا طويلًا.
+- استخدم لغة عربية سليمة ومباشرة.`;
+  const panel=document.getElementById('presentationPanel');
+  const area=document.getElementById('presentationPrompt');
+  if(area) area.value=prompt;
+  if(panel){panel.classList.add('show'); panel.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+function copyPresentationPrompt(){
+  const area=document.getElementById('presentationPrompt');
+  const t=area?.value||'';
+  if(!t){alert('اضغط أولًا إنشاء عرض تقديمي.');return;}
+  navigator.clipboard?.writeText(t).then(()=>alert('تم نسخ تعليمات العرض.')).catch(()=>prompt('انسخ النص:',t));
+}
+function openNotebookTool(){
+  window.open('https://notebooklm.google.com/','_blank');
+}
+
 function copyReportText(){let t=$('reportBody')?.innerText||$('briefBody')?.innerText||'';navigator.clipboard?.writeText(t).then(()=>alert('تم نسخ نص التقرير')).catch(()=>prompt('انسخ النص:',t))}
 </script>
 <script>async function renderReport(){$('reportBody').innerHTML='<div class="notice">جاري إعداد التقرير...</div>';try{$('reportBody').innerHTML=await buildReportHTML('full')}catch(e){console.error(e);$('reportBody').innerHTML='<div class="empty">حدث خطأ أثناء إعداد التقرير: '+esc(e.message||e)+'</div>'}};document.addEventListener('DOMContentLoaded',()=>{updateSchoolPicker();});</script><script>
