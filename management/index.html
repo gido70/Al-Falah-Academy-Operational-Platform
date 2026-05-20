@@ -111,7 +111,7 @@
       <div id="presentationsBadge" class="presentation-badge zero">0</div>
     </div>
     <div class="form-grid" style="margin-top:14px">
-      <div><label>اسم الإدارة / المدير/ة</label><select id="presentationViewerName"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">يستخدم الاسم لتمييز العروض الجديدة التي تمت مشاهدتها.</div></div>
+      <div><label>اسم الإدارة / المدير/ة</label><select id="presentationViewerName" onchange="loadManagementPresentations(true)"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">يستخدم الاسم لتمييز العروض الجديدة التي تمت مشاهدتها.</div></div>
       <div style="display:flex;align-items:end"><button class="btn teal" type="button" onclick="loadManagementPresentations(true)">🔄 عرض العروض التقديمية</button></div>
     </div>
     <div id="presentationsStatus" class="presentation-status"></div>
@@ -289,9 +289,9 @@ function setPresentationBadge(n){const b=document.getElementById('presentationsB
 async function loadManagementPresentations(markOpen=false){
   const list=document.getElementById('presentationsList'); if(!list)return;
   const name=getPresentationViewer();
-  if(!name){list.innerHTML='<div class="presentation-empty">اختر اسمك أولًا لعرض العروض المرتبطة بمنصة الإدارة.</div>'; setPresentationBadge(0); return;}
+  if(!name){list.innerHTML='<div class="presentation-empty">اختر اسمك أولًا لعرض العروض المرتبطة بمنصة الإدارة.</div>'; setPresentationBadge(0); presStatus('اختر الاسم ثم اضغط عرض العروض التقديمية.',''); return;}
   try{localStorage.setItem('director_manager_name',name); const r=document.getElementById('replyManagerName'); if(r)r.value=name;}catch(e){}
-  const c=getClient();
+  const c=sb();
   if(!c){list.innerHTML='<div class="presentation-empty">تعذر الاتصال بقاعدة البيانات.</div>';return;}
   presStatus('جاري تحميل العروض التقديمية...','');
   try{
@@ -311,7 +311,7 @@ async function loadManagementPresentations(markOpen=false){
 }
 async function markPresentationViewed(id){
   const name=getPresentationViewer(); if(!id||!name)return;
-  const c=getClient(); if(!c)return;
+  const c=sb(); if(!c)return;
   try{
     const res=await c.from('management_presentations').select('viewed_by').eq('id',id).single();
     if(res.error) throw res.error;
