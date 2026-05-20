@@ -95,7 +95,7 @@
 <div class="school-file-card"><h3>الدانة</h3><p class="muted">أبوظبي — 12-05-2026</p><div class="actions"><button class="btn outline" onclick="openFiles('dan','profile')">ملف المدرسة</button><button class="btn gold" onclick="openFiles('dan','library-images')">الصور</button><button class="btn teal" onclick="openFiles('dan','library-documents')">النماذج</button></div></div>
 </div><div id="fileViewer" class="file-viewer"></div></div></section>
 
-<section id="feedback" class="section"><div class="card"><h2>تعليق الإدارة</h2><div class="smart"><b>ملاحظة مهمة:</b> يظهر نموذج تعليق الإدارة مباشرة أسفل التقرير بعد الضغط على زر <b>عرض التقرير</b>، حتى يكون التعليق مرتبطًا بالتقرير المعروض نفسه: يومي، أسبوعي، شهري، تقييم مدرسة، أو تقرير شامل.</div><div class="empty" style="margin-top:14px">افتح تبويب التقارير التفصيلية، اختر التقرير المطلوب، ثم اضغط عرض التقرير. سيظهر نموذج التعليق أسفل التقرير مباشرة.</div></div><div class="card admin-replies-box"><h2>ردود مدير المنصة على تعليقات الإدارة</h2><div class="smart"><b>عرض خاص:</b> اختر اسمك لعرض الردود المرتبطة بتعليقاتك فقط.</div><div class="form-grid" style="margin-top:16px"><div><label>اسم الإدارة / المدير/ة</label><select id="replyManagerName"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">لا تظهر إلا الردود مدير المنصة المرتبطة بالاسم المختار.</div></div><div style="display:flex;align-items:end"><button class="btn teal" type="button" onclick="loadAdminRepliesForManager()">🔄 عرض ردود مدير المنصة</button></div></div><div id="adminRepliesStatus" class="status"></div><div id="adminRepliesList" class="admin-replies-list"></div></div></section>
+<section id="feedback" class="section"><div class="card"><h2>تعليق الإدارة</h2><div class="smart"><b>ملاحظة مهمة:</b> يظهر نموذج تعليق الإدارة مباشرة أسفل التقرير بعد الضغط على زر <b>عرض التقرير</b>، حتى يكون التعليق مرتبطًا بالتقرير المعروض نفسه: يومي، أسبوعي، شهري، تقييم مدرسة، أو تقرير شامل.</div><div class="empty" style="margin-top:14px">افتح تبويب التقارير التفصيلية، اختر التقرير المطلوب، ثم اضغط عرض التقرير. سيظهر نموذج التعليق أسفل التقرير مباشرة.</div></div><div class="card admin-replies-box"><h2>ردود مدير المنصة على تعليقات الإدارة</h2><div class="smart"><b>عرض خاص:</b> اختر اسمك لعرض الردود المرتبطة بتعليقاتك فقط.</div><div class="form-grid" style="margin-top:16px"><div><label>اسم الإدارة / المدير/ة</label><select id="replyManagerName"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">لا تظهر إلا ردود مدير المنصة المرتبطة بالاسم المختار.</div></div><div style="display:flex;align-items:end"><button class="btn teal" type="button" onclick="loadAdminRepliesForManager()">🔄 عرض ردود مدير المنصة</button></div></div><div id="adminRepliesStatus" class="status"></div><div id="adminRepliesList" class="admin-replies-list"></div></div></section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../supabase-config.js"></script>
 <script>
@@ -228,21 +228,30 @@ async function loadAdminRepliesForManager(){
   try{
     let c=sb(); if(!c) throw new Error('لم يتم الاتصال بقاعدة البيانات');
     let r=await c.from('director_feedback')
-      .select('id,manager_name,manager_role,report_type,school_name,period_type,period_value,report_scope,decision,importance,audience,comment,comment_text,admin_reply,admin_replied_at,created_at')
+      .select('id,manager_name,manager_role,report_type,school_name,period_type,period_value,report_scope,decision,importance,audience,comment,comment_text,admin_reply,admin_replied_at,admin_reply_read,created_at')
       .eq('manager_name',name)
       .not('admin_reply','is',null)
+      .or('admin_reply_read.is.null,admin_reply_read.eq.false')
       .order('admin_replied_at',{ascending:false})
       .limit(20);
     if(r.error) throw r.error;
     let rows=(r.data||[]).filter(x=>String(x.admin_reply||'').trim());
     if(!rows.length){st.className='status ok';st.textContent='لا توجد ردود من مدير المنصة حتى الآن لهذا الاسم.';return}
-    st.className='status ok';st.textContent='تم تحميل الردود مدير المنصة الخاصة بـ '+name+' — العدد: '+rows.length;
+    st.className='status ok';st.textContent='تم تحميل ردود مدير المنصة الخاصة بـ '+name+' — العدد: '+rows.length;
     list.innerHTML=rows.map(item=>{
       const scope=esc(item.report_scope || [item.report_type,item.school_name,item.period_value].filter(Boolean).join(' — ') || 'غير محدد');
       const original=esc(feedbackCommentText(item)||'لا توجد ملاحظة نصية محفوظة.');
       const reply=esc(item.admin_reply||'');
-      return `<div class="admin-reply-card"><div class="admin-reply-meta"><span class="pill">👤 ${esc(item.manager_name||name)}</span><span class="pill">🏷️ ${esc(item.manager_role||'غير محدد')}</span><span class="pill">${esc(item.decision||'—')}</span><span class="pill">${esc(formatReplyDate(item.admin_replied_at||item.created_at))}</span></div><div class="muted" style="margin-bottom:8px"><b>التقرير:</b> ${scope}</div><div class="mini"><b>تعليقك:</b><br>${original}</div><div class="admin-reply-text" style="margin-top:10px"><b>رد الموظف المختص:</b><br>${reply}</div></div>`;
+      return `<div class="admin-reply-card unread"><div class="admin-reply-meta"><span class="pill">👤 ${esc(item.manager_name||name)}</span><span class="pill">🏷️ ${esc(item.manager_role||'غير محدد')}</span><span class="pill">${esc(item.decision||'—')}</span><span class="pill">${esc(formatReplyDate(item.admin_replied_at||item.created_at))}</span></div><div class="muted" style="margin-bottom:8px"><b>التقرير:</b> ${scope}</div><div class="mini"><b>تعليقك:</b><br>${original}</div><div class="admin-reply-text" style="margin-top:10px"><b>رد مدير المنصة:</b><br>${reply}</div></div>`;
     }).join('');
+    const ids = rows.map(x=>x.id).filter(Boolean);
+    if(ids.length){
+      try{
+        await c.from('director_feedback').update({admin_reply_read:true}).in('id',ids);
+      }catch(markErr){
+        console.warn('admin reply read mark failed', markErr);
+      }
+    }
   }catch(e){st.className='status err';st.textContent='تعذر تحميل الردود: '+(e.message||e)}
 }
 
@@ -265,7 +274,7 @@ const role=document.getElementById('fbRole');
 if(!role) return;
 const map={
 'د. أمل العفيفي':'رئيس مجلس أمناء أكاديمية الفلاح',
-'السيدة/ أسماء الحمادي':'مدير مكتب الشؤون التعليمية',
+'السيدة/ أسماء الحمادي':'مشرف مكتب الشؤون التعليمية',
 'السيدة/ فاطمة الدرمكي':'منسق مكتب الشؤون التعليمية'
 };
 role.value=map[n]||'';
