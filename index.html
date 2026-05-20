@@ -64,7 +64,7 @@
       <div class="presenter-icon">🎞️</div>
       <div>
         <h2>العروض التقديمية للإدارة</h2>
-        <p>أضف هنا روابط العروض النهائية التي أعددتها، لتظهر للمدراء في منصة المتابعة الإدارية فقط.</p>
+        <p>أضف هنا ملفات العروض النهائية التي أعددتها، لتظهر للمدراء في منصة المتابعة الإدارية فقط.</p>
       </div>
     </div>
     <button class="btn outline" type="button" onclick="loadManagementPresentationsAdmin(true)">تحديث العروض</button>
@@ -73,8 +73,10 @@
     <div><label>عنوان العرض</label><input id="mpTitle" placeholder="مثال: العرض التنفيذي الشهري - جميع المدارس"></div>
     <div><label>المدرسة</label><select id="mpSchool"><option value="all">كل المدارس</option><option value="الخبيصي">الخبيصي</option><option value="الجيمي">الجيمي</option><option value="الشارقة">الشارقة</option><option value="بني ياس">بني ياس</option><option value="محمد بن زايد">محمد بن زايد</option><option value="الدانة">الدانة</option></select></div>
     <div><label>نوع التقرير</label><select id="mpType"><option value="تقرير تنفيذي">تقرير تنفيذي</option><option value="تقييم مكتبة">تقييم مكتبة</option><option value="تقرير أسبوعي">تقرير أسبوعي</option><option value="تقرير شهري">تقرير شهري</option><option value="تقرير شامل">تقرير شامل</option></select></div>
-    <div><label>الفترة</label><input id="mpPeriod" placeholder="مثال: مايو 2026 / 20-24 أبريل"></div>
-    <div class="full"><label>رابط العرض</label><input id="mpUrl" placeholder="ضع رابط NotebookLM أو Google Slides أو PDF المنشور"></div>
+    <div><label>من تاريخ</label><input id="mpDateFrom" type="date"></div>
+    <div><label>إلى تاريخ</label><input id="mpDateTo" type="date"></div>
+    <div><label>ملف PDF النهائي</label><input id="mpPdfFile" type="file" accept="application/pdf,.pdf"><div class="muted">يرفع للمدراء كملف مشاهدة مباشر.</div></div>
+    <div><label>ملف PowerPoint اختياري</label><input id="mpPptFile" type="file" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"><div class="muted">ارفع نسخة العرض إذا كانت متوفرة.</div></div>
     <div class="full"><label>وصف مختصر</label><textarea id="mpDesc" placeholder="ملخص قصير يظهر للمدراء قبل فتح العرض"></textarea></div>
   </div>
   <div class="actions"><button class="btn teal" type="button" onclick="saveManagementPresentation()">📤 نشر العرض للإدارة</button></div>
@@ -211,16 +213,46 @@ document.addEventListener('DOMContentLoaded',()=>{setTimeout(loadDirectorFeedbac
 /* === MANAGEMENT PRESENTATIONS ADMIN JS === */
 function mpStatus(msg,type){const el=document.getElementById('mpAdminStatus');if(!el)return;el.textContent=msg||'';el.className='presenter-status '+(type||'');}
 function mpVal(id){return (document.getElementById(id)?.value||'').trim();}
+function mpFile(id){return document.getElementById(id)?.files?.[0]||null;}
+function mpSafeFileName(name){return String(name||'file').replace(/[^a-zA-Z0-9._-]+/g,'_').replace(/^_+|_+$/g,'')}
+function mpPeriodText(){const a=mpVal('mpDateFrom'), b=mpVal('mpDateTo'); if(a&&b)return `${a} إلى ${b}`; if(a)return a; if(b)return b; return '';}
+async function mpUploadFile(client,file,kind){
+  if(!file)return '';
+  const path=`${kind}/${Date.now()}_${mpSafeFileName(file.name)}`;
+  const up=await client.storage.from('management-presentations').upload(path,file,{cacheControl:'3600',upsert:false});
+  if(up.error) throw up.error;
+  const pub=client.storage.from('management-presentations').getPublicUrl(path);
+  return pub?.data?.publicUrl || '';
+}
 async function saveManagementPresentation(){
   const client=getSupabaseClient();
   if(!client){mpStatus('تعذر الاتصال بقاعدة البيانات. تأكد من supabase-config.js','err');return;}
-  const title=mpVal('mpTitle'), url=mpVal('mpUrl');
-  if(!title||!url){mpStatus('اكتب عنوان العرض ورابط العرض أولًا.','err');return;}
-  const payload={title,school_name:mpVal('mpSchool')||'all',report_type:mpVal('mpType')||'تقرير تنفيذي',period_value:mpVal('mpPeriod'),presentation_url:url,description:mpVal('mpDesc'),is_active:true};
+  const title=mpVal('mpTitle');
+  const pdfFile=mpFile('mpPdfFile');
+  const pptFile=mpFile('mpPptFile');
+  if(!title){mpStatus('اكتب عنوان العرض أولًا.','err');return;}
+  if(!pdfFile && !pptFile){mpStatus('ارفع ملف PDF أو PowerPoint أولًا.','err');return;}
+  mpStatus('جاري رفع الملفات ونشر العرض...','');
   try{
+    const pdfUrl=await mpUploadFile(client,pdfFile,'pdf');
+    const pptUrl=await mpUploadFile(client,pptFile,'powerpoint');
+    const payload={
+      title,
+      school_name:mpVal('mpSchool')||'all',
+      report_type:mpVal('mpType')||'تقرير تنفيذي',
+      period_value:mpPeriodText(),
+      period_from:mpVal('mpDateFrom')||null,
+      period_to:mpVal('mpDateTo')||null,
+      presentation_url:pdfUrl||pptUrl,
+      pdf_url:pdfUrl||null,
+      ppt_url:pptUrl||null,
+      description:mpVal('mpDesc'),
+      is_active:true
+    };
     const res=await client.from('management_presentations').insert(payload).select().single();
     if(res.error) throw res.error;
-    ['mpTitle','mpUrl','mpPeriod','mpDesc'].forEach(id=>{const e=document.getElementById(id); if(e)e.value='';});
+    ['mpTitle','mpDateFrom','mpDateTo','mpDesc'].forEach(id=>{const e=document.getElementById(id); if(e)e.value='';});
+    ['mpPdfFile','mpPptFile'].forEach(id=>{const e=document.getElementById(id); if(e)e.value='';});
     mpStatus('تم نشر العرض للإدارة بنجاح.','ok');
     loadManagementPresentationsAdmin(false);
   }catch(e){mpStatus('فشل نشر العرض: '+(e.message||e),'err');}
@@ -239,7 +271,7 @@ async function loadManagementPresentationsAdmin(showStatus=false){
       <b>${escapeHTML(r.title||'عرض بدون عنوان')}</b>
       <div class="presenter-meta"><span class="tag">${escapeHTML(r.school_name||'كل المدارس')}</span><span class="tag">${escapeHTML(r.report_type||'تقرير')}</span><span class="tag">${escapeHTML(r.period_value||'—')}</span><span class="tag">${r.is_active?'ظاهر للإدارة':'مخفي'}</span></div>
       <div class="muted">${escapeHTML(r.description||'')}</div>
-      <div class="presenter-actions"><a class="btn outline" target="_blank" href="${escapeHTML(r.presentation_url||'#')}">فتح العرض</a><button class="btn gold" type="button" onclick="togglePresentationActive('${r.id}',${r.is_active?'false':'true'})">${r.is_active?'إخفاء':'إظهار'}</button></div>
+      <div class="presenter-actions">${r.pdf_url?`<a class="btn outline" target="_blank" href="${escapeHTML(r.pdf_url)}">فتح PDF</a>`:''}${r.ppt_url?`<a class="btn outline" target="_blank" href="${escapeHTML(r.ppt_url)}">فتح PowerPoint</a>`:''}<button class="btn gold" type="button" onclick="togglePresentationActive('${r.id}',${r.is_active?'false':'true'})">${r.is_active?'إخفاء':'إظهار'}</button></div>
     </div>`).join('');
     if(showStatus) mpStatus('تم تحديث قائمة العروض.','ok');
   }catch(e){list.innerHTML='<div class="inbox-empty errmsg">تعذر تحميل العروض: '+escapeHTML(e.message||e)+'</div>'; if(showStatus)mpStatus('تعذر تحميل العروض.','err');}
