@@ -36,7 +36,7 @@
 .presenter-row.off{opacity:.65}.presenter-meta{display:flex;gap:8px;flex-wrap:wrap}.presenter-meta .tag{background:#e6f1fb;color:var(--navy)}
 .presenter-actions{display:flex;gap:8px;flex-wrap:wrap}.presenter-status{margin-top:12px;border-radius:14px;padding:12px;font-weight:900;display:none}.presenter-status.ok{display:block;background:#e1f5ee;color:#085041;border-right:5px solid var(--teal)}.presenter-status.err{display:block;background:#fcebeb;color:#791f1f;border-right:5px solid var(--red)}
 @media(max-width:850px){.presenter-form{grid-template-columns:1fr}.presenter-admin{padding:16px}.presenter-admin h2{font-size:20px}.presenter-admin .presenter-icon{width:48px;height:48px}}
-</style></head><body><a class="alfalah-fixed-home" href="index.html">🏠 الرئيسية</a><a class="home-return-btn" href="./index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="./assets/logo.png" alt="شعار أكاديمية الفلاح"><h1>منصة تطوير مكتبات أكاديمية الفلاح</h1><p>واجهة موحدة للتقييم، الدوام، المتابعة، التقارير، والملخص التنفيذي للإدارة التعليمية</p><div class="nav"><a class="btn primary" href="index.html">🏠 الرئيسية</a><a class="btn gold" href="reports/index.html">📊 التقرير التحليلي النهائي</a></div></section><section class="director-inbox" id="directorInbox">
+</style></head><body><a class="alfalah-fixed-home" href="index.html">🏠 الرئيسية</a><a class="home-return-btn" href="./index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="./assets/logo.png" alt="شعار أكاديمية الفلاح"><h1>منصة تطوير مكتبات أكاديمية الفلاح</h1><p>واجهة موحدة للتقييم، الدوام، المتابعة، التقارير، والملخص التنفيذي للإدارة التعليمية</p><div class="nav"><a class="btn primary" href="index.html">🏠 الرئيسية</a></div></section><section class="director-inbox" id="directorInbox">
   <div class="inbox-head">
     <div class="inbox-title">
       <div class="inbox-icon">💬</div>
@@ -51,37 +51,11 @@
     <button class="btn teal" type="button" onclick="toggleDirectorInbox()">فتح الردود الجديدة</button><button class="btn outline" type="button" onclick="copyManagementLink()">نسخ رابط الإدارة العليا</button>
     <button class="btn outline" type="button" onclick="refreshDirectorInbox()">تحديث</button>
     <button class="btn gold" type="button" onclick="markDirectorFeedbackRead()">تعليم كمقروء</button>
-    <a class="btn outline" href="management/index.html">الملخص التنفيذي للإدارة التعليمية</a>
   </div>
   <div id="directorInboxStatus" class="inbox-empty" style="display:none;margin-top:12px"></div>
   <div id="directorInboxList" class="inbox-list">
     <div class="inbox-empty">جاري فحص ردود الإدارة...</div>
   </div>
-</section>
-<section class="presenter-admin" id="presentationsAdmin">
-  <div class="presenter-head">
-    <div class="presenter-title">
-      <div class="presenter-icon">🎞️</div>
-      <div>
-        <h2>العروض التقديمية للإدارة</h2>
-        <p>أضف هنا ملفات العروض النهائية التي أعددتها، لتظهر للمدراء في منصة المتابعة الإدارية فقط.</p>
-      </div>
-    </div>
-    <button class="btn outline" type="button" onclick="loadManagementPresentationsAdmin(true)">تحديث العروض</button>
-  </div>
-  <div class="presenter-form">
-    <div><label>عنوان العرض</label><input id="mpTitle" placeholder="مثال: العرض التنفيذي الشهري - جميع المدارس"></div>
-    <div><label>المدرسة</label><select id="mpSchool"><option value="all">كل المدارس</option><option value="الخبيصي">الخبيصي</option><option value="الجيمي">الجيمي</option><option value="الشارقة">الشارقة</option><option value="بني ياس">بني ياس</option><option value="محمد بن زايد">محمد بن زايد</option><option value="الدانة">الدانة</option></select></div>
-    <div><label>نوع التقرير</label><select id="mpType"><option value="تقرير تنفيذي">تقرير تنفيذي</option><option value="تقييم مكتبة">تقييم مكتبة</option><option value="تقرير أسبوعي">تقرير أسبوعي</option><option value="تقرير شهري">تقرير شهري</option><option value="تقرير شامل">تقرير شامل</option></select></div>
-    <div><label>من تاريخ</label><input id="mpDateFrom" type="date"></div>
-    <div><label>إلى تاريخ</label><input id="mpDateTo" type="date"></div>
-    <div><label>ملف PDF النهائي</label><input id="mpPdfFile" type="file" accept="application/pdf,.pdf"><div class="muted">يرفع للمدراء كملف مشاهدة مباشر.</div></div>
-    <div><label>ملف PowerPoint اختياري</label><input id="mpPptFile" type="file" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"><div class="muted">ارفع نسخة العرض إذا كانت متوفرة.</div></div>
-    <div class="full"><label>وصف مختصر</label><textarea id="mpDesc" placeholder="ملخص قصير يظهر للمدراء قبل فتح العرض"></textarea></div>
-  </div>
-  <div class="actions"><button class="btn teal" type="button" onclick="saveManagementPresentation()">📤 نشر العرض للإدارة</button></div>
-  <div id="mpAdminStatus" class="presenter-status"></div>
-  <div id="mpAdminList" class="presenter-list"></div>
 </section>
 <h2 class="channels-title">القنوات الرئيسية للنظام</h2><section class="channels-grid">
   <article class="channel-card" data-num="1">
@@ -100,11 +74,32 @@
     <div><div class="ico">📊</div><h2>التقرير التحليلي النهائي</h2><p class="muted">تقرير تفصيلي شامل للتقييمات والدوام والزيارات والرسوم البيانية ونقاط القوة والتحسين.</p></div>
     <a class="btn teal" href="reports/index.html">فتح الصفحة</a>
   </article>
-  <article class="channel-card report" data-num="5">
-    <div><div class="ico">🎞️</div><h2>العروض التقديمية للإدارة</h2><p class="muted">نشر العروض التنفيذية النهائية التي يتم إعدادها للإدارة، ومتابعة إتاحتها ضمن منصة المتابعة الإدارية.</p></div>
-    <a class="btn teal" href="presentations/index.html">فتح الصفحة</a>
-  </article>
-</section><section class="card"><h2>ملفات المدارس الست</h2><p class="muted">كل مدرسة لها فولدر مستقل للتقييم والشواهد.</p><div class="grid"><div class="card"><h3>الخبيصي</h3><p class="muted">العين — 2026-04-28</p><div class="actions"><a class="btn outline" href="schools/index.html?school=khb&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=khb&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=khb&section=library-documents">النماذج</a></div></div><div class="card"><h3>الجيمي</h3><p class="muted">العين — 2026-04-29</p><div class="actions"><a class="btn outline" href="schools/index.html?school=jmi&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=jmi&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=jmi&section=library-documents">النماذج</a></div></div><div class="card"><h3>الشارقة</h3><p class="muted">الشارقة — 2026-05-05</p><div class="actions"><a class="btn outline" href="schools/index.html?school=shj&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=shj&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=shj&section=library-documents">النماذج</a></div></div><div class="card"><h3>بني ياس</h3><p class="muted">أبوظبي — 2026-05-07</p><div class="actions"><a class="btn outline" href="schools/index.html?school=bny&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=bny&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=bny&section=library-documents">النماذج</a></div></div><div class="card"><h3>محمد بن زايد</h3><p class="muted">أبوظبي — 2026-05-11</p><div class="actions"><a class="btn outline" href="schools/index.html?school=mzd&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=mzd&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=mzd&section=library-documents">النماذج</a></div></div><div class="card"><h3>الدانة</h3><p class="muted">أبوظبي — 2026-05-12</p><div class="actions"><a class="btn outline" href="schools/index.html?school=dan&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=dan&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=dan&section=library-documents">النماذج</a></div></div></div></section><section class="card"><h2>رفع JSON بوضوح</h2><ol><li>افتح صفحة التقييم أو الدوام.</li><li>اضغط زر رفع/استيراد JSON.</li><li>اختر الملف، وستظهر البيانات في مكانها الصحيح.</li><li>ملفات المدرسة تظهر داخل فولدر المدرسة، وسجلات الدوام داخل المتابعة.</li></ol></section><div class="footer">أكاديمية الفلاح — منصة تطوير المكتبات ومراكز مصادر التعلم 2026</div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=20260510f"></script>
+
+</section><section class="presenter-admin" id="presentationsAdmin">
+  <div class="presenter-head">
+    <div class="presenter-title">
+      <div class="presenter-icon">🎞️</div>
+      <div>
+        <h2>5. العروض التقديمية للإدارة</h2>
+        <p>أضف هنا ملفات العروض النهائية التي أعددتها، لتظهر للمدراء في منصة المتابعة الإدارية فقط.</p>
+      </div>
+    </div>
+    <button class="btn outline" type="button" onclick="loadManagementPresentationsAdmin(true)">تحديث العروض</button>
+  </div>
+  <div class="presenter-form">
+    <div><label>عنوان العرض</label><input id="mpTitle" placeholder="مثال: العرض التنفيذي الشهري - جميع المدارس"></div>
+    <div><label>المدرسة</label><select id="mpSchool"><option value="all">كل المدارس</option><option value="الخبيصي">الخبيصي</option><option value="الجيمي">الجيمي</option><option value="الشارقة">الشارقة</option><option value="بني ياس">بني ياس</option><option value="محمد بن زايد">محمد بن زايد</option><option value="الدانة">الدانة</option></select></div>
+    <div><label>نوع التقرير</label><select id="mpType"><option value="تقرير تنفيذي">تقرير تنفيذي</option><option value="تقييم مكتبة">تقييم مكتبة</option><option value="تقرير أسبوعي">تقرير أسبوعي</option><option value="تقرير شهري">تقرير شهري</option><option value="تقرير شامل">تقرير شامل</option></select></div>
+    <div><label>من تاريخ</label><input id="mpDateFrom" type="date"></div>
+    <div><label>إلى تاريخ</label><input id="mpDateTo" type="date"></div>
+    <div><label>ملف PDF النهائي</label><input id="mpPdfFile" type="file" accept="application/pdf,.pdf"><div class="muted">يرفع للمدراء كملف مشاهدة مباشر.</div></div>
+    <div><label>ملف PowerPoint اختياري</label><input id="mpPptFile" type="file" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"><div class="muted">ارفع نسخة العرض إذا كانت متوفرة.</div></div>
+    <div class="full"><label>وصف مختصر</label><textarea id="mpDesc" placeholder="ملخص قصير يظهر للمدراء قبل فتح العرض"></textarea></div>
+  </div>
+  <div class="actions"><button class="btn teal" type="button" onclick="saveManagementPresentation()">📤 نشر العرض للإدارة</button></div>
+  <div id="mpAdminStatus" class="presenter-status"></div>
+  <div id="mpAdminList" class="presenter-list"></div>
+</section><section class="card"><h2>6. ملفات المدارس الست</h2><p class="muted">كل مدرسة لها فولدر مستقل للتقييم والشواهد.</p><div class="grid"><div class="card"><h3>الخبيصي</h3><p class="muted">العين — 2026-04-28</p><div class="actions"><a class="btn outline" href="schools/index.html?school=khb&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=khb&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=khb&section=library-documents">النماذج</a></div></div><div class="card"><h3>الجيمي</h3><p class="muted">العين — 2026-04-29</p><div class="actions"><a class="btn outline" href="schools/index.html?school=jmi&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=jmi&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=jmi&section=library-documents">النماذج</a></div></div><div class="card"><h3>الشارقة</h3><p class="muted">الشارقة — 2026-05-05</p><div class="actions"><a class="btn outline" href="schools/index.html?school=shj&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=shj&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=shj&section=library-documents">النماذج</a></div></div><div class="card"><h3>بني ياس</h3><p class="muted">أبوظبي — 2026-05-07</p><div class="actions"><a class="btn outline" href="schools/index.html?school=bny&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=bny&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=bny&section=library-documents">النماذج</a></div></div><div class="card"><h3>محمد بن زايد</h3><p class="muted">أبوظبي — 2026-05-11</p><div class="actions"><a class="btn outline" href="schools/index.html?school=mzd&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=mzd&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=mzd&section=library-documents">النماذج</a></div></div><div class="card"><h3>الدانة</h3><p class="muted">أبوظبي — 2026-05-12</p><div class="actions"><a class="btn outline" href="schools/index.html?school=dan&section=profile">ملف المدرسة</a><a class="btn gold" href="schools/index.html?school=dan&section=library-images">الصور</a><a class="btn teal" href="schools/index.html?school=dan&section=library-documents">النماذج</a></div></div></div></section><section class="card"><h2>رفع JSON بوضوح</h2><ol><li>افتح صفحة التقييم أو الدوام.</li><li>اضغط زر رفع/استيراد JSON.</li><li>اختر الملف، وستظهر البيانات في مكانها الصحيح.</li><li>ملفات المدرسة تظهر داخل فولدر المدرسة، وسجلات الدوام داخل المتابعة.</li></ol></section><div class="footer">أكاديمية الفلاح — منصة تطوير المكتبات ومراكز مصادر التعلم 2026</div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=20260510f"></script>
 <script src="supabase-config.js?v=20260510f"></script>
 <script src="assets/db-sync.js?v=20260510f"></script>
 
