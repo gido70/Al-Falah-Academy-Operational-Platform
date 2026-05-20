@@ -95,7 +95,7 @@
 <div class="school-file-card"><h3>الدانة</h3><p class="muted">أبوظبي — 12-05-2026</p><div class="actions"><button class="btn outline" onclick="openFiles('dan','profile')">ملف المدرسة</button><button class="btn gold" onclick="openFiles('dan','library-images')">الصور</button><button class="btn teal" onclick="openFiles('dan','library-documents')">النماذج</button></div></div>
 </div><div id="fileViewer" class="file-viewer"></div></div></section>
 
-<section id="feedback" class="section"><div class="card"><h2>تعليق الإدارة</h2><div class="smart"><b>ملاحظة مهمة:</b> يظهر نموذج تعليق الإدارة مباشرة أسفل التقرير بعد الضغط على زر <b>عرض التقرير</b>، حتى يكون التعليق مرتبطًا بالتقرير المعروض نفسه: يومي، أسبوعي، شهري، تقييم مدرسة، أو تقرير شامل.</div><div class="empty" style="margin-top:14px">افتح تبويب التقارير التفصيلية، اختر التقرير المطلوب، ثم اضغط عرض التقرير. سيظهر نموذج التعليق أسفل التقرير مباشرة.</div></div><div class="card admin-replies-box"><h2>ردود الموظف المختص على تعليقات الإدارة</h2><div class="smart"><b>عرض خاص:</b> اختر اسمك لعرض الردود المرتبطة بتعليقاتك فقط.</div><div class="form-grid" style="margin-top:16px"><div><label>اسم الإدارة / المدير/ة</label><select id="replyManagerName"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">لا تظهر إلا الردود الخاصة بالاسم المختار.</div></div><div style="display:flex;align-items:end"><button class="btn teal" type="button" onclick="loadAdminRepliesForManager()">🔄 عرض الردود الخاصة بي</button></div></div><div id="adminRepliesStatus" class="status"></div><div id="adminRepliesList" class="admin-replies-list"></div></div></section>
+<section id="feedback" class="section"><div class="card"><h2>تعليق الإدارة</h2><div class="smart"><b>ملاحظة مهمة:</b> يظهر نموذج تعليق الإدارة مباشرة أسفل التقرير بعد الضغط على زر <b>عرض التقرير</b>، حتى يكون التعليق مرتبطًا بالتقرير المعروض نفسه: يومي، أسبوعي، شهري، تقييم مدرسة، أو تقرير شامل.</div><div class="empty" style="margin-top:14px">افتح تبويب التقارير التفصيلية، اختر التقرير المطلوب، ثم اضغط عرض التقرير. سيظهر نموذج التعليق أسفل التقرير مباشرة.</div></div><div class="card admin-replies-box"><h2>ردود مدير المنصة على تعليقات الإدارة</h2><div class="smart"><b>عرض خاص:</b> اختر اسمك لعرض الردود المرتبطة بتعليقاتك فقط.</div><div class="form-grid" style="margin-top:16px"><div><label>اسم الإدارة / المدير/ة</label><select id="replyManagerName"><option value="">— اختر الاسم —</option><option value="د. أمل العفيفي">د. أمل العفيفي</option><option value="السيدة/ أسماء الحمادي">السيدة/ أسماء الحمادي</option><option value="السيدة/ فاطمة الدرمكي">السيدة/ فاطمة الدرمكي</option></select><div class="hint">لا تظهر إلا الردود مدير المنصة المرتبطة بالاسم المختار.</div></div><div style="display:flex;align-items:end"><button class="btn teal" type="button" onclick="loadAdminRepliesForManager()">🔄 عرض ردود مدير المنصة</button></div></div><div id="adminRepliesStatus" class="status"></div><div id="adminRepliesList" class="admin-replies-list"></div></div></section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../supabase-config.js"></script>
 <script>
@@ -224,7 +224,7 @@ async function loadAdminRepliesForManager(){
   const list=$('adminRepliesList');
   if(!st||!list) return;
   st.className='status'; st.textContent=''; list.innerHTML='';
-  if(!name){st.className='status err';st.textContent='اختر اسمك أولًا لعرض الردود الخاصة بك فقط.';return}
+  if(!name){st.className='status err';st.textContent='اختر اسمك أولًا لعرض ردود مدير المنصة المرتبطة بتعليقاتك فقط.';return}
   try{
     let c=sb(); if(!c) throw new Error('لم يتم الاتصال بقاعدة البيانات');
     let r=await c.from('director_feedback')
@@ -235,8 +235,8 @@ async function loadAdminRepliesForManager(){
       .limit(20);
     if(r.error) throw r.error;
     let rows=(r.data||[]).filter(x=>String(x.admin_reply||'').trim());
-    if(!rows.length){st.className='status ok';st.textContent='لا توجد ردود من الموظف المختص حتى الآن لهذا الاسم.';return}
-    st.className='status ok';st.textContent='تم تحميل الردود الخاصة بـ '+name+' — العدد: '+rows.length;
+    if(!rows.length){st.className='status ok';st.textContent='لا توجد ردود من مدير المنصة حتى الآن لهذا الاسم.';return}
+    st.className='status ok';st.textContent='تم تحميل الردود مدير المنصة الخاصة بـ '+name+' — العدد: '+rows.length;
     list.innerHTML=rows.map(item=>{
       const scope=esc(item.report_scope || [item.report_type,item.school_name,item.period_value].filter(Boolean).join(' — ') || 'غير محدد');
       const original=esc(feedbackCommentText(item)||'لا توجد ملاحظة نصية محفوظة.');
