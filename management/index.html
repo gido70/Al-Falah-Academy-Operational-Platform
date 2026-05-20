@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="theme-color" content="#0c447c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="متابعة المكتبات">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+
 <title>منصة المتابعة الإدارية للمكتبات</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
@@ -55,6 +64,42 @@
 /* === DIRECTOR READ-ONLY SCHOOL FILES + RICH FULL REPORT V7 === */
 .files-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}.school-file-card{background:#fff;border:1.5px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 8px 22px rgba(12,68,124,.08);border-top:6px solid var(--teal)}.school-file-card h3{font-size:26px;margin:0 0 8px;color:var(--navy)}.school-file-card .actions{justify-content:flex-start}.file-viewer{margin-top:18px}.file-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0}.file-tab{border:2px solid var(--border);background:#fff;color:var(--navy);border-radius:999px;padding:9px 14px;font-family:Cairo,sans-serif;font-weight:900;cursor:pointer}.file-tab.active{background:var(--grad);color:#fff;border-color:transparent}.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}.thumb{background:#f8fbff;border:1.5px solid #d8e6f5;border-radius:18px;padding:12px;text-align:center;min-height:190px}.thumb img{max-width:100%;height:130px;object-fit:cover;border-radius:12px;border:1px solid #d8e6f5;background:white}.thumb b{display:block;color:var(--navy);margin-top:8px}.thumb .btn{margin-top:8px;padding:8px 12px;font-size:13px}.full-graph-section{background:#fff;border:1.5px solid var(--border);border-radius:24px;padding:24px;margin:18px 0;box-shadow:0 8px 26px rgba(12,68,124,.08)}.full-graph-section h2,.full-graph-section h3{color:var(--navy)}.graph-intro{background:#eefbf7;border-right:7px solid var(--teal);border-radius:16px;padding:16px 18px;line-height:2;margin:12px 0}.graph-legend{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}.graph-legend span{background:#fff;border:1px solid var(--border);border-radius:999px;padding:6px 12px;font-weight:900;color:var(--navy)}.graph-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-left:5px}.radar-wrap{display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:center}.radar-card{background:#f8fbff;border:1.5px solid #d8e6f5;border-radius:20px;padding:14px;text-align:center}.compare-final{background:#fff;border:1.5px solid #b8d4f0;border-radius:26px;padding:24px;margin-top:22px;box-shadow:0 8px 28px rgba(12,68,124,.08)}.compare-lead{background:linear-gradient(135deg,#f8fbff,#fff8e6);border-right:7px solid #ba7517;border-radius:18px;padding:16px;line-height:2;margin-bottom:16px}.rank-list{display:grid;gap:10px;margin:14px 0}.rank-row{display:grid;grid-template-columns:46px 220px 1fr 70px;gap:10px;align-items:center;background:#f8fbff;border:1px solid #d8e6f5;border-radius:14px;padding:10px}.rank-no{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}.rank-track{height:16px;background:#edf3fb;border-radius:99px;overflow:hidden}.rank-fill{height:100%;border-radius:99px}.axis-table{overflow:auto;border:1px solid #edf3fb;border-radius:18px;margin-top:12px}.axis-table table{width:100%;border-collapse:collapse;min-width:720px}.axis-table th{background:var(--navy);color:white;padding:10px}.axis-table td{border-bottom:1px solid #edf3fb;padding:10px;text-align:center}.strategy-box{background:linear-gradient(135deg,var(--navy),var(--teal));color:white;border-radius:22px;padding:22px;line-height:2;margin:18px 0}.strategy-box h3{color:white;margin-top:0}.strategy-box ul{margin:0;padding-right:22px}.manual-notes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}.manual-note{background:#f8fbff;border:1px solid #d8e6f5;border-radius:16px;padding:14px;line-height:1.9}.manual-note b{color:var(--navy)}
 @media(max-width:900px){.files-grid,.gallery,.radar-wrap,.manual-notes{grid-template-columns:1fr}.rank-row{grid-template-columns:40px 1fr}.rank-track,.rank-row div:last-child{grid-column:2}.school-file-card .actions{justify-content:center}}
+
+
+/* === PWA + MOBILE POLISH FOR MANAGEMENT VIEW === */
+html,body{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;}
+body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
+.management-top{padding-top:env(safe-area-inset-top);}
+@media(max-width:760px){
+  .wrap{padding:10px 10px 92px!important;max-width:100%!important;}
+  .hero{border-radius:20px!important;padding:22px 14px!important;margin:8px 0 12px!important;}
+  .hero h1{font-size:26px!important;line-height:1.45!important;}
+  .hero p{font-size:14px!important;line-height:1.9!important;}
+  .logo,.logo-frame img{max-width:160px!important;height:auto!important;}
+  .management-top .inner{gap:8px!important;justify-content:center!important;}
+  .management-brand{width:100%;justify-content:center!important;font-size:14px!important;}
+  .management-nav{width:100%;justify-content:flex-start!important;flex-wrap:nowrap!important;overflow-x:auto!important;padding:4px 0 8px!important;scrollbar-width:none;}
+  .management-nav::-webkit-scrollbar{display:none;}
+  .management-nav a{flex:0 0 auto!important;font-size:14px!important;padding:9px 13px!important;border-radius:999px!important;}
+  .card,.management-guide,.feedback-box,.director-feedback-box,.schools-files-box{border-radius:18px!important;padding:15px!important;margin:12px 0!important;}
+  .card h2,.management-guide h2{font-size:23px!important;line-height:1.5!important;}
+  .grid,.grid2,.grid3,.grid4,.guide-grid,.feat-grid,.row2{grid-template-columns:1fr!important;}
+  label{font-size:15px!important;}
+  select,input,textarea,.multi-btn{min-height:52px!important;font-size:16px!important;border-radius:15px!important;}
+  .btn,.send-btn{min-height:48px!important;justify-content:center!important;font-size:15px!important;border-radius:15px!important;}
+  .actions{position:sticky;bottom:0;z-index:40;background:linear-gradient(180deg,rgba(232,240,250,.05),rgba(232,240,250,.95) 35%,rgba(232,240,250,1));padding:10px 4px calc(10px + env(safe-area-inset-bottom))!important;margin:10px -8px -8px!important;}
+  .actions .btn{flex:1 1 140px!important;}
+  .kpis,.kpi-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;}
+  .kpi strong{font-size:24px!important;}
+  .chart{padding:14px!important;}
+  .gallery{grid-template-columns:1fr!important;}
+  .thumb img,.thumb iframe{max-height:260px!important;}
+}
+@media(max-width:420px){
+  .hero h1{font-size:22px!important;}
+  .card h2,.management-guide h2{font-size:20px!important;}
+  .kpis,.kpi-grid{grid-template-columns:1fr!important;}
+}
 
 </style>
 </head>
@@ -180,5 +225,13 @@ function filePreviewHtml(f){let url=f.file_url||'';let name=esc(f.file_name||'م
 async function openFiles(school,filter='all'){setTab('files');const viewer=$('fileViewer');viewer.innerHTML='<div class="card"><div class="notice">جاري تحميل ملفات المدرسة...</div></div>';try{let c=sb();if(!c)throw new Error('لم يتم الاتصال بقاعدة البيانات');let schoolIdMap={dan:1,mzd:2,bny:3,khb:4,jmi:5,shj:6};let q=c.from('school_files').select('*').or(`school_code.eq.${school},school_id.eq.${schoolIdMap[school]||school}`);let r=await q.order('created_at',{ascending:false});if(r.error)throw r.error;let rows=(r.data||[]);let tabs=['all','library-images','library-documents','specialist-certificates'];let active=filter||'all';let visible=active==='all'?rows:rows.filter(f=>normalizeFileCategory(f.file_category)===active);viewer.innerHTML=`<div class="card"><h2>ملفات ${esc(SCHOOL_NAMES[school]||school)}</h2><div class="smart"><b>عرض إداري فقط:</b> لا توجد أزرار رفع أو حذف أو تحميل. يمكن فتح الملف للمعاينة فقط.</div><div class="file-tabs">${tabs.map(t=>`<button class="file-tab ${t===active?'active':''}" onclick="openFiles('${school}','${t}')">${t==='all'?'📁 الكل':fileCategoryName(t)}</button>`).join('')}</div>${visible.length?`<div class="gallery">${visible.map(f=>`<div class="thumb">${filePreviewHtml(f)}<b>${fileCategoryName(normalizeFileCategory(f.file_category))}</b><div class="muted" style="font-size:12px">${esc(f.file_name||'')}</div>${f.file_url?`<a class="btn outline" target="_blank" href="${f.file_url}">فتح للمعاينة</a>`:''}</div>`).join('')}</div>`:'<div class="empty">لا توجد ملفات محفوظة في هذا القسم.</div>'}</div>`;viewer.scrollIntoView({behavior:'smooth',block:'start'})}catch(e){viewer.innerHTML='<div class="card"><div class="empty">تعذر تحميل الملفات: '+esc(e.message||e)+'</div></div>'}}
 
 updateDirectorControls();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js').catch(function(){ });
+  });
+}
 </script>
 </body></html>
