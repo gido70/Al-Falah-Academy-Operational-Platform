@@ -3085,120 +3085,119 @@ else{setTimeout(WKM.init,600);}
 </script>
 
 
-<!-- PATCH: robust week_number database save only - 2026-05-15 -->
+
+
+
+
+<!-- PATCH: safe database save by week start date only - 2026-05-22 -->
 <script>
 (function(){
-  if(window.__FALAH_WEEK_SAVE_PATCH_V3__) return;
-  window.__FALAH_WEEK_SAVE_PATCH_V3__ = true;
+  if(window.__FALAH_SAFE_WEEK_DATE_SAVE_V1__) return;
+  window.__FALAH_SAFE_WEEK_DATE_SAVE_V1__ = true;
 
+  function q(id){ return document.getElementById(id); }
+  function txt(v){ return String(v == null ? '' : v).trim(); }
   function toastSafe(msg, color){
     try{
-      if(typeof toast === 'function') return toast(msg);
-      var t=document.getElementById('toast');
+      if(typeof window.toast === 'function') return window.toast(msg);
+      var t=q('toast');
       if(t){
         t.textContent=msg;
         t.style.background=color || '#0d3b6e';
         t.style.display='block';
-        clearTimeout(window.__falahToastTimer);
-        window.__falahToastTimer=setTimeout(function(){t.style.display='none';},3200);
+        clearTimeout(window.__falahSafeToastTimer);
+        window.__falahSafeToastTimer=setTimeout(function(){ t.style.display='none'; }, 3500);
       }else{
         alert(msg);
       }
     }catch(e){ alert(msg); }
   }
-
-  function cleanNum(v){
-    if(v===null || v===undefined) return '';
-    return String(v)
-      .replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d);})
-      .replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);})
-      .replace(/[^0-9]/g,'');
-  }
-
-  function weekOfMonthFromDate(dateStr){
-    if(!dateStr) return '';
-    var d = new Date(dateStr);
-    if(isNaN(d.getTime())) return '';
-    var day = d.getDate();
-    return String(Math.max(1, Math.ceil(day / 7)));
-  }
-
-  function resolveWeekNumber(d){
-    d = d || {};
-    var candidates = [
-      d.week_number,
-      d.wnum,
-      d.week_no,
-      d.weekNum,
-      d.week,
-      (document.getElementById('wnum')||{}).value,
-      (document.querySelector('[name="wnum"]')||{}).value
-    ];
-    for(var i=0;i<candidates.length;i++){
-      var n = parseInt(cleanNum(candidates[i]),10);
-      if(n && n > 0) return n;
-    }
-    var wstart = d.wstart || d.work_date || ((document.getElementById('wstart')||{}).value) || ((document.querySelector('[name="wstart"]')||{}).value);
-    var calc = parseInt(weekOfMonthFromDate(wstart),10);
-    if(calc && calc > 0){
-      var el = document.getElementById('wnum');
-      if(el) el.value = calc;
-      return calc;
-    }
-    return null;
-  }
-
-  function getClient(){
+  function client(){
     return window.alfalahSupabase ||
       (window.AlfalahDBSync && typeof window.AlfalahDBSync.client === 'function' && window.AlfalahDBSync.client()) ||
       window.supabaseClient ||
       null;
   }
-
-  var originalGetFormData = (typeof window.getFormData === 'function') ? window.getFormData : null;
-  window.getFormData = function(){
-    var d = originalGetFormData ? (originalGetFormData() || {}) : {};
-    var wn = resolveWeekNumber(d);
-    if(wn){
-      d.wnum = String(wn);
-      d.week_number = wn;
-      var el = document.getElementById('wnum');
-      if(el && !el.value) el.value = String(wn);
+  function iso(v){
+    var s=txt(v);
+    if(!s) return '';
+    if(/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0,10);
+    var m=s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
+    return m ? (m[3]+'-'+String(m[2]).padStart(2,'0')+'-'+String(m[1]).padStart(2,'0')) : '';
+  }
+  function valByNames(names){
+    for(var i=0;i<names.length;i++){
+      var el=q(names[i]) || document.querySelector('[name="'+names[i]+'"]');
+      if(el && txt(el.value)) return txt(el.value);
     }
-    if(!d.wstart){
-      var ws = document.getElementById('wstart') || document.querySelector('[name="wstart"]');
-      if(ws) d.wstart = ws.value || '';
-    }
-    if(!d.wend){
-      var we = document.getElementById('wend') || document.querySelector('[name="wend"]');
-      if(we) d.wend = we.value || '';
-    }
+    return '';
+  }
+  function addDays(dateStr,n){
+    var d=new Date(dateStr+'T00:00:00');
+    if(isNaN(d)) return '';
+    d.setDate(d.getDate()+n);
+    return d.toISOString().slice(0,10);
+  }
+  function weekStartOf(dateStr){
+    var d=new Date(dateStr+'T00:00:00');
+    if(isNaN(d)) return '';
+    var g=d.getDay();
+    var diff=(g===0 ? -6 : 1-g);
+    d.setDate(d.getDate()+diff);
+    return d.toISOString().slice(0,10);
+  }
+  function dateKey(dateStr){
+    var s=iso(dateStr);
+    if(!s) return null;
+    return parseInt(s.replace(/-/g,''),10);
+  }
+  function normalize(raw){
+    var d=raw || {};
+    if(Array.isArray(d)) d=d[0] || {};
+    if(d && d.full_data) d = (typeof d.full_data === 'string' ? JSON.parse(d.full_data) : d.full_data);
+    if(d && d.data && typeof d.data === 'object' && !d.wstart && !d.work_date) d=d.data;
+    if(!d || typeof d !== 'object' || Array.isArray(d)) throw new Error('لا توجد بيانات صالحة للحفظ.');
     return d;
-  };
+  }
+  function enrichDates(d){
+    d=normalize(d);
+    var start=iso(d.wstart || d.week_start || d.start_date || d.work_date || valByNames(['wstart','week_start','work_date']));
+    if(!start){
+      var anyDay=iso(d.date0 || d.day_date0 || d.work_date0 || d.date || d.day_date);
+      if(anyDay) start=weekStartOf(anyDay);
+    }
+    if(!start) throw new Error('بداية الأسبوع غير موجودة. اختر بداية الأسبوع أو ارفع ملفًا يحتوي wstart.');
+    var end=iso(d.wend || d.week_end || d.end_date || valByNames(['wend','week_end']));
+    if(!end) end=addDays(start,4);
 
-  async function robustSaveToDatabase(raw){
-    var d = raw || (typeof window.getFormData === 'function' ? window.getFormData() : {});
-    if(!d || typeof d !== 'object') throw new Error('لا توجد بيانات صالحة للحفظ.');
-    var wn = resolveWeekNumber(d);
-    if(!wn) throw new Error('رقم الأسبوع غير موجود. اختر بداية الأسبوع أولاً أو تأكد من ظهور رقم الأسبوع.');
-    d.wnum = String(wn);
-    d.week_number = wn;
+    var uiWeek=txt(d.wnum || d.week_number || valByNames(['wnum','week_number']));
+    d.wstart=start;
+    d.wend=end;
+    d.work_date=start;
+    if(uiWeek) d.wnum=uiWeek;          // للعرض فقط، لا يستخدم كمفتاح حفظ
+    d.week_number_ui=uiWeek || '';
+    d.week_title=d.week_title || ('الأسبوع: '+start+' إلى '+end);
+    return d;
+  }
 
-    var now = new Date().toISOString();
-    var weekStart = d.wstart || d.work_date || ((document.getElementById('wstart')||{}).value) || null;
-    var weekEnd   = d.wend || ((document.getElementById('wend')||{}).value) || null;
-    d.wstart = d.wstart || weekStart || '';
-    d.wend = d.wend || weekEnd || '';
-    d.work_date = weekStart || d.work_date || null;
-    d.week_title = d.week_title || ('الأسبوع رقم ' + wn);
-    d.updated_at = now;
-    d._savedAt = now;
-    d._savedAtAr = new Date(now).toLocaleString('ar-AE');
+  async function safeSaveWeekByDate(raw){
+    var d=enrichDates(raw);
+    var c=client();
+    if(!c) throw new Error('لم يتم الاتصال بقاعدة البيانات Supabase.');
 
-    var payload = {
-      week_number: wn,
+    var now=new Date().toISOString();
+    var dbWeekNumber=dateKey(d.wstart); // مفتاح رقمي آمن يساوي تاريخ بداية الأسبوع YYYYMMDD
+    if(!dbWeekNumber) throw new Error('تعذر تكوين مفتاح تاريخ بداية الأسبوع.');
+
+    d._savedAt=now;
+    d._savedAtAr=new Date(now).toLocaleString('ar-AE');
+    d._db_week_key=dbWeekNumber;
+    d.updated_at=now;
+
+    var payload={
+      week_number: dbWeekNumber,       // مهم: لا نستخدم رقم الأسبوع 1/2/3/4 حتى لا يحصل تضارب
       week_title: d.week_title,
-      work_date: d.work_date,
+      work_date: d.wstart,
       work_type: d.wstatus || d.work_type || 'دوام كامل',
       tasks: JSON.stringify(d),
       notes: JSON.stringify(d),
@@ -3206,89 +3205,96 @@ else{setTimeout(WKM.init,600);}
       updated_at: now
     };
 
-    var client = getClient();
-    if(!client) throw new Error('لم يتم الاتصال بقاعدة البيانات Supabase.');
-
-    // لا نعتمد على upsert فقط، لأن بعض الجداول لا يكون عليها unique constraint.
-    var existing = await client.from('daily_work_logs')
-      .select('id')
-      .eq('week_number', wn)
-      .maybeSingle();
-
+    var existing=await c.from('daily_work_logs').select('id').eq('work_date', d.wstart).maybeSingle();
     if(existing.error && existing.error.code !== 'PGRST116') throw existing.error;
 
     var res;
     if(existing.data && existing.data.id){
-      res = await client.from('daily_work_logs')
-        .update(payload)
-        .eq('id', existing.data.id)
-        .select();
+      res=await c.from('daily_work_logs').update(payload).eq('id', existing.data.id).select();
     }else{
-      res = await client.from('daily_work_logs')
-        .insert(payload)
-        .select();
+      res=await c.from('daily_work_logs').insert(payload).select();
     }
 
     if(res.error){
-      // محاولة أخيرة: تحديث بالرقم مباشرة إذا رفض الإدخال لأي سبب.
-      var upd = await client.from('daily_work_logs')
-        .update(payload)
-        .eq('week_number', wn)
-        .select();
-      if(upd.error) throw res.error;
-      res = upd;
+      // معالجة احتياطية لو كان الصف موجودًا بمفتاح التاريخ الرقمي.
+      var byKey=await c.from('daily_work_logs').select('id').eq('week_number', dbWeekNumber).maybeSingle();
+      if(byKey.data && byKey.data.id){
+        res=await c.from('daily_work_logs').update(payload).eq('id', byKey.data.id).select();
+      }
     }
+    if(res.error) throw res.error;
 
-    if(res.data && res.data[0] && res.data[0].id){
-      d._db_id = res.data[0].id;
-    }
+    if(res.data && res.data[0] && res.data[0].id) d._db_id=res.data[0].id;
+
     try{
-      localStorage.setItem('falah_week_' + wn, JSON.stringify(d));
+      localStorage.setItem('falah_week_date_'+d.wstart, JSON.stringify(d));
+      localStorage.setItem('falah_week_'+d.wstart, JSON.stringify(d));
       localStorage.setItem('falah_wp_final', JSON.stringify(d));
     }catch(e){}
+
     return res.data && res.data[0];
   }
 
-  window.falahRobustWeekSave = robustSaveToDatabase;
+  window.falahSafeWeekDateSave=safeSaveWeekByDate;
 
-  if(window.ScheduleImportPreview){
-    window.ScheduleImportPreview._saveDataToDatabase = robustSaveToDatabase;
-    window.ScheduleImportPreview.saveCurrentToDatabase = async function(){
-      var d = window.getFormData ? window.getFormData() : {};
-      await robustSaveToDatabase(d);
-      toastSafe('💾 تم حفظ الأسبوع في قاعدة البيانات بنجاح', '#0e7f70');
+  function showImportOk(msg){
+    var body=q('importPreviewBody');
+    if(body) body.insertAdjacentHTML('afterbegin', "<div class='import-preview-ok'>"+msg+"</div>");
+  }
+  function showImportWarn(msg){
+    var body=q('importPreviewBody');
+    if(body) body.insertAdjacentHTML('afterbegin', "<div class='import-preview-warn'>"+msg+"</div>");
+  }
+
+  function patchImportPreview(){
+    if(!window.ScheduleImportPreview) return;
+    window.ScheduleImportPreview._saveDataToDatabase=safeSaveWeekByDate;
+    window.ScheduleImportPreview.saveCurrentToDatabase=async function(){
+      var d=typeof window.getFormData==='function' ? window.getFormData() : {};
+      await safeSaveWeekByDate(d);
+      toastSafe('💾 تم حفظ الأسبوع في قاعدة البيانات حسب تاريخ البداية', '#0e7f70');
+    };
+    window.ScheduleImportPreview.saveToDatabase=async function(){
+      try{
+        var d=(typeof window.getFormData==='function' ? window.getFormData() : {});
+        // إذا كانت المعاينة محملة من JSON فالدالة الأصلية عرضت البيانات في الصفحة، لذلك getFormData هو المصدر الآمن الحالي
+        await safeSaveWeekByDate(d);
+        showImportOk('💾 تم الحفظ في قاعدة البيانات بنجاح حسب تاريخ بداية الأسبوع. ستظهر البيانات في الإدارة والتقارير.');
+        toastSafe('💾 تم الحفظ في قاعدة البيانات حسب تاريخ بداية الأسبوع', '#0e7f70');
+      }catch(err){
+        console.error(err);
+        showImportWarn('❌ فشل الحفظ: '+(err.message || err));
+        alert('فشل الحفظ في قاعدة البيانات: '+(err.message || err));
+      }
     };
   }
 
-  async function saveCurrentFromButton(){
-    try{
-      if(typeof alignWeekRange === 'function') alignWeekRange();
-      var d = window.getFormData ? window.getFormData() : {};
-      var wn = resolveWeekNumber(d);
-      if(!wn){
-        toastSafe('⚠️ اختر بداية الأسبوع أولاً حتى يظهر رقم الأسبوع', '#b8860b');
-        return;
-      }
-      await robustSaveToDatabase(d);
-      toastSafe('💾 تم حفظ الأسبوع رقم ' + wn + ' في قاعدة البيانات', '#0e7f70');
-    }catch(err){
-      console.error('Robust week save failed:', err);
-      toastSafe('❌ فشل الحفظ: ' + (err.message || err), '#991b1b');
+  async function saveCurrentFromButton(e){
+    if(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
     }
+    try{
+      if(typeof window.alignWeekRange==='function') window.alignWeekRange();
+      var d=typeof window.getFormData==='function' ? window.getFormData() : {};
+      await safeSaveWeekByDate(d);
+      toastSafe('💾 تم حفظ الأسبوع في قاعدة البيانات حسب تاريخ بدايته', '#0e7f70');
+    }catch(err){
+      console.error('safe week date save failed:', err);
+      toastSafe('❌ فشل الحفظ: '+(err.message || err), '#991b1b');
+    }
+    return false;
   }
 
   document.addEventListener('DOMContentLoaded', function(){
-    var btn = document.getElementById('btn-save');
+    patchImportPreview();
+    var btn=q('btn-save');
     if(btn){
-      btn.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        saveCurrentFromButton();
-        return false;
-      }, true);
+      btn.addEventListener('click', saveCurrentFromButton, true);
     }
   });
-
+  // في حال تم تحميل ScheduleImportPreview بعد هذا السكربت
+  setTimeout(patchImportPreview, 800);
 })();
 </script>
 
