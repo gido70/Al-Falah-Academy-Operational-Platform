@@ -309,6 +309,115 @@ try{const savedManager=localStorage.getItem('director_manager_name'); const repl
 
 updateDirectorControls();
 
+/* === AUTO WEEKLY ATTENDANCE FOR DIRECTORS - FIXED === */
+function directorWeekStart(d=new Date()){
+  const x=new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const day=x.getDay(); // Sun=0, Mon=1
+  const diff=(day===0 ? -6 : 1-day);
+  x.setDate(x.getDate()+diff);
+  return x;
+}
+function directorIsoDate(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${dd}`;
+}
+function directorDateDMY(s){
+  if(!s) return '—';
+  const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : String(s);
+}
+function directorDayName(s){
+  try{return ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][new Date(s+'T12:00:00').getDay()]||'—'}catch(e){return '—'}
+}
+function directorNormalizeTime(v){
+  if(!v) return '—';
+  let s=String(v).trim();
+  const m=s.match(/(\d{1,2}):(\d{2})/);
+  if(!m) return s;
+  let h=Number(m[1]), min=m[2];
+  const pm=/PM|م/i.test(s), am=/AM|ص/i.test(s);
+  if(pm && h<12) h+=12;
+  if(am && h===12) h=0;
+  return `${String(h).padStart(2,'0')}:${min}`;
+}
+function directorSplitTime(timeText){
+  const s=String(timeText||'');
+  const parts=s.split(/\s*(?:-|–|—|إلى|الى|to)\s*/).filter(Boolean);
+  return {in:directorNormalizeTime(parts[0]||''), out:directorNormalizeTime(parts[1]||'')};
+}
+function directorTypeClass(type){
+  const t=String(type||'');
+  if(/زيارة|ميدانية/.test(t)) return 'field';
+  if(/استئذان|خاص/.test(t)) return 'excuse';
+  if(/إجازة|اجازة|غياب/.test(t)) return 'leave';
+  if(/عن بعد|منزل/.test(t)) return 'remote';
+  return 'official';
+}
+function directorHoursBetween(a,b){
+  if(!a||!b||a==='—'||b==='—') return 0;
+  const ma=String(a).match(/^(\d{1,2}):(\d{2})/), mb=String(b).match(/^(\d{1,2}):(\d{2})/);
+  if(!ma||!mb) return 0;
+  let A=Number(ma[1])*60+Number(ma[2]);
+  let B=Number(mb[1])*60+Number(mb[2]);
+  if(B<A) B+=24*60;
+  return Math.max(0,(B-A)/60);
+}
+function directorFmtHours(h){
+  const mins=Math.round((h||0)*60), hh=Math.floor(mins/60), mm=mins%60;
+  return `${hh}h ${mm}m`;
+}
+async function loadDirectorWeeklyAttendance(){
+  const body=document.getElementById('weekAttendanceBody');
+  const range=document.getElementById('weekRangeLabel');
+  const status=document.getElementById('weekNowStatus');
+  if(!body) return;
+  const start=directorWeekStart(new Date());
+  const end=new Date(start); end.setDate(start.getDate()+4);
+  const todayIso=directorIsoDate(new Date());
+  const startIso=directorIsoDate(start), endIso=directorIsoDate(end);
+  if(range) range.textContent=`${directorDateDMY(startIso)} إلى ${directorDateDMY(endIso)}`;
+  if(status){status.className='week-status-now';status.textContent='جاري تحميل بيانات الحضور والانصراف لهذا الأسبوع...';}
+  try{
+    const all=await loadWorkDays();
+    const map=new Map();
+    (all||[]).forEach(d=>{ if(d && d.date>=startIso && d.date<=endIso) map.set(d.date,d); });
+    let total=0, field=0, excuse=0, leave=0;
+    const rows=[];
+    for(let i=0;i<5;i++){
+      const dt=new Date(start); dt.setDate(start.getDate()+i);
+      const iso=directorIsoDate(dt);
+      const rec=map.get(iso)||{};
+      const split=directorSplitTime(rec.time || rec.work_time || '');
+      const type=rec.type || (iso>todayIso ? 'لم يسجل بعد' : 'غير مسجل');
+      const cls=directorTypeClass(type);
+      if(/زيارة|ميدانية/.test(String(type))) field++;
+      if(/استئذان|خاص/.test(String(type))) excuse++;
+      if(/إجازة|اجازة|غياب/.test(String(type))) leave++;
+      const hours=directorHoursBetween(split.in,split.out); total+=hours;
+      const note=[rec.loc,rec.tasks,rec.note].filter(x=>x && x!=='—').join(' — ') || (iso>todayIso?'ينتظر تسجيل اليوم.':'لا توجد ملاحظة مسجلة.');
+      rows.push(`<tr class="${iso===todayIso?'week-day-today':''}"><td>${directorDayName(iso)}<br><span class="muted">${directorDateDMY(iso)}</span></td><td>${split.in}</td><td>${split.out}</td><td><span class="att-pill ${cls}">${esc(type)}</span></td><td>${esc(note)}</td></tr>`);
+    }
+    body.innerHTML=`<div class="week-att-table-wrap"><table class="week-att-table"><thead><tr><th>اليوم</th><th>الحضور</th><th>الانصراف</th><th>نوع الدوام</th><th>ملاحظة / موقع</th></tr></thead><tbody>${rows.join('')}</tbody></table></div><div class="week-kpis"><div class="week-kpi"><strong>${directorFmtHours(total)}</strong><span>إجمالي الساعات</span></div><div class="week-kpi"><strong>${field}</strong><span>أيام ميدانية</span></div><div class="week-kpi"><strong>${excuse}</strong><span>استئذان</span></div><div class="week-kpi"><strong>${leave}</strong><span>إجازة / غياب</span></div></div>`;
+    const today=map.get(todayIso);
+    if(status){
+      if(today){
+        const sp=directorSplitTime(today.time||today.work_time||'');
+        status.className='week-status-now';
+        status.textContent=`اليوم ${directorDayName(todayIso)}: ${today.type||'دوام رسمي'} — الحضور ${sp.in} — الانصراف ${sp.out}.`;
+      }else{
+        status.className='week-status-now warn';
+        status.textContent='لا يوجد سجل محفوظ لليوم الحالي حتى الآن، وسيظهر تلقائيًا بعد حفظه من صفحة الدوام.';
+      }
+    }
+  }catch(e){
+    console.warn('weekly attendance failed',e);
+    body.innerHTML='<div class="week-empty">تعذر تحميل سجل الدوام الأسبوعي. تأكد من حفظ الدوام في صفحة الدوام ومن وجود جدول daily_work_logs في Supabase.</div>';
+    if(status){status.className='week-status-now err';status.textContent='تعذر تحميل بيانات الحضور والانصراف لهذا الأسبوع.';}
+  }
+}
+setTimeout(loadDirectorWeeklyAttendance,900);
+
+
 /* === MANAGEMENT PRESENTATIONS VIEW JS === */
 function presStatus(msg,type){const el=document.getElementById('presentationsStatus');if(!el)return;el.textContent=msg||'';el.className='presentation-status '+(type||'');}
 function getPresentationViewer(){return 'الإدارة';}
