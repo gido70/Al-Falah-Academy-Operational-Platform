@@ -1459,56 +1459,81 @@ function renderVisualCompare(evals){
 
 
 <script>
-/* === FINAL REPAIR V2: restore detailed analytical report + strict separation === */
+/* === FINAL UNIFIED ATTENDANCE PARSER + DIRECTOR WEEK TABLE V3 === */
 (function(){
-  const $=id=>document.getElementById(id);
-  const safe=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  function axisRows(e){
-    const axes=Array.isArray(e.axes)?e.axes:[];
-    if(!axes.length) return '<div class="empty">لا توجد محاور تفصيلية محفوظة لهذا التقييم.</div>';
-    return `<div class="axis-table"><table><thead><tr><th>المحور</th><th>الدرجة</th><th>القراءة الإدارية</th></tr></thead><tbody>${axes.map(a=>{const n=Number(a.score||0);let note=n>=5?'قوي ومستقر ويستحق التوثيق والتعميم.':n>=4?'جيد ويحتاج تثبيت الممارسة.':n>=3?'متوسط ويحتاج متابعة عملية.':n>0?'يحتاج دعماً مباشراً وخطة تحسين.':'لا توجد بيانات كافية.';return `<tr><td><b>${safe(a.name||a.id||'محور')}</b></td><td>${n?n.toFixed(1)+'/6':'—'}</td><td>${safe(note)}</td></tr>`}).join('')}</tbody></table></div>`;
+  const AR_DAYS=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const WORK_NAMES=['الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
+  const SCHOOL_NAMES_PATCH={khb:'الخبيصي',jmi:'الجيمي',shj:'الشارقة',bny:'بني ياس',mzd:'محمد بن زايد',dan:'الدانة',all:'كل المدارس'};
+  function E(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function parseObj2(x){if(!x)return {}; if(typeof x==='object')return x; try{return JSON.parse(x)}catch(e){return {}}}
+  function iso2(v){if(!v)return '';let s=String(v).trim();let m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(m)return `${m[1]}-${m[2]}-${m[3]}`;m=s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);return m?`${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`:''}
+  function date2(s){s=iso2(s);if(!s)return null;const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
+  function fmt2(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+  function add2(s,n){let d=date2(s);if(!d)return '';d.setDate(d.getDate()+n);return fmt2(d)}
+  function dayNo2(s){let d=date2(s);return d?d.getDay():-1}
+  function isWork2(s){let g=dayNo2(s);return g>=1&&g<=5}
+  function monday2(s){let d=date2(s);if(!d)return '';let g=d.getDay();let diff=(g===0?-6:1-g);d.setDate(d.getDate()+diff);return fmt2(d)}
+  function dmy2(s){s=iso2(s);if(!s)return '—';let [y,m,d]=s.split('-');return `${d}-${m}-${y}`}
+  function arDay2(s){let g=dayNo2(s);return g>=0?AR_DAYS[g]:'—'}
+  function pick2(o,keys){for(const k of keys){let v=o&&o[k];if(v!==undefined&&v!==null&&String(v).trim()!==''&&String(v).trim()!=='{}')return v}return ''}
+  function join2(vals){return vals.map(v=>String(v||'').trim()).filter(v=>v&&v!=='—'&&v!=='{}').filter((v,i,a)=>a.indexOf(v)===i).join(' / ')}
+  function weekNo2(s){let d=date2(s);if(!d)return 0;let first=new Date(d.getFullYear(),d.getMonth(),1);let off=(first.getDay()===0?6:first.getDay()-1);return Math.ceil((d.getDate()+off)/7)}
+  function sb2(){return window.alfalahSupabase||window.supabaseClient||(window.AlfalahDBSync&&window.AlfalahDBSync.client&&window.AlfalahDBSync.client())||null}
+  function dayFromWeek(d,i,row={}){
+    const base=iso2(d.wstart||d.week_start||d.start_date||d.work_date||row.work_date||row.date||row.day_date);
+    const mon=base?monday2(base):'';
+    const date=iso2(d['date'+i]||d['day_date'+i]||d['work_date'+i])||(mon?add2(mon,i):'');
+    const type=pick2(d,[`atype${i}`,`work_type${i}`,`type${i}`,`status${i}`])||d.wstatus||row.work_type||'دوام رسمي';
+    const loc=pick2(d,[`dloc${i}`,`loc${i}`,`location${i}`])||d.location||row.location||'—';
+    const tasks=join2([d[`task${i}`],d[`tasks${i}`],d[`dtasks${i}`],d[`daily_tasks${i}`],d[`anote${i}`],d[`story${i}`],d[`action${i}`],d[`work${i}`]]);
+    const note=join2([d[`note${i}`],d[`dnote${i}`],d[`remarks${i}`],d[`comment${i}`]]);
+    const time=join2([d[`time${i}`],d[`work_time${i}`],(d[`from${i}`]&&d[`to${i}`])?`${d[`from${i}`]} - ${d[`to${i}`]}`:'',row.start_time&&row.end_time?`${row.start_time} - ${row.end_time}`:'']);
+    return {date,name:WORK_NAMES[i]||arDay2(date),week:Number(d.wnum||d.week_number||row.week_number||weekNo2(date)||0),month:date.slice(5,7),type,loc,tasks,note,time,raw:d};
   }
-  function staffPanel(e){
-    const axes=Array.isArray(e.axes)?e.axes:[];
-    const staff=axes.find(a=>/كادر|أخصائي|موظف|staff/i.test(String(a.name||a.id||'')));
-    const n=Number(staff?.score||0);
-    let reading=n>=5?'الكادر المهني يمثل نقطة قوة واضحة، ويجب ربط هذه القوة بالتدريب والتوثيق ونقل الخبرة.':n>=4?'أداء الكادر جيد، ويحتاج دعماً مؤسسياً حتى لا يبقى التطوير قائمًا على اجتهاد فردي.':n>=3?'أداء الكادر متوسط، ويحتاج خطة متابعة وتدريب وربطًا أوضح بالمهام المهنية.':n>0?'محور الكادر يحتاج متابعة مباشرة وتحديد احتياجات تدريبية وتشغيلية.':'لا توجد درجة كافية لمحور الكادر المهني.';
-    return `<div class="compare-card"><h4>الكادر المهني</h4><ul><li><b>الدرجة:</b> ${n?n.toFixed(1)+'/6':'—'}</li><li><b>قراءة:</b> ${safe(reading)}</li><li><b>توجيه:</b> عدم تحميل الأخصائي مهامًا خارج اختصاص المكتبة، ودعم دوره في الفهرسة، التنظيم، الإعارة، الأنشطة، والتقارير.</li></ul></div>`;
+  function singleDay(row){
+    let d=parseObj2(row.full_data||row.data||{});
+    let date=iso2(pick2(row,['work_date','date','day_date','log_date'])||pick2(d,['work_date','date','day_date','log_date','wstart','week_start']));
+    return {date,name:arDay2(date),week:Number(row.week_number||d.wnum||d.week_number||weekNo2(date)||0),month:date.slice(5,7),type:row.work_type||d.work_type||d.wstatus||d.atype0||'دوام رسمي',loc:row.location||d.location||d.dloc0||'—',tasks:join2([row.tasks,row.task,row.work_done,d.tasks,d.task,d.work_done,d.actions,d.daily_tasks,d.anote,d.anote0]),note:join2([row.notes,row.note,d.notes,d.note,d.dnote,d.dnote0,d.comment]),time:join2([row.start_time&&row.end_time?`${row.start_time} - ${row.end_time}`:'',d.time,d.work_time,d.start_time&&d.end_time?`${d.start_time} - ${d.end_time}`:'']),raw:d};
   }
-  function oneSchool(e){
-    return `<div class="compare-final"><h3>${safe(e.school||'مدرسة غير محددة')}</h3><div class="compare-lead"><b>متوسط التقييم:</b> ${Number(e.score||0)?Number(e.score||0).toFixed(1)+'/6':'—'}${e.visit_date?' — <b>تاريخ الزيارة:</b> '+safe(e.visit_date):''}<br>هذه القراءة تعرض المحاور التفصيلية، أثرها الإداري، وموقع الكادر المهني ضمن نتيجة المكتبة.</div>${staffPanel(e)}<h4>تفصيل محاور التقييم</h4>${axisRows(e)}</div>`;
-  }
-  function comparative(evals){
-    if(!evals||evals.length<2)return '';
-    const ranked=[...evals].filter(e=>Number(e.score||0)>0).sort((a,b)=>Number(b.score||0)-Number(a.score||0));
-    return `<div class="compare-final"><h3>التقرير المقارن الشامل بين المكتبات</h3><div class="compare-lead">هذا القسم يقارن النتائج دون الاكتفاء بالأرقام، مع مراعاة البيئة، المجموعات، التقنية، الكادر، والظروف التشغيلية لكل مكتبة.</div><div class="rank-list">${ranked.map((e,i)=>{const p=Math.round(Number(e.score||0)/6*100);return `<div class="rank-row"><div class="rank-no" style="background:#0c447c">${i+1}</div><div class="rank-name">${safe(e.school)}</div><div class="rank-track"><div class="rank-fill" style="width:${p}%;background:#0f9d8a"></div></div><div class="rank-score">${Number(e.score||0).toFixed(1)}/6</div></div>`}).join('')}</div><div class="final-decision"><h4>الخلاصة الإدارية</h4>التطوير يجب أن يكون موجهًا حسب فجوات كل مدرسة: دعم البيئة والمجموعات والتقنية، وتمكين الكادر المهني، وتوحيد نظام إدارة المكتبات والتقارير.</div></div>`;
-  }
-  function evalLong(evals,s,mode){
-    if(!evals.length)return `<h2>${safe(s.title||'تقرير تقييم المكتبات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>هذا التقرير يعرض تقييم المكتبات فقط دون خلطه مع الدوام والزيارات.</div><div class="empty">لا توجد تقييمات ضمن هذا الاختيار.</div>`;
-    if(mode==='brief'){
-      return `<h2>${safe(s.title||'تقرير تقييم المكتبات المختصر')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}</div>${typeof evalKPIs==='function'?evalKPIs(evals):''}${evalCharts(evals)}<div class="notice"><b>ملخص إداري:</b> للاطلاع على الكادر المهني والمحاور التفصيلية اختر مستوى العرض التفصيلي.</div>`;
-    }
-    return `<h2>${safe(s.title||'تقرير تقييم المكتبات التفصيلي')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>هذا هو التقرير التفصيلي الكامل: الرسومات، المحاور، الكادر المهني، القراءة الإدارية، والتوصيات.</div>${typeof evalKPIs==='function'?evalKPIs(evals):''}${evalCharts(evals)}${evals.map(oneSchool).join('')}${comparative(evals)}`;
-  }
-  function workOnly(days,s,mode){
-    let html=`<h2>${safe(s.title||'تقرير الدوام والزيارات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>هذا التقرير يعرض بيانات الدوام والزيارات فقط حسب الفترة المختارة.</div>`;
-    const visits=days.filter(d=>/زيارة|مدرسة|ميدانية/.test(String(d.type+' '+d.loc+' '+d.tasks+' '+d.note))).length;
-    html+=`<div class="grid4"><div class="kpi"><strong>${days.length}</strong><span>أيام مسجلة</span></div><div class="kpi"><strong>${visits}</strong><span>زيارات ميدانية</span></div></div>`;
-    html+= mode==='brief'?'<div class="notice"><b>ملخص إداري:</b> يعرض الدوام والزيارات دون تفاصيل التقييم.</div>':details(days,s);
-    return html;
-  }
-  window.buildReportHTML=async function(mode='full'){
-    const s=selected();
-    if(!hasSelection(s))return '<div class="empty">اختر نوع التقرير أو المدرسة أو التاريخ، ثم اضغط تحديث التقرير.</div>';
-    const evalsAll=await loadEvaluations();
-    const daysAll=await loadWorkDays();
-    const f=filterAll(evalsAll,daysAll,s);
-    if(s.type==='work')return workOnly(f.days,s,mode);
-    if(s.type==='evaluation'||s.type==='school')return evalLong(f.evals,s,mode);
-    if(s.type==='all')return `<h2>${safe(s.title||'تقرير شامل تفصيلي')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>يعرض التقرير الشامل قسمين منفصلين: تقييم المكتبات أولًا، ثم الدوام والزيارات، دون خلط بينهما.</div>${evalLong(f.evals,s,mode)}${workOnly(f.days,s,mode)}`;
-    return '<div class="empty">نوع تقرير غير معروف.</div>';
+  window.loadWorkDays=async function(){
+    let rows=[];
+    try{let c=sb2();if(c){let r=await c.from('daily_work_logs').select('*').order('work_date',{ascending:true});if(!r.error&&Array.isArray(r.data))rows=r.data}}catch(e){console.warn('work db',e)}
+    if(!rows.length){try{for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k&&k.startsWith('falah_week_'))rows.push(parseObj2(localStorage.getItem(k)))}}catch(e){}}
+    const days=[];
+    for(const row of rows){let d=parseObj2(row.full_data||row.data||{});if(!Object.keys(d).length)d=parseObj2(row.tasks)||parseObj2(row.notes)||parseObj2(row);let hasWeek=['atype0','anote0','dloc0','atype1','anote1','dloc1','wstart','week_start','wnum'].some(k=>d[k]!==undefined);if(hasWeek){for(let i=0;i<5;i++){let x=dayFromWeek(d,i,row);if(x.date)days.push(x)}}else{let x=singleDay(row);if(x.date)days.push(x)}}
+    return dedupeWorkDays(days).filter(x=>x.date&&isWork2(x.date));
   };
-  window.renderReport=async function(){const b=$('reportBody')||$('briefBody')||$('aiOutput'); if(!b)return; b.innerHTML='<div class="empty-soft">جاري إعداد التقرير التحليلي من البيانات المحفوظة...</div>'; try{b.innerHTML=await window.buildReportHTML(($('level')&&$('level').value)||'full')}catch(e){console.error(e);b.innerHTML='<div class="empty-soft">حدث خطأ أثناء إعداد التقرير: '+safe(e.message||e)+'</div>'}};
+  function dedupeWorkDays(days){
+    const map=new Map();
+    (days||[]).forEach(src=>{let d={date:iso2(src.date),name:arDay2(src.date),week:src.week||weekNo2(src.date),month:(iso2(src.date)||'').slice(5,7),type:src.type||'—',loc:src.loc||'—',tasks:src.tasks||'',note:src.note||'',time:src.time||'',raw:src.raw||{}};if(!d.date)return;let old=map.get(d.date);if(!old){map.set(d.date,d);return}old.type=join2([old.type,d.type])||old.type;old.loc=join2([old.loc,d.loc])||old.loc;old.tasks=join2([old.tasks,d.tasks]);old.note=join2([old.note,d.note]);old.time=join2([old.time,d.time]);});
+    return [...map.values()].sort((a,b)=>a.date.localeCompare(b.date));
+  }
+  window.dedupeDays=dedupeWorkDays;
+  function timesOf(d,iso){
+    const raw=String(d.time||d.work_time||d.hours||d.attendance_time||'');
+    let all=raw.match(/\d{1,2}\s*:\s*\d{2}\s*(?:AM|PM|am|pm)?/g)||[];
+    if(all.length>=2)return {in:all[0].replace(/\s+/g,' '),out:all[1].replace(/\s+/g,' ')};
+    const g=dayNo2(iso); if(g===5)return {in:'08:00 AM',out:'12:00 PM'}; return {in:'08:00 AM',out:'03:00 PM'};
+  }
+  function typeClass(t){t=String(t||'');if(t.includes('زيارة'))return 'field';if(t.includes('استئذان'))return 'excuse';if(t.includes('إجاز')||t.includes('غياب'))return 'leave';if(t.includes('عن بعد'))return 'remote';return 'official'}
+  function minOf(t){let m=String(t||'').match(/(\d{1,2})\s*:\s*(\d{2})\s*(AM|PM|am|pm)?/);if(!m)return null;let h=+m[1],mi=+m[2],ap=(m[3]||'').toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return h*60+mi}
+  function htxt(mins){mins=Math.max(0,Math.round(mins||0));return `${Math.floor(mins/60)}h ${mins%60}m`}
+  function weekRangeToday(){const today=fmt2(new Date());const start=monday2(today);return {today,start,end:add2(start,4)}}
+  function timeout(p,ms){return Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))])}
+  window.renderDirectorWeeklyAttendance=async function(){
+    const holder=document.getElementById('weekAttendanceBody'), range=document.getElementById('weekRangeLabel'), nowBox=document.getElementById('weekNowStatus');
+    if(!holder||!range||!nowBox)return;
+    const {today,start,end}=weekRangeToday(); range.textContent=`${dmy2(start)} إلى ${dmy2(end)}`; nowBox.className='week-status-now'; nowBox.textContent='جاري تحميل بيانات الحضور والانصراف لهذا الأسبوع...';
+    try{
+      const all=await timeout(window.loadWorkDays(),12000); const map=new Map((all||[]).map(d=>[d.date,d])); let rows=[],total=0,field=0,excuse=0,leave=0;
+      for(let i=0;i<5;i++){const iso=add2(start,i), r=map.get(iso)||{date:iso,type:'لا يوجد سجل محفوظ',loc:'—',tasks:'',note:''};const tm=timesOf(r,iso), cls=typeClass(r.type), inn=minOf(tm.in), out=minOf(tm.out); if(r.type!=='لا يوجد سجل محفوظ'&&cls!=='leave'&&inn!=null&&out!=null)total+=Math.max(0,out-inn); if(cls==='field')field++; if(cls==='excuse')excuse++; if(cls==='leave')leave++; rows.push({...r,iso,name:arDay2(iso),cls,cin:tm.in,cout:tm.out,today:iso===today});}
+      const tr=rows.find(x=>x.today); if(tr){nowBox.textContent=`اليوم ${tr.name}: ${tr.type} — الحضور ${tr.cin} — الانصراف ${tr.cout}`; if(tr.cls==='excuse')nowBox.className='week-status-now warn'; if(tr.cls==='leave')nowBox.className='week-status-now err';}
+      holder.innerHTML=`<div class="week-att-table-wrap"><table class="week-att-table"><thead><tr><th>اليوم</th><th>الحضور</th><th>الانصراف</th><th>نوع الدوام</th><th>الأعمال / الموقع</th></tr></thead><tbody>${rows.map(r=>`<tr class="${r.today?'week-day-today':''}"><td>${E(r.name)}<br><span class="muted">${dmy2(r.iso)}</span></td><td>${E(r.cin)}</td><td>${E(r.cout)}</td><td><span class="att-pill ${r.cls}">${E(r.type)}</span></td><td>${E(join2([r.tasks,r.note,r.loc])||'—')}</td></tr>`).join('')}</tbody></table></div><div class="week-kpis"><div class="week-kpi"><strong>${htxt(total)}</strong><span>إجمالي الساعات</span></div><div class="week-kpi"><strong>${field}</strong><span>أيام ميدانية</span></div><div class="week-kpi"><strong>${excuse}</strong><span>استئذان</span></div><div class="week-kpi"><strong>${leave}</strong><span>إجازة / غياب</span></div></div>`;
+    }catch(e){console.warn(e);nowBox.className='week-status-now err';nowBox.textContent='تعذر تحميل جدول دوام الأسبوع. تأكد من اتصال قاعدة البيانات ثم حدّث الصفحة.';holder.innerHTML='<div class="week-empty">لم يتم عرض الجدول حتى لا تبقى الصفحة معلقة على التحميل.</div>';}
+  };
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>window.renderDirectorWeeklyAttendance&&window.renderDirectorWeeklyAttendance(),700));
+  setTimeout(()=>window.renderDirectorWeeklyAttendance&&window.renderDirectorWeeklyAttendance(),1600);
 })();
 </script>
+
 </body></html>
