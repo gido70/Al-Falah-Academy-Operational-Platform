@@ -1456,4 +1456,59 @@ function renderVisualCompare(evals){
 })();
 </script>
 
+
+
+<script>
+/* === FINAL REPAIR V2: restore detailed analytical report + strict separation === */
+(function(){
+  const $=id=>document.getElementById(id);
+  const safe=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  function axisRows(e){
+    const axes=Array.isArray(e.axes)?e.axes:[];
+    if(!axes.length) return '<div class="empty">لا توجد محاور تفصيلية محفوظة لهذا التقييم.</div>';
+    return `<div class="axis-table"><table><thead><tr><th>المحور</th><th>الدرجة</th><th>القراءة الإدارية</th></tr></thead><tbody>${axes.map(a=>{const n=Number(a.score||0);let note=n>=5?'قوي ومستقر ويستحق التوثيق والتعميم.':n>=4?'جيد ويحتاج تثبيت الممارسة.':n>=3?'متوسط ويحتاج متابعة عملية.':n>0?'يحتاج دعماً مباشراً وخطة تحسين.':'لا توجد بيانات كافية.';return `<tr><td><b>${safe(a.name||a.id||'محور')}</b></td><td>${n?n.toFixed(1)+'/6':'—'}</td><td>${safe(note)}</td></tr>`}).join('')}</tbody></table></div>`;
+  }
+  function staffPanel(e){
+    const axes=Array.isArray(e.axes)?e.axes:[];
+    const staff=axes.find(a=>/كادر|أخصائي|موظف|staff/i.test(String(a.name||a.id||'')));
+    const n=Number(staff?.score||0);
+    let reading=n>=5?'الكادر المهني يمثل نقطة قوة واضحة، ويجب ربط هذه القوة بالتدريب والتوثيق ونقل الخبرة.':n>=4?'أداء الكادر جيد، ويحتاج دعماً مؤسسياً حتى لا يبقى التطوير قائمًا على اجتهاد فردي.':n>=3?'أداء الكادر متوسط، ويحتاج خطة متابعة وتدريب وربطًا أوضح بالمهام المهنية.':n>0?'محور الكادر يحتاج متابعة مباشرة وتحديد احتياجات تدريبية وتشغيلية.':'لا توجد درجة كافية لمحور الكادر المهني.';
+    return `<div class="compare-card"><h4>الكادر المهني</h4><ul><li><b>الدرجة:</b> ${n?n.toFixed(1)+'/6':'—'}</li><li><b>قراءة:</b> ${safe(reading)}</li><li><b>توجيه:</b> عدم تحميل الأخصائي مهامًا خارج اختصاص المكتبة، ودعم دوره في الفهرسة، التنظيم، الإعارة، الأنشطة، والتقارير.</li></ul></div>`;
+  }
+  function oneSchool(e){
+    return `<div class="compare-final"><h3>${safe(e.school||'مدرسة غير محددة')}</h3><div class="compare-lead"><b>متوسط التقييم:</b> ${Number(e.score||0)?Number(e.score||0).toFixed(1)+'/6':'—'}${e.visit_date?' — <b>تاريخ الزيارة:</b> '+safe(e.visit_date):''}<br>هذه القراءة تعرض المحاور التفصيلية، أثرها الإداري، وموقع الكادر المهني ضمن نتيجة المكتبة.</div>${staffPanel(e)}<h4>تفصيل محاور التقييم</h4>${axisRows(e)}</div>`;
+  }
+  function comparative(evals){
+    if(!evals||evals.length<2)return '';
+    const ranked=[...evals].filter(e=>Number(e.score||0)>0).sort((a,b)=>Number(b.score||0)-Number(a.score||0));
+    return `<div class="compare-final"><h3>التقرير المقارن الشامل بين المكتبات</h3><div class="compare-lead">هذا القسم يقارن النتائج دون الاكتفاء بالأرقام، مع مراعاة البيئة، المجموعات، التقنية، الكادر، والظروف التشغيلية لكل مكتبة.</div><div class="rank-list">${ranked.map((e,i)=>{const p=Math.round(Number(e.score||0)/6*100);return `<div class="rank-row"><div class="rank-no" style="background:#0c447c">${i+1}</div><div class="rank-name">${safe(e.school)}</div><div class="rank-track"><div class="rank-fill" style="width:${p}%;background:#0f9d8a"></div></div><div class="rank-score">${Number(e.score||0).toFixed(1)}/6</div></div>`}).join('')}</div><div class="final-decision"><h4>الخلاصة الإدارية</h4>التطوير يجب أن يكون موجهًا حسب فجوات كل مدرسة: دعم البيئة والمجموعات والتقنية، وتمكين الكادر المهني، وتوحيد نظام إدارة المكتبات والتقارير.</div></div>`;
+  }
+  function evalLong(evals,s,mode){
+    if(!evals.length)return `<h2>${safe(s.title||'تقرير تقييم المكتبات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>هذا التقرير يعرض تقييم المكتبات فقط دون خلطه مع الدوام والزيارات.</div><div class="empty">لا توجد تقييمات ضمن هذا الاختيار.</div>`;
+    if(mode==='brief'){
+      return `<h2>${safe(s.title||'تقرير تقييم المكتبات المختصر')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}</div>${typeof evalKPIs==='function'?evalKPIs(evals):''}${evalCharts(evals)}<div class="notice"><b>ملخص إداري:</b> للاطلاع على الكادر المهني والمحاور التفصيلية اختر مستوى العرض التفصيلي.</div>`;
+    }
+    return `<h2>${safe(s.title||'تقرير تقييم المكتبات التفصيلي')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>هذا هو التقرير التفصيلي الكامل: الرسومات، المحاور، الكادر المهني، القراءة الإدارية، والتوصيات.</div>${typeof evalKPIs==='function'?evalKPIs(evals):''}${evalCharts(evals)}${evals.map(oneSchool).join('')}${comparative(evals)}`;
+  }
+  function workOnly(days,s,mode){
+    let html=`<h2>${safe(s.title||'تقرير الدوام والزيارات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>هذا التقرير يعرض بيانات الدوام والزيارات فقط حسب الفترة المختارة.</div>`;
+    const visits=days.filter(d=>/زيارة|مدرسة|ميدانية/.test(String(d.type+' '+d.loc+' '+d.tasks+' '+d.note))).length;
+    html+=`<div class="grid4"><div class="kpi"><strong>${days.length}</strong><span>أيام مسجلة</span></div><div class="kpi"><strong>${visits}</strong><span>زيارات ميدانية</span></div></div>`;
+    html+= mode==='brief'?'<div class="notice"><b>ملخص إداري:</b> يعرض الدوام والزيارات دون تفاصيل التقييم.</div>':details(days,s);
+    return html;
+  }
+  window.buildReportHTML=async function(mode='full'){
+    const s=selected();
+    if(!hasSelection(s))return '<div class="empty">اختر نوع التقرير أو المدرسة أو التاريخ، ثم اضغط تحديث التقرير.</div>';
+    const evalsAll=await loadEvaluations();
+    const daysAll=await loadWorkDays();
+    const f=filterAll(evalsAll,daysAll,s);
+    if(s.type==='work')return workOnly(f.days,s,mode);
+    if(s.type==='evaluation'||s.type==='school')return evalLong(f.evals,s,mode);
+    if(s.type==='all')return `<h2>${safe(s.title||'تقرير شامل تفصيلي')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>يعرض التقرير الشامل قسمين منفصلين: تقييم المكتبات أولًا، ثم الدوام والزيارات، دون خلط بينهما.</div>${evalLong(f.evals,s,mode)}${workOnly(f.days,s,mode)}`;
+    return '<div class="empty">نوع تقرير غير معروف.</div>';
+  };
+  window.renderReport=async function(){const b=$('reportBody')||$('briefBody')||$('aiOutput'); if(!b)return; b.innerHTML='<div class="empty-soft">جاري إعداد التقرير التحليلي من البيانات المحفوظة...</div>'; try{b.innerHTML=await window.buildReportHTML(($('level')&&$('level').value)||'full')}catch(e){console.error(e);b.innerHTML='<div class="empty-soft">حدث خطأ أثناء إعداد التقرير: '+safe(e.message||e)+'</div>'}};
+})();
+</script>
 </body></html>
