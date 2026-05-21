@@ -1432,6 +1432,13 @@ function renderVisualCompare(evals){
     const f=filterAll(evalsAll,daysAll,s);
     const m=metrics(f.evals,f.days);
     if(s.type==='work') return buildWorkOnly(f.days,s,mode);
+    /*
+      مهم: لا نختصر التقرير التفصيلي الطويل.
+      عند اختيار تقييم المكتبات أو تقرير مدرسة أو تقرير شامل بمستوى "تفصيلي"،
+      نعيد استخدام محرك التقرير التحليلي الاستشاري الأصلي كما هو، حتى تبقى
+      محاور الكادر المهني والرسوم البيانية والتحليل الكامل دون حذف.
+    */
+    if((s.type==='evaluation' || s.type==='school' || s.type==='all') && mode!=='brief' && oldBuild) return oldBuild(mode);
     if(s.type==='evaluation' || s.type==='school') return buildEvalOnly(f.evals,s,mode);
     if(s.type==='all') return `<h2>${safe(s.title||'تقرير شامل')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>يعرض التقرير الشامل قسمين منفصلين: تقييم المكتبات، ثم الدوام والزيارات، دون خلط بينهما.</div>${kpis(m)}${buildEvalOnly(f.evals,s,mode)}${buildWorkOnly(f.days,s,mode)}`;
     return oldBuild?oldBuild(mode):'<div class="empty">نوع تقرير غير معروف.</div>';
