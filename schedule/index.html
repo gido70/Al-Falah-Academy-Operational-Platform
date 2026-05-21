@@ -406,6 +406,7 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
 .save-db-strong{background:linear-gradient(135deg,#0d3b6e,#0e7f70)!important;color:#fff!important;border:2px solid rgba(255,255,255,.3)!important;font-weight:900!important}
 
 </style>
+<!-- safe-save-by-week-start-2026-05-22 -->
 </head>
 <body><a class="alfalah-fixed-home" href="../index.html">🏠 الرئيسية</a>
 <a class="platform-home-btn" href="../index.html">🏠 الرئيسية</a>
@@ -1281,11 +1282,11 @@ var ScheduleImportPreview = (function(){
     if(!d) throw new Error("لا توجد بيانات للحفظ.");
     var sb = window.alfalahSupabase || (window.AlfalahDBSync && window.AlfalahDBSync.client && window.AlfalahDBSync.client()) || null;
     if(!sb) throw new Error("لم يتم الاتصال بـ Supabase. تأكد من ملف supabase-config.js.");
-    var wn = parseInt(String(d.wnum||d.week_number||"").replace(/[^0-9]/g,""),10);
-    if(!wn) throw new Error("رقم الأسبوع غير موجود داخل الملف.");
+    var wn = parseInt(String(d.wnum||d.week_number||"").replace(/[^0-9]/g,""),10) || null;
     var now = new Date().toISOString();
     var weekStart = d.wstart || d.work_date || null;
-    var weekTitle = d.week_title || ("الأسبوع رقم "+wn);
+    if(!weekStart) throw new Error("تاريخ بداية الأسبوع غير موجود داخل الملف.");
+    var weekTitle = d.week_title || ("أسبوع " + weekStart + (d.wend ? " إلى " + d.wend : ""));
     d.week_number = wn;
     d.week_title = weekTitle;
     d.work_date = weekStart;
@@ -1302,30 +1303,25 @@ var ScheduleImportPreview = (function(){
       updated_at: now
     };
     // جرّب upsert أولاً
-    var res = await sb.from("daily_work_logs")
-      .upsert(payload, {onConflict:"week_number"})
-      .select();
-    // إذا فشل (constraint غير موجود)، جرّب insert أو update
-    if(res.error){
-      // تحقق إذا كان الصف موجوداً
-      var existing = await sb.from("daily_work_logs")
-        .select("id").eq("week_number", wn).maybeSingle();
-      if(existing.data && existing.data.id){
-        // موجود → update
-        var upd = await sb.from("daily_work_logs")
-          .update(payload).eq("week_number", wn).select();
-        if(upd.error) throw upd.error;
-        res = upd;
-      } else {
-        // غير موجود → insert
-        var ins = await sb.from("daily_work_logs")
-          .insert(payload).select();
-        if(ins.error) throw ins.error;
-        res = ins;
-      }
+    // حفظ آمن: لا نعتمد على رقم الأسبوع لأنه يتكرر كل شهر.
+    // نبحث عن نفس بداية الأسبوع فقط؛ إن وجد نحدّثه، وإلا نضيف سجلاً جديداً.
+    var existing = await sb.from("daily_work_logs")
+      .select("id")
+      .eq("work_date", weekStart)
+      .order("created_at", {ascending:false})
+      .limit(1);
+    if(existing.error) throw existing.error;
+    var res;
+    if(existing.data && existing.data.length && existing.data[0].id){
+      res = await sb.from("daily_work_logs")
+        .update(payload).eq("id", existing.data[0].id).select();
+    }else{
+      res = await sb.from("daily_work_logs")
+        .insert(payload).select();
     }
+    if(res.error) throw res.error;
     if(res.data && res.data[0] && res.data[0].id) d._db_id = res.data[0].id;
-    localStorage.setItem("falah_week_"+wn, JSON.stringify(d));
+    localStorage.setItem("falah_week_"+(weekStart||wn), JSON.stringify(d));
     localStorage.setItem("falah_wp_final", JSON.stringify(d));
     return res.data && res.data[0];
   }
@@ -2470,7 +2466,8 @@ var WKM=(function(){
     var d=getFormData();
     var wn=(d.wnum||'').toString().replace(/[^0-9]/g,'');
     if(!wn){_toast('⚠️ اختر بداية الأسبوع من التقويم أولاً', '#b8860b');return false;}
-    var k=PFX+wn;
+    var weekStart=(d.wstart||d.work_date||'').toString().slice(0,10);
+    var k=PFX+(weekStart||wn);
     d._savedAt=new Date().toISOString();
     d._savedAtAr=new Date().toLocaleString('ar-AE');
     localStorage.setItem(k,JSON.stringify(d));
@@ -2966,9 +2963,16 @@ else{setTimeout(WKM.init,600);}
       full_data:d,
       updated_at:now
     };
-    var res=await client.from('daily_work_logs').upsert(payload,{onConflict:'week_number'}).select();
+    var existing=await client.from('daily_work_logs').select('id').eq('work_date', d.work_date).order('created_at',{ascending:false}).limit(1);
+    if(existing.error) throw existing.error;
+    var res;
+    if(existing.data && existing.data.length && existing.data[0].id){
+      res=await client.from('daily_work_logs').update(payload).eq('id', existing.data[0].id).select();
+    }else{
+      res=await client.from('daily_work_logs').insert(payload).select();
+    }
     if(res.error) throw res.error;
-    try{ localStorage.setItem('falah_week_'+wn, JSON.stringify(d)); localStorage.setItem('falah_wp_final', JSON.stringify(d)); }catch(e){}
+    try{ localStorage.setItem('falah_week_'+(d.work_date||wn), JSON.stringify(d)); localStorage.setItem('falah_wp_final', JSON.stringify(d)); }catch(e){}
     return res.data && res.data[0];
   }
 
@@ -3179,18 +3183,17 @@ else{setTimeout(WKM.init,600);}
   async function robustSaveToDatabase(raw){
     var d = raw || (typeof window.getFormData === 'function' ? window.getFormData() : {});
     if(!d || typeof d !== 'object') throw new Error('لا توجد بيانات صالحة للحفظ.');
-    var wn = resolveWeekNumber(d);
-    if(!wn) throw new Error('رقم الأسبوع غير موجود. اختر بداية الأسبوع أولاً أو تأكد من ظهور رقم الأسبوع.');
-    d.wnum = String(wn);
-    d.week_number = wn;
+    var wn = resolveWeekNumber(d) || null;
 
     var now = new Date().toISOString();
     var weekStart = d.wstart || d.work_date || ((document.getElementById('wstart')||{}).value) || null;
     var weekEnd   = d.wend || ((document.getElementById('wend')||{}).value) || null;
+    if(!weekStart) throw new Error('تاريخ بداية الأسبوع غير موجود. اختر بداية الأسبوع أولاً.');
+    if(wn){ d.wnum = String(wn); d.week_number = wn; }
     d.wstart = d.wstart || weekStart || '';
     d.wend = d.wend || weekEnd || '';
     d.work_date = weekStart || d.work_date || null;
-    d.week_title = d.week_title || ('الأسبوع رقم ' + wn);
+    d.week_title = d.week_title || ('أسبوع ' + weekStart + (weekEnd ? ' إلى ' + weekEnd : ''));
     d.updated_at = now;
     d._savedAt = now;
     d._savedAtAr = new Date(now).toLocaleString('ar-AE');
@@ -3209,19 +3212,21 @@ else{setTimeout(WKM.init,600);}
     var client = getClient();
     if(!client) throw new Error('لم يتم الاتصال بقاعدة البيانات Supabase.');
 
-    // لا نعتمد على upsert فقط، لأن بعض الجداول لا يكون عليها unique constraint.
+    // حفظ آمن نهائي: رقم الأسبوع يتكرر بين الشهور، لذلك لا يستخدم كمفتاح حفظ.
+    // المفتاح الحقيقي هنا هو تاريخ بداية الأسبوع work_date / wstart.
     var existing = await client.from('daily_work_logs')
       .select('id')
-      .eq('week_number', wn)
-      .maybeSingle();
+      .eq('work_date', weekStart)
+      .order('created_at', {ascending:false})
+      .limit(1);
 
-    if(existing.error && existing.error.code !== 'PGRST116') throw existing.error;
+    if(existing.error) throw existing.error;
 
     var res;
-    if(existing.data && existing.data.id){
+    if(existing.data && existing.data.length && existing.data[0].id){
       res = await client.from('daily_work_logs')
         .update(payload)
-        .eq('id', existing.data.id)
+        .eq('id', existing.data[0].id)
         .select();
     }else{
       res = await client.from('daily_work_logs')
@@ -3229,21 +3234,13 @@ else{setTimeout(WKM.init,600);}
         .select();
     }
 
-    if(res.error){
-      // محاولة أخيرة: تحديث بالرقم مباشرة إذا رفض الإدخال لأي سبب.
-      var upd = await client.from('daily_work_logs')
-        .update(payload)
-        .eq('week_number', wn)
-        .select();
-      if(upd.error) throw res.error;
-      res = upd;
-    }
+    if(res.error) throw res.error;
 
     if(res.data && res.data[0] && res.data[0].id){
       d._db_id = res.data[0].id;
     }
     try{
-      localStorage.setItem('falah_week_' + wn, JSON.stringify(d));
+      localStorage.setItem('falah_week_' + (weekStart || wn), JSON.stringify(d));
       localStorage.setItem('falah_wp_final', JSON.stringify(d));
     }catch(e){}
     return res.data && res.data[0];
@@ -3264,13 +3261,13 @@ else{setTimeout(WKM.init,600);}
     try{
       if(typeof alignWeekRange === 'function') alignWeekRange();
       var d = window.getFormData ? window.getFormData() : {};
-      var wn = resolveWeekNumber(d);
-      if(!wn){
-        toastSafe('⚠️ اختر بداية الأسبوع أولاً حتى يظهر رقم الأسبوع', '#b8860b');
+      var weekStart = (d.wstart || d.work_date || ((document.getElementById('wstart')||{}).value) || '').toString().slice(0,10);
+      if(!weekStart){
+        toastSafe('⚠️ اختر بداية الأسبوع أولاً', '#b8860b');
         return;
       }
       await robustSaveToDatabase(d);
-      toastSafe('💾 تم حفظ الأسبوع رقم ' + wn + ' في قاعدة البيانات', '#0e7f70');
+      toastSafe('💾 تم حفظ أسبوع ' + weekStart + ' في قاعدة البيانات', '#0e7f70');
     }catch(err){
       console.error('Robust week save failed:', err);
       toastSafe('❌ فشل الحفظ: ' + (err.message || err), '#991b1b');
