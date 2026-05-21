@@ -1391,4 +1391,69 @@ function renderVisualCompare(evals){
     </div>`).join('')}
   </div>`;
 }
-</script></body></html>
+</script>
+<script>
+/* === STABLE FINAL PATCH: strict report type separation + email draft helper === */
+(function(){
+  function $(id){return document.getElementById(id)}
+  function safe(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  function reportSchoolLabel(s){
+    try{return (s.schools&&s.schools.length)?schoolScopeText(s.schools):'كل المدارس'}catch(e){return 'كل المدارس'}
+  }
+  function workKPIs(days){
+    const visits=days.filter(d=>/زيارة|مدرسة|ميدانية/.test(String(d.type+' '+d.loc+' '+d.tasks+' '+d.note))).length;
+    const excuses=days.filter(d=>/استئذان|خاص/.test(String(d.type+' '+d.note))).length;
+    const weeks=(typeof groupWeeks==='function'?groupWeeks(days).length:0);
+    return `<div class="grid4"><div class="kpi"><strong>${days.length}</strong><span>أيام مسجلة</span></div><div class="kpi"><strong>${visits}</strong><span>زيارات ميدانية</span></div><div class="kpi"><strong>${excuses}</strong><span>استئذان/خروج مبكر</span></div><div class="kpi"><strong>${weeks}</strong><span>أسابيع عمل</span></div></div>`;
+  }
+  function evalKPIs(evals){
+    const avg=evals.length?evals.reduce((a,e)=>a+Number(e.score||0),0)/evals.length:0;
+    const best=[...evals].sort((a,b)=>Number(b.score||0)-Number(a.score||0))[0];
+    const weak=[...evals].filter(e=>Number(e.score||0)>0).sort((a,b)=>Number(a.score||0)-Number(b.score||0))[0];
+    return `<div class="grid4"><div class="kpi"><strong>${evals.length}</strong><span>تقييمات</span></div><div class="kpi"><strong>${avg?avg.toFixed(1)+'/6':'—'}</strong><span>متوسط الأداء</span></div><div class="kpi"><strong>${safe(best?.school||'—')}</strong><span>أفضل أداء</span></div><div class="kpi"><strong>${safe(weak?.school||'—')}</strong><span>أولوية متابعة</span></div></div>`;
+  }
+  function buildWorkOnly(days,s,mode){
+    const typeItems=Object.entries(days.reduce((o,d)=>{const k=d.type||'غير محدد'; o[k]=(o[k]||0)+1; return o;},{})).map(([label,value])=>({label,value,pct:days.length?value/days.length*100:0}));
+    let html=`<h2>${safe(s.title||'تقرير الدوام والزيارات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>${s.note?'<b>ملاحظة:</b> '+safe(s.note):'هذا التقرير يعرض بيانات الدوام والزيارات فقط حسب الفترة المختارة.'}</div>${workKPIs(days)}<div class="grid">${bars('توزيع نوع العمل',typeItems)}${bars('مؤشرات العمل الميداني',[{label:'زيارات ميدانية',value:typeItems.filter(x=>/زيارة|ميدانية/.test(x.label)).reduce((a,b)=>a+b.value,0),pct:days.length?typeItems.filter(x=>/زيارة|ميدانية/.test(x.label)).reduce((a,b)=>a+b.value,0)/days.length*100:0},{label:'استئذانات/خروج مبكر',value:typeItems.filter(x=>/استئذان|خاص/.test(x.label)).reduce((a,b)=>a+b.value,0),pct:days.length?typeItems.filter(x=>/استئذان|خاص/.test(x.label)).reduce((a,b)=>a+b.value,0)/days.length*100:0}])}</div>`;
+    html+= mode==='brief'?'<div class="notice"><b>ملخص إداري:</b> يعرض هذا القسم ملخص الدوام والزيارات دون إظهار تفاصيل التقييمات.</div>':details(days,s);
+    return html;
+  }
+  function buildEvalOnly(evals,s,mode){
+    let html=`<h2>${safe(s.title||'تقرير تقييم المكتبات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>${s.note?'<b>ملاحظة:</b> '+safe(s.note):'هذا التقرير يعرض تقييم المكتبات فقط دون خلطه مع الدوام والزيارات.'}</div>${evalKPIs(evals)}`;
+    if(!evals.length) return html+'<div class="empty">لا توجد تقييمات ضمن هذا الاختيار.</div>';
+    html+= mode==='brief'?`<div class="grid">${bars('مقارنة مختصرة بين المدارس',Object.entries(evals.reduce((o,e)=>{(o[e.school]??=[]).push(e.score);return o},{})).map(([k,a])=>{let v=a.reduce((x,y)=>x+y,0)/a.length;return{label:k,value:v.toFixed(1),pct:v/6*100}}))}</div><div class="notice"><b>ملخص إداري:</b> للاطلاع على المحاور والأثر والتوصيات اختر مستوى العرض التفصيلي.</div>`:evalCharts(evals);
+    return html;
+  }
+  const oldBuild=window.buildReportHTML;
+  window.buildReportHTML=async function(mode='full'){
+    const s=selected();
+    if(!hasSelection(s))return '<div class="empty">اختر نوع التقرير أو المدرسة أو التاريخ، ثم اضغط تحديث التقرير.</div>';
+    const evalsAll=await loadEvaluations(), daysAll=await loadWorkDays();
+    const f=filterAll(evalsAll,daysAll,s);
+    const m=metrics(f.evals,f.days);
+    if(s.type==='work') return buildWorkOnly(f.days,s,mode);
+    if(s.type==='evaluation' || s.type==='school') return buildEvalOnly(f.evals,s,mode);
+    if(s.type==='all') return `<h2>${safe(s.title||'تقرير شامل')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>يعرض التقرير الشامل قسمين منفصلين: تقييم المكتبات، ثم الدوام والزيارات، دون خلط بينهما.</div>${kpis(m)}${buildEvalOnly(f.evals,s,mode)}${buildWorkOnly(f.days,s,mode)}`;
+    return oldBuild?oldBuild(mode):'<div class="empty">نوع تقرير غير معروف.</div>';
+  };
+  window.copyDirectorEmailDraft=function(){
+    const b=$('reportBody'); const txt=(b?.innerText||'').trim();
+    if(!txt || txt.includes('اختر')){alert('اعرض التقرير أولًا، ثم أنشئ صياغة الإيميل.');return;}
+    const s=selected();
+    const subject=`تقرير متابعة مكتبات أكاديمية الفلاح - ${scopeText(s)}`;
+    const body=`سعادة المدير/ة المحترم/ة،\n\nأرفق لكم ملخص التقرير التالي:\n${scopeText(s)}\n\nأبرز ما ورد في التقرير:\n${txt.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,12).join('\n')}\n\nيرجى الاطلاع والتوجيه بما ترونه مناسبًا.\n\nمع خالص التقدير.`;
+    navigator.clipboard?.writeText(`الموضوع: ${subject}\n\n${body}`).then(()=>alert('تم نسخ صياغة الإيميل.')).catch(()=>{const ta=document.createElement('textarea');ta.value=`الموضوع: ${subject}\n\n${body}`;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();alert('تم نسخ صياغة الإيميل.');});
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    const actions=document.querySelector('.builder .actions');
+    if(actions && !document.getElementById('emailDraftBtn')){
+      const btn=document.createElement('button');
+      btn.id='emailDraftBtn'; btn.className='btn outline'; btn.type='button'; btn.textContent='📧 صياغة إيميل للإدارة';
+      btn.onclick=window.copyDirectorEmailDraft;
+      actions.appendChild(btn);
+    }
+  });
+})();
+</script>
+
+</body></html>
