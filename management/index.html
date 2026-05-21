@@ -628,13 +628,20 @@ if(r && n) r.value=n;
 </script>
 
 
+
+
 <script>
-/* === FINAL SAFETY PATCH: stable tabs + reports-only attendance sync === */
+/* === FINAL STABLE PATCH: tabs + attendance only in detailed reports + selected period sync === */
 (function(){
   function byId(id){return document.getElementById(id)}
+  function isReportsActive(){return byId('reports') && byId('reports').classList.contains('active')}
   window.setTab=function(tab){
-    document.querySelectorAll('.section').forEach(function(sec){sec.classList.toggle('active', sec.id===tab)});
-    document.querySelectorAll('.nav button').forEach(function(btn){btn.classList.toggle('active', btn.getAttribute('data-tab')===tab)});
+    document.querySelectorAll('.section').forEach(function(sec){
+      sec.classList.toggle('active', sec.id===tab);
+    });
+    document.querySelectorAll('.nav button').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-tab')===tab);
+    });
     if(tab==='reports' && typeof window.loadDirectorWeeklyAttendance==='function'){
       setTimeout(function(){ window.loadDirectorWeeklyAttendance(window.__selectedAttendanceRange ? window.__selectedAttendanceRange() : undefined); }, 80);
     }
@@ -653,12 +660,23 @@ if(r && n) r.value=n;
     var now=iso(monday(new Date())); return {start:now,end:add(now,4)};
   };
   function wire(){
-    document.querySelectorAll('.nav button').forEach(function(btn){btn.onclick=function(){window.setTab(btn.getAttribute('data-tab'))}});
+    document.querySelectorAll('.nav button').forEach(function(btn){
+      btn.onclick=function(){window.setTab(btn.getAttribute('data-tab'))};
+    });
     ['periodType','day','weekFrom','weekTo','from','to','month'].forEach(function(id){
-      var el=byId(id); if(el && !el.dataset.attendanceWire){el.dataset.attendanceWire='1'; el.addEventListener('change',function(){ if(byId('reports')?.classList.contains('active') && typeof window.loadDirectorWeeklyAttendance==='function') window.loadDirectorWeeklyAttendance(window.__selectedAttendanceRange()); });}
+      var el=byId(id);
+      if(el && !el.dataset.attendanceWire){
+        el.dataset.attendanceWire='1';
+        el.addEventListener('change',function(){
+          if(isReportsActive() && typeof window.loadDirectorWeeklyAttendance==='function'){
+            window.loadDirectorWeeklyAttendance(window.__selectedAttendanceRange());
+          }
+        });
+      }
     });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',wire); else wire();
 })();
 </script>
+
 </body></html>
