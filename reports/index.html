@@ -300,7 +300,8 @@ label{display:block;font-weight:900;color:var(--navy);margin-bottom:6px;font-siz
 @media print{.presentation-panel{display:none!important}}
 
 </style>
-</head><body><a class="home" href="../index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="../assets/logo.png" alt="شعار أكاديمية الفلاح" onerror="this.style.display='none'"><h1>التقرير التحليلي النهائي</h1><p>مركز التحليل الداخلي: التقييمات، الدوام، الزيارات، الأيام، الأسابيع، والشهور.</p></section><section class="card builder"><h2>خيارات التقرير التحليلي</h2><div class="grid3"><div><label>نوع التقرير</label><select id="type"><option value="">— بدون تحديد —</option><option value="all">تقرير شامل</option><option value="evaluation">تقييم المكتبات</option><option value="work">الدوام والزيارات</option><option value="school">مدرسة محددة</option><option value="special">موضوع خاص</option></select></div><div><label>المدرسة / المدارس</label><div class="multi" id="schoolPicker"><button type="button" class="multi-btn" onclick="toggleSchoolPicker(event)"><span id="schoolPickerText">— بدون تحديد —</span></button><div class="multi-panel" id="schoolPanel"><label><input type="checkbox" value="all" onchange="updateSchoolPicker()"> كل المدارس</label><label><input type="checkbox" value="khb" onchange="updateSchoolPicker()"> الخبيصي</label><label><input type="checkbox" value="jmi" onchange="updateSchoolPicker()"> الجيمي</label><label><input type="checkbox" value="shj" onchange="updateSchoolPicker()"> الشارقة</label><label><input type="checkbox" value="bny" onchange="updateSchoolPicker()"> بني ياس</label><label><input type="checkbox" value="mzd" onchange="updateSchoolPicker()"> محمد بن زايد</label><label><input type="checkbox" value="dan" onchange="updateSchoolPicker()"> الدانة</label></div></div><div class="hint">القائمة لا تبقى مفتوحة، ويمكن اختيار أكثر من مدرسة.</div></div><div><label>الشهر</label><select id="month"><option value="">— بدون تحديد —</option><option value="04">أبريل</option><option value="05">مايو</option><option value="06">يونيو</option><option value="07">يوليو</option><option value="08">أغسطس</option><option value="09">سبتمبر</option><option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option></select></div><div><label>بداية أسبوع العمل</label><input id="weekFrom" type="date"><div class="hint">اختر يوم الاثنين لبداية الأسبوع.</div></div><div><label>نهاية أسبوع العمل</label><input id="weekTo" type="date"><div class="hint">اختر يوم الجمعة لنهاية الأسبوع.</div></div><div><label>يوم محدد</label><input id="day" type="date"><div class="hint">إذا اخترت يومًا محددًا سيعرض هذا اليوم فقط.</div></div><div><label>من تاريخ</label><input id="from" type="date"></div><div><label>إلى تاريخ</label><input id="to" type="date"></div><div><label>مستوى العرض</label><select id="level"><option value="full">تفصيلي</option><option value="medium">متوسط</option><option value="brief">مختصر</option></select></div><div><label>عنوان خاص اختياري</label><input id="title" placeholder="مثال: تقرير شهر مايو"></div><div><label>ملاحظة تحليلية</label><input id="note" placeholder="مثال: التركيز على الزيارات"></div></div><div class="actions"><button class="btn teal" onclick="renderReport()">🔄 تحديث التقرير</button><button class="btn gold" onclick="exportExecutivePDF()">📄 تصدير PDF للإدارة</button><button class="btn outline" onclick="preparePresentationDeck()">🎞️ إنشاء عرض تقديمي</button><button class="btn outline" onclick="copyReportText()">📋 نسخ نص التقرير</button></div></section><section id="reportBody" class="card"><div class="empty">اختر الفلاتر ثم اضغط تحديث التقرير.</div></section><section id="presentationPanel" class="presentation-panel no-print"><h2>🎞️ تجهيز عرض تقديمي من التقرير الحالي</h2><div class="smart"><b>طريقة الاستخدام:</b> اضغط أولًا تصدير PDF للإدارة واحفظ التقرير، ثم انسخ النص أدناه، وافتح أداة العروض، وارفع ملف PDF المحفوظ كمصدر لإنشاء العرض.</div><textarea id="presentationPrompt" readonly></textarea><div class="actions"><button class="btn teal" onclick="copyPresentationPrompt()">📋 نسخ تعليمات العرض</button><button class="btn gold" onclick="openNotebookTool()">🎞️ فتح أداة العروض</button><button class="btn outline" onclick="exportExecutivePDF()">📄 تصدير PDF للإدارة</button></div><div class="presentation-tools-note">هذا المسار يحافظ على جودة التقرير ورسومه: التقرير التحليلي ← PDF ← أداة العروض ← عرض تقديمي متناسق مع هوية أكاديمية الفلاح.</div></section></div>
+<!-- restored-rich-report-final-2026-05-21 -->
+</head><body><a class="home" href="../index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="../assets/logo.png" alt="شعار أكاديمية الفلاح" onerror="this.style.display='none'"><h1>التقرير التحليلي النهائي</h1><p>مركز التحليل الداخلي: التقييمات، الدوام، الزيارات، الأيام، الأسابيع، والشهور.</p></section><section class="card builder"><h2>خيارات التقرير التحليلي</h2><div class="grid3"><div><label>نوع التقرير</label><select id="type"><option value="">— بدون تحديد —</option><option value="all">تقرير شامل</option><option value="evaluation">تقييم المكتبات</option><option value="work">الدوام والزيارات</option><option value="school">مدرسة محددة</option><option value="special">موضوع خاص</option></select></div><div><label>المدرسة / المدارس</label><div class="multi" id="schoolPicker"><button type="button" class="multi-btn" onclick="toggleSchoolPicker(event)"><span id="schoolPickerText">— بدون تحديد —</span></button><div class="multi-panel" id="schoolPanel"><label><input type="checkbox" value="all" onchange="updateSchoolPicker()"> كل المدارس</label><label><input type="checkbox" value="khb" onchange="updateSchoolPicker()"> الخبيصي</label><label><input type="checkbox" value="jmi" onchange="updateSchoolPicker()"> الجيمي</label><label><input type="checkbox" value="shj" onchange="updateSchoolPicker()"> الشارقة</label><label><input type="checkbox" value="bny" onchange="updateSchoolPicker()"> بني ياس</label><label><input type="checkbox" value="mzd" onchange="updateSchoolPicker()"> محمد بن زايد</label><label><input type="checkbox" value="dan" onchange="updateSchoolPicker()"> الدانة</label></div></div><div class="hint">القائمة لا تبقى مفتوحة، ويمكن اختيار أكثر من مدرسة.</div></div><div><label>الشهر</label><select id="month"><option value="">— بدون تحديد —</option><option value="04">أبريل</option><option value="05">مايو</option><option value="06">يونيو</option><option value="07">يوليو</option><option value="08">أغسطس</option><option value="09">سبتمبر</option><option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option></select></div><div><label>بداية أسبوع العمل</label><input id="weekFrom" type="date"><div class="hint">اختر يوم الاثنين لبداية الأسبوع.</div></div><div><label>نهاية أسبوع العمل</label><input id="weekTo" type="date"><div class="hint">اختر يوم الجمعة لنهاية الأسبوع.</div></div><div><label>يوم محدد</label><input id="day" type="date"><div class="hint">إذا اخترت يومًا محددًا سيعرض هذا اليوم فقط.</div></div><div><label>من تاريخ</label><input id="from" type="date"></div><div><label>إلى تاريخ</label><input id="to" type="date"></div><div><label>مستوى العرض</label><select id="level"><option value="full">شامل / تفصيلي كامل</option><option value="medium">تنفيذي متوسط</option><option value="brief">مختصر</option></select></div><div><label>عنوان خاص اختياري</label><input id="title" placeholder="مثال: تقرير شهر مايو"></div><div><label>ملاحظة تحليلية</label><input id="note" placeholder="مثال: التركيز على الزيارات"></div></div><div class="actions"><button class="btn teal" onclick="renderReport()">🔄 تحديث التقرير</button><button class="btn gold" onclick="exportExecutivePDF()">📄 تصدير PDF للإدارة</button><button class="btn outline" onclick="preparePresentationDeck()">🎞️ إنشاء عرض تقديمي</button><button class="btn outline" onclick="copyReportText()">📋 نسخ نص التقرير</button></div></section><section id="reportBody" class="card"><div class="empty">اختر الفلاتر ثم اضغط تحديث التقرير.</div></section><section id="presentationPanel" class="presentation-panel no-print"><h2>🎞️ تجهيز عرض تقديمي من التقرير الحالي</h2><div class="smart"><b>طريقة الاستخدام:</b> اضغط أولًا تصدير PDF للإدارة واحفظ التقرير، ثم انسخ النص أدناه، وافتح أداة العروض، وارفع ملف PDF المحفوظ كمصدر لإنشاء العرض.</div><textarea id="presentationPrompt" readonly></textarea><div class="actions"><button class="btn teal" onclick="copyPresentationPrompt()">📋 نسخ تعليمات العرض</button><button class="btn gold" onclick="openNotebookTool()">🎞️ فتح أداة العروض</button><button class="btn outline" onclick="exportExecutivePDF()">📄 تصدير PDF للإدارة</button></div><div class="presentation-tools-note">هذا المسار يحافظ على جودة التقرير ورسومه: التقرير التحليلي ← PDF ← أداة العروض ← عرض تقديمي متناسق مع هوية أكاديمية الفلاح.</div></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=20260511final"></script>
 <script src="../supabase-config.js?v=20260511final"></script>
 <script>
@@ -392,7 +393,7 @@ function selectedLabelForPresentation(){
     const level=document.getElementById('level')?.selectedOptions?.[0]?.textContent?.trim()||'';
     const month=document.getElementById('month')?.selectedOptions?.[0]?.textContent?.trim()||'';
     const title=document.getElementById('title')?.value?.trim()||'';
-    const schools=(typeof getSelectedSchools==='function'?getSelectedSchools():[]).map(s=> (typeof schoolName==='function'?schoolName(s):s)).join('، ');
+    const schools=(typeof getSelectedSchools==='function'?getSelectedSchools():(typeof getSchoolChecks==='function'?getSchoolChecks().filter(c=>c.checked).map(c=>c.value):[])).map(s=> (typeof schoolName==='function'?schoolName(s):(SCHOOL_NAMES&&SCHOOL_NAMES[s]||s))).join('، ');
     const weekFrom=document.getElementById('weekFrom')?.value||'';
     const weekTo=document.getElementById('weekTo')?.value||'';
     const day=document.getElementById('day')?.value||'';
@@ -1391,149 +1392,4 @@ function renderVisualCompare(evals){
     </div>`).join('')}
   </div>`;
 }
-</script>
-<script>
-/* === STABLE FINAL PATCH: strict report type separation + email draft helper === */
-(function(){
-  function $(id){return document.getElementById(id)}
-  function safe(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-  function reportSchoolLabel(s){
-    try{return (s.schools&&s.schools.length)?schoolScopeText(s.schools):'كل المدارس'}catch(e){return 'كل المدارس'}
-  }
-  function workKPIs(days){
-    const visits=days.filter(d=>/زيارة|مدرسة|ميدانية/.test(String(d.type+' '+d.loc+' '+d.tasks+' '+d.note))).length;
-    const excuses=days.filter(d=>/استئذان|خاص/.test(String(d.type+' '+d.note))).length;
-    const weeks=(typeof groupWeeks==='function'?groupWeeks(days).length:0);
-    return `<div class="grid4"><div class="kpi"><strong>${days.length}</strong><span>أيام مسجلة</span></div><div class="kpi"><strong>${visits}</strong><span>زيارات ميدانية</span></div><div class="kpi"><strong>${excuses}</strong><span>استئذان/خروج مبكر</span></div><div class="kpi"><strong>${weeks}</strong><span>أسابيع عمل</span></div></div>`;
-  }
-  function evalKPIs(evals){
-    const avg=evals.length?evals.reduce((a,e)=>a+Number(e.score||0),0)/evals.length:0;
-    const best=[...evals].sort((a,b)=>Number(b.score||0)-Number(a.score||0))[0];
-    const weak=[...evals].filter(e=>Number(e.score||0)>0).sort((a,b)=>Number(a.score||0)-Number(b.score||0))[0];
-    return `<div class="grid4"><div class="kpi"><strong>${evals.length}</strong><span>تقييمات</span></div><div class="kpi"><strong>${avg?avg.toFixed(1)+'/6':'—'}</strong><span>متوسط الأداء</span></div><div class="kpi"><strong>${safe(best?.school||'—')}</strong><span>أفضل أداء</span></div><div class="kpi"><strong>${safe(weak?.school||'—')}</strong><span>أولوية متابعة</span></div></div>`;
-  }
-  function buildWorkOnly(days,s,mode){
-    const typeItems=Object.entries(days.reduce((o,d)=>{const k=d.type||'غير محدد'; o[k]=(o[k]||0)+1; return o;},{})).map(([label,value])=>({label,value,pct:days.length?value/days.length*100:0}));
-    let html=`<h2>${safe(s.title||'تقرير الدوام والزيارات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>${s.note?'<b>ملاحظة:</b> '+safe(s.note):'هذا التقرير يعرض بيانات الدوام والزيارات فقط حسب الفترة المختارة.'}</div>${workKPIs(days)}<div class="grid">${bars('توزيع نوع العمل',typeItems)}${bars('مؤشرات العمل الميداني',[{label:'زيارات ميدانية',value:typeItems.filter(x=>/زيارة|ميدانية/.test(x.label)).reduce((a,b)=>a+b.value,0),pct:days.length?typeItems.filter(x=>/زيارة|ميدانية/.test(x.label)).reduce((a,b)=>a+b.value,0)/days.length*100:0},{label:'استئذانات/خروج مبكر',value:typeItems.filter(x=>/استئذان|خاص/.test(x.label)).reduce((a,b)=>a+b.value,0),pct:days.length?typeItems.filter(x=>/استئذان|خاص/.test(x.label)).reduce((a,b)=>a+b.value,0)/days.length*100:0}])}</div>`;
-    html+= mode==='brief'?'<div class="notice"><b>ملخص إداري:</b> يعرض هذا القسم ملخص الدوام والزيارات دون إظهار تفاصيل التقييمات.</div>':details(days,s);
-    return html;
-  }
-  function buildEvalOnly(evals,s,mode){
-    let html=`<h2>${safe(s.title||'تقرير تقييم المكتبات')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>${s.note?'<b>ملاحظة:</b> '+safe(s.note):'هذا التقرير يعرض تقييم المكتبات فقط دون خلطه مع الدوام والزيارات.'}</div>${evalKPIs(evals)}`;
-    if(!evals.length) return html+'<div class="empty">لا توجد تقييمات ضمن هذا الاختيار.</div>';
-    html+= mode==='brief'?`<div class="grid">${bars('مقارنة مختصرة بين المدارس',Object.entries(evals.reduce((o,e)=>{(o[e.school]??=[]).push(e.score);return o},{})).map(([k,a])=>{let v=a.reduce((x,y)=>x+y,0)/a.length;return{label:k,value:v.toFixed(1),pct:v/6*100}}))}</div><div class="notice"><b>ملخص إداري:</b> للاطلاع على المحاور والأثر والتوصيات اختر مستوى العرض التفصيلي.</div>`:evalCharts(evals);
-    return html;
-  }
-  const oldBuild=window.buildReportHTML;
-  window.buildReportHTML=async function(mode='full'){
-    const s=selected();
-    if(!hasSelection(s))return '<div class="empty">اختر نوع التقرير أو المدرسة أو التاريخ، ثم اضغط تحديث التقرير.</div>';
-    const evalsAll=await loadEvaluations(), daysAll=await loadWorkDays();
-    const f=filterAll(evalsAll,daysAll,s);
-    const m=metrics(f.evals,f.days);
-    if(s.type==='work') return buildWorkOnly(f.days,s,mode);
-    if(s.type==='evaluation' || s.type==='school') return buildEvalOnly(f.evals,s,mode);
-    if(s.type==='all') return `<h2>${safe(s.title||'تقرير شامل')}</h2><div class="smart"><b>النطاق:</b> ${safe(scopeText(s))}<br>يعرض التقرير الشامل قسمين منفصلين: تقييم المكتبات، ثم الدوام والزيارات، دون خلط بينهما.</div>${kpis(m)}${buildEvalOnly(f.evals,s,mode)}${buildWorkOnly(f.days,s,mode)}`;
-    return oldBuild?oldBuild(mode):'<div class="empty">نوع تقرير غير معروف.</div>';
-  };
-  window.copyDirectorEmailDraft=function(){
-    const b=$('reportBody'); const txt=(b?.innerText||'').trim();
-    if(!txt || txt.includes('اختر')){alert('اعرض التقرير أولًا، ثم أنشئ صياغة الإيميل.');return;}
-    const s=selected();
-    const subject=`تقرير متابعة مكتبات أكاديمية الفلاح - ${scopeText(s)}`;
-    const body=`سعادة المدير/ة المحترم/ة،\n\nأرفق لكم ملخص التقرير التالي:\n${scopeText(s)}\n\nأبرز ما ورد في التقرير:\n${txt.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,12).join('\n')}\n\nيرجى الاطلاع والتوجيه بما ترونه مناسبًا.\n\nمع خالص التقدير.`;
-    navigator.clipboard?.writeText(`الموضوع: ${subject}\n\n${body}`).then(()=>alert('تم نسخ صياغة الإيميل.')).catch(()=>{const ta=document.createElement('textarea');ta.value=`الموضوع: ${subject}\n\n${body}`;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();alert('تم نسخ صياغة الإيميل.');});
-  };
-  document.addEventListener('DOMContentLoaded',function(){
-    const actions=document.querySelector('.builder .actions');
-    if(actions && !document.getElementById('emailDraftBtn')){
-      const btn=document.createElement('button');
-      btn.id='emailDraftBtn'; btn.className='btn outline'; btn.type='button'; btn.textContent='📧 صياغة إيميل للإدارة';
-      btn.onclick=window.copyDirectorEmailDraft;
-      actions.appendChild(btn);
-    }
-  });
-})();
-</script>
-
-
-
-<script>
-/* === FINAL UNIFIED ATTENDANCE PARSER + DIRECTOR WEEK TABLE V3 === */
-(function(){
-  const AR_DAYS=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-  const WORK_NAMES=['الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
-  const SCHOOL_NAMES_PATCH={khb:'الخبيصي',jmi:'الجيمي',shj:'الشارقة',bny:'بني ياس',mzd:'محمد بن زايد',dan:'الدانة',all:'كل المدارس'};
-  function E(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-  function parseObj2(x){if(!x)return {}; if(typeof x==='object')return x; try{return JSON.parse(x)}catch(e){return {}}}
-  function iso2(v){if(!v)return '';let s=String(v).trim();let m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(m)return `${m[1]}-${m[2]}-${m[3]}`;m=s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);return m?`${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`:''}
-  function date2(s){s=iso2(s);if(!s)return null;const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
-  function fmt2(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-  function add2(s,n){let d=date2(s);if(!d)return '';d.setDate(d.getDate()+n);return fmt2(d)}
-  function dayNo2(s){let d=date2(s);return d?d.getDay():-1}
-  function isWork2(s){let g=dayNo2(s);return g>=1&&g<=5}
-  function monday2(s){let d=date2(s);if(!d)return '';let g=d.getDay();let diff=(g===0?-6:1-g);d.setDate(d.getDate()+diff);return fmt2(d)}
-  function dmy2(s){s=iso2(s);if(!s)return '—';let [y,m,d]=s.split('-');return `${d}-${m}-${y}`}
-  function arDay2(s){let g=dayNo2(s);return g>=0?AR_DAYS[g]:'—'}
-  function pick2(o,keys){for(const k of keys){let v=o&&o[k];if(v!==undefined&&v!==null&&String(v).trim()!==''&&String(v).trim()!=='{}')return v}return ''}
-  function join2(vals){return vals.map(v=>String(v||'').trim()).filter(v=>v&&v!=='—'&&v!=='{}').filter((v,i,a)=>a.indexOf(v)===i).join(' / ')}
-  function weekNo2(s){let d=date2(s);if(!d)return 0;let first=new Date(d.getFullYear(),d.getMonth(),1);let off=(first.getDay()===0?6:first.getDay()-1);return Math.ceil((d.getDate()+off)/7)}
-  function sb2(){return window.alfalahSupabase||window.supabaseClient||(window.AlfalahDBSync&&window.AlfalahDBSync.client&&window.AlfalahDBSync.client())||null}
-  function dayFromWeek(d,i,row={}){
-    const base=iso2(d.wstart||d.week_start||d.start_date||d.work_date||row.work_date||row.date||row.day_date);
-    const mon=base?monday2(base):'';
-    const date=iso2(d['date'+i]||d['day_date'+i]||d['work_date'+i])||(mon?add2(mon,i):'');
-    const type=pick2(d,[`atype${i}`,`work_type${i}`,`type${i}`,`status${i}`])||d.wstatus||row.work_type||'دوام رسمي';
-    const loc=pick2(d,[`dloc${i}`,`loc${i}`,`location${i}`])||d.location||row.location||'—';
-    const tasks=join2([d[`task${i}`],d[`tasks${i}`],d[`dtasks${i}`],d[`daily_tasks${i}`],d[`anote${i}`],d[`story${i}`],d[`action${i}`],d[`work${i}`]]);
-    const note=join2([d[`note${i}`],d[`dnote${i}`],d[`remarks${i}`],d[`comment${i}`]]);
-    const time=join2([d[`time${i}`],d[`work_time${i}`],(d[`from${i}`]&&d[`to${i}`])?`${d[`from${i}`]} - ${d[`to${i}`]}`:'',row.start_time&&row.end_time?`${row.start_time} - ${row.end_time}`:'']);
-    return {date,name:WORK_NAMES[i]||arDay2(date),week:Number(d.wnum||d.week_number||row.week_number||weekNo2(date)||0),month:date.slice(5,7),type,loc,tasks,note,time,raw:d};
-  }
-  function singleDay(row){
-    let d=parseObj2(row.full_data||row.data||{});
-    let date=iso2(pick2(row,['work_date','date','day_date','log_date'])||pick2(d,['work_date','date','day_date','log_date','wstart','week_start']));
-    return {date,name:arDay2(date),week:Number(row.week_number||d.wnum||d.week_number||weekNo2(date)||0),month:date.slice(5,7),type:row.work_type||d.work_type||d.wstatus||d.atype0||'دوام رسمي',loc:row.location||d.location||d.dloc0||'—',tasks:join2([row.tasks,row.task,row.work_done,d.tasks,d.task,d.work_done,d.actions,d.daily_tasks,d.anote,d.anote0]),note:join2([row.notes,row.note,d.notes,d.note,d.dnote,d.dnote0,d.comment]),time:join2([row.start_time&&row.end_time?`${row.start_time} - ${row.end_time}`:'',d.time,d.work_time,d.start_time&&d.end_time?`${d.start_time} - ${d.end_time}`:'']),raw:d};
-  }
-  window.loadWorkDays=async function(){
-    let rows=[];
-    try{let c=sb2();if(c){let r=await c.from('daily_work_logs').select('*').order('work_date',{ascending:true});if(!r.error&&Array.isArray(r.data))rows=r.data}}catch(e){console.warn('work db',e)}
-    if(!rows.length){try{for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k&&k.startsWith('falah_week_'))rows.push(parseObj2(localStorage.getItem(k)))}}catch(e){}}
-    const days=[];
-    for(const row of rows){let d=parseObj2(row.full_data||row.data||{});if(!Object.keys(d).length)d=parseObj2(row.tasks)||parseObj2(row.notes)||parseObj2(row);let hasWeek=['atype0','anote0','dloc0','atype1','anote1','dloc1','wstart','week_start','wnum'].some(k=>d[k]!==undefined);if(hasWeek){for(let i=0;i<5;i++){let x=dayFromWeek(d,i,row);if(x.date)days.push(x)}}else{let x=singleDay(row);if(x.date)days.push(x)}}
-    return dedupeWorkDays(days).filter(x=>x.date&&isWork2(x.date));
-  };
-  function dedupeWorkDays(days){
-    const map=new Map();
-    (days||[]).forEach(src=>{let d={date:iso2(src.date),name:arDay2(src.date),week:src.week||weekNo2(src.date),month:(iso2(src.date)||'').slice(5,7),type:src.type||'—',loc:src.loc||'—',tasks:src.tasks||'',note:src.note||'',time:src.time||'',raw:src.raw||{}};if(!d.date)return;let old=map.get(d.date);if(!old){map.set(d.date,d);return}old.type=join2([old.type,d.type])||old.type;old.loc=join2([old.loc,d.loc])||old.loc;old.tasks=join2([old.tasks,d.tasks]);old.note=join2([old.note,d.note]);old.time=join2([old.time,d.time]);});
-    return [...map.values()].sort((a,b)=>a.date.localeCompare(b.date));
-  }
-  window.dedupeDays=dedupeWorkDays;
-  function timesOf(d,iso){
-    const raw=String(d.time||d.work_time||d.hours||d.attendance_time||'');
-    let all=raw.match(/\d{1,2}\s*:\s*\d{2}\s*(?:AM|PM|am|pm)?/g)||[];
-    if(all.length>=2)return {in:all[0].replace(/\s+/g,' '),out:all[1].replace(/\s+/g,' ')};
-    const g=dayNo2(iso); if(g===5)return {in:'08:00 AM',out:'12:00 PM'}; return {in:'08:00 AM',out:'03:00 PM'};
-  }
-  function typeClass(t){t=String(t||'');if(t.includes('زيارة'))return 'field';if(t.includes('استئذان'))return 'excuse';if(t.includes('إجاز')||t.includes('غياب'))return 'leave';if(t.includes('عن بعد'))return 'remote';return 'official'}
-  function minOf(t){let m=String(t||'').match(/(\d{1,2})\s*:\s*(\d{2})\s*(AM|PM|am|pm)?/);if(!m)return null;let h=+m[1],mi=+m[2],ap=(m[3]||'').toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return h*60+mi}
-  function htxt(mins){mins=Math.max(0,Math.round(mins||0));return `${Math.floor(mins/60)}h ${mins%60}m`}
-  function weekRangeToday(){const today=fmt2(new Date());const start=monday2(today);return {today,start,end:add2(start,4)}}
-  function timeout(p,ms){return Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))])}
-  window.renderDirectorWeeklyAttendance=async function(){
-    const holder=document.getElementById('weekAttendanceBody'), range=document.getElementById('weekRangeLabel'), nowBox=document.getElementById('weekNowStatus');
-    if(!holder||!range||!nowBox)return;
-    const {today,start,end}=weekRangeToday(); range.textContent=`${dmy2(start)} إلى ${dmy2(end)}`; nowBox.className='week-status-now'; nowBox.textContent='جاري تحميل بيانات الحضور والانصراف لهذا الأسبوع...';
-    try{
-      const all=await timeout(window.loadWorkDays(),12000); const map=new Map((all||[]).map(d=>[d.date,d])); let rows=[],total=0,field=0,excuse=0,leave=0;
-      for(let i=0;i<5;i++){const iso=add2(start,i), r=map.get(iso)||{date:iso,type:'لا يوجد سجل محفوظ',loc:'—',tasks:'',note:''};const tm=timesOf(r,iso), cls=typeClass(r.type), inn=minOf(tm.in), out=minOf(tm.out); if(r.type!=='لا يوجد سجل محفوظ'&&cls!=='leave'&&inn!=null&&out!=null)total+=Math.max(0,out-inn); if(cls==='field')field++; if(cls==='excuse')excuse++; if(cls==='leave')leave++; rows.push({...r,iso,name:arDay2(iso),cls,cin:tm.in,cout:tm.out,today:iso===today});}
-      const tr=rows.find(x=>x.today); if(tr){nowBox.textContent=`اليوم ${tr.name}: ${tr.type} — الحضور ${tr.cin} — الانصراف ${tr.cout}`; if(tr.cls==='excuse')nowBox.className='week-status-now warn'; if(tr.cls==='leave')nowBox.className='week-status-now err';}
-      holder.innerHTML=`<div class="week-att-table-wrap"><table class="week-att-table"><thead><tr><th>اليوم</th><th>الحضور</th><th>الانصراف</th><th>نوع الدوام</th><th>الأعمال / الموقع</th></tr></thead><tbody>${rows.map(r=>`<tr class="${r.today?'week-day-today':''}"><td>${E(r.name)}<br><span class="muted">${dmy2(r.iso)}</span></td><td>${E(r.cin)}</td><td>${E(r.cout)}</td><td><span class="att-pill ${r.cls}">${E(r.type)}</span></td><td>${E(join2([r.tasks,r.note,r.loc])||'—')}</td></tr>`).join('')}</tbody></table></div><div class="week-kpis"><div class="week-kpi"><strong>${htxt(total)}</strong><span>إجمالي الساعات</span></div><div class="week-kpi"><strong>${field}</strong><span>أيام ميدانية</span></div><div class="week-kpi"><strong>${excuse}</strong><span>استئذان</span></div><div class="week-kpi"><strong>${leave}</strong><span>إجازة / غياب</span></div></div>`;
-    }catch(e){console.warn(e);nowBox.className='week-status-now err';nowBox.textContent='تعذر تحميل جدول دوام الأسبوع. تأكد من اتصال قاعدة البيانات ثم حدّث الصفحة.';holder.innerHTML='<div class="week-empty">لم يتم عرض الجدول حتى لا تبقى الصفحة معلقة على التحميل.</div>';}
-  };
-  document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>window.renderDirectorWeeklyAttendance&&window.renderDirectorWeeklyAttendance(),700));
-  setTimeout(()=>window.renderDirectorWeeklyAttendance&&window.renderDirectorWeeklyAttendance(),1600);
-})();
-</script>
-
-</body></html>
+</script></body></html>
