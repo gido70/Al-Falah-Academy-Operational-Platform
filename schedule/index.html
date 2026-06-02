@@ -935,7 +935,7 @@ var ATT_TYPES = [
   "اجتماع خارج المقر","اجتماع في الديوان",
   "اجتماع مع الإدارة التعليمية","عمل عن بعد",
   "استئذان خاص","استئذان رسمي","تأخير في الحضور",
-  "خروج مبكر","إجازة رسمية","إجازة سنوية""إجازة عارضة","إجازة مرضية"
+  "خروج مبكر","إجازة رسمية","إجازة سنوية","إجازة عارضة","إجازة مرضية"
 ];
 var PILL_GROUPS = [
   {t:"🏫 الزيارات والميدان",items:["زيارات ميدانية للمكتبات","تعبئة نماذج تقييم","توثيق بالصور والأدلة","مقابلة أخصائيي المكتبات","فحص المجموعات والمصادر","تقييم الكادر المهني"]},
@@ -2507,7 +2507,10 @@ var WKM=(function(){
     var wn=d.wnum||d.week_number||(k.indexOf(PFX)===0?k.replace(PFX,''):'');
     _toast('📂 تم تحميل الأسبوع '+(wn||''),'#0c447c');
     WKM.close();
-    if(typeof showPage==='function')showPage('pg-week','📋 الأسبوع والحضور','nav-week');
+    if(typeof showPage==='function')showPage('pg-report','📄 مخرجات الأسبوع','nav-report');
+    setTimeout(function(){
+      if(typeof generateReport==='function') generateReport();
+    },200);
   }
 
   function _itemHtml(k){
