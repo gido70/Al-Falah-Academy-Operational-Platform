@@ -2507,10 +2507,13 @@ var WKM=(function(){
     var wn=d.wnum||d.week_number||(k.indexOf(PFX)===0?k.replace(PFX,''):'');
     _toast('📂 تم تحميل الأسبوع '+(wn||''),'#0c447c');
     WKM.close();
-    if(typeof showPage==='function')showPage('pg-report','📄 مخرجات الأسبوع','nav-report');
-    setTimeout(function(){
-      if(typeof generateReport==='function') generateReport();
-    },200);
+    // عند فتح أسبوع محفوظ: ارجع إلى صفحة الإدخال والتعديل، ولا تفتح التقرير تلقائياً
+    if(typeof showPage==='function')showPage('pg-week','📋 الأسبوع والحضور','nav-week');
+    var reportBox = document.getElementById('reportBox');
+    var mgrBox = document.getElementById('mgrBox');
+    if(reportBox) reportBox.style.display = 'none';
+    if(mgrBox) mgrBox.style.display = 'none';
+    if(typeof updateAttSumm==='function') setTimeout(updateAttSumm,120);
   }
 
   function _itemHtml(k){
