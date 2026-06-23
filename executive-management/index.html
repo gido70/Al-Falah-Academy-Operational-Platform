@@ -131,11 +131,13 @@ textarea{min-height:110px;resize:vertical}.span{grid-column:1/-1}
   </section>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
 <script>
 let currentCategory=null, currentReportId=null;
-const KEY='alfalah_executive_reports_demo_v1';
-function getReports(){return JSON.parse(localStorage.getItem(KEY)||'[]')}
-function setReports(data){localStorage.setItem(KEY,JSON.stringify(data))}
+
+function sb(){ return window.alfalahSupabase || window.supabaseClient || null; }
+
 function openCategory(key,title){
   currentCategory=key;
   document.getElementById('categories').classList.add('hidden');
@@ -150,57 +152,75 @@ function backHome(){
   document.getElementById('categories').classList.remove('hidden');
 }
 function statusText(s){return s==='sent'?'مرسل للإدارة':s==='closed'?'مغلق':'مسودة'}
-function renderReports(){
+
+async function renderReports(){
   const list=document.getElementById('reportsList');
-  const data=getReports().filter(r=>r.category===currentCategory && r.status!=='draft');
-  if(!data.length){list.innerHTML='<div class="empty">لا توجد تقارير مرسلة للإدارة في هذا التصنيف حتى الآن.</div>';return}
+  list.innerHTML='<div class="empty">جارٍ التحميل...</div>';
+  const client=sb();
+  if(!client){list.innerHTML='<div class="empty">لا يوجد اتصال بقاعدة البيانات</div>';return;}
+  const {data,error}=await client.from('reports').select('*').eq('type',currentCategory).neq('status','draft').order('created_at',{ascending:false});
+  if(error){list.innerHTML='<div class="empty">خطأ: '+error.message+'</div>';return;}
+  if(!data||!data.length){list.innerHTML='<div class="empty">لا توجد تقارير مرسلة للإدارة في هذا التصنيف حتى الآن.</div>';return;}
   list.innerHTML=data.map(r=>`
   <div class="report-item">
     <h3>${r.title}</h3>
-    <div class="meta"><span class="pill ${r.status}">${statusText(r.status)}</span><span class="pill">PDF: ${r.pdf_name||'غير متوفر'}</span><span class="pill">${r.created_at||''}</span></div>
-    <p>${r.summary||'لا يوجد ملخص تنفيذي.'}</p>
-    <div class="actions" style="justify-content:flex-start"><button class="btn blue" onclick="openReport('${r.id}')">فتح التقرير</button></div>
+    <div class="meta">
+      <span class="pill ${r.status}">${statusText(r.status)}</span>
+      <span class="pill">${r.created_at?new Date(r.created_at).toLocaleDateString('ar'):''}</span>
+    </div>
+    <p>${r.content||'لا يوجد ملخص تنفيذي.'}</p>
+    <div class="actions" style="justify-content:flex-start">
+      <button class="btn blue" onclick="openReport('${r.id}')">فتح التقرير</button>
+    </div>
   </div>`).join('');
 }
-function openReport(id){
+
+async function openReport(id){
   currentReportId=id;
-  const r=getReports().find(x=>x.id===id);
-  if(!r) return;
+  const client=sb();
+  if(!client){alert('لا يوجد اتصال بقاعدة البيانات');return;}
+  const {data:r,error}=await client.from('reports').select('*').eq('id',id).single();
+  if(error||!r){alert('خطأ في تحميل التقرير');return;}
   document.getElementById('categoryView').classList.add('hidden');
   document.getElementById('reportView').classList.remove('hidden');
   document.getElementById('viewTitle').textContent=r.title;
-  document.getElementById('viewSummary').textContent=r.summary||'لا يوجد ملخص تنفيذي.';
-  document.getElementById('viewMeta').innerHTML=`<span class="pill ${r.status}">${statusText(r.status)}</span><span class="pill">PDF: ${r.pdf_name||'غير متوفر'}</span>`;
-  renderFeedback(r);
+  document.getElementById('viewSummary').textContent=r.content||'لا يوجد ملخص تنفيذي.';
+  document.getElementById('viewMeta').innerHTML=`<span class="pill ${r.status}">${statusText(r.status)}</span>`;
+  await renderFeedback();
   document.getElementById('reportView').scrollIntoView({behavior:'smooth'});
 }
 function closeReport(){
   document.getElementById('reportView').classList.add('hidden');
   document.getElementById('categoryView').classList.remove('hidden');
 }
-function saveFeedback(){
+
+async function saveFeedback(){
   const name=document.getElementById('fbName').value.trim();
   const role=document.getElementById('fbRole').value.trim();
   const text=document.getElementById('fbText').value.trim();
-  if(!text){alert('اكتب التعليق أولاً');return}
-  const data=getReports().map(r=>{
-    if(r.id===currentReportId){
-      const feedback=r.feedback||[];
-      feedback.unshift({name:name||'الإدارة',role:role||'عضو الإدارة',text,created_at:new Date().toLocaleString('ar')});
-      return {...r,feedback};
-    }
-    return r;
+  if(!text){alert('اكتب التعليق أولاً');return;}
+  const client=sb();
+  if(!client){alert('لا يوجد اتصال بقاعدة البيانات');return;}
+  const {error}=await client.from('report_feedback').insert({
+    report_id: currentReportId,
+    manager_name: (name||'الإدارة') + (role ? ' - '+role : ''),
+    comment: text,
+    is_read: false
   });
-  setReports(data);
+  if(error){alert('خطأ في حفظ التعليق: '+error.message);return;}
   document.getElementById('fbText').value='';
-  const r=data.find(x=>x.id===currentReportId);
-  renderFeedback(r);
+  await renderFeedback();
 }
-function renderFeedback(r){
+
+async function renderFeedback(){
   const box=document.getElementById('feedbackList');
-  const feedback=r.feedback||[];
-  if(!feedback.length){box.innerHTML='<div class="empty">لا توجد ملاحظات حتى الآن.</div>';return}
-  box.innerHTML=feedback.map(f=>`<div class="feedback-item"><b>${f.name}</b> - ${f.role} <span class="pill">${f.created_at}</span><br>${f.text}</div>`).join('');
+  box.innerHTML='<div class="empty">جارٍ التحميل...</div>';
+  const client=sb();
+  if(!client){box.innerHTML='<div class="empty">لا يوجد اتصال</div>';return;}
+  const {data,error}=await client.from('report_feedback').select('*').eq('report_id',currentReportId).order('created_at',{ascending:false});
+  if(error){box.innerHTML='<div class="empty">خطأ: '+error.message+'</div>';return;}
+  if(!data||!data.length){box.innerHTML='<div class="empty">لا توجد ملاحظات حتى الآن.</div>';return;}
+  box.innerHTML=data.map(f=>`<div class="feedback-item"><b>${f.manager_name||'الإدارة'}</b> <span class="pill">${f.created_at?new Date(f.created_at).toLocaleDateString('ar'):''}</span><br>${f.comment}</div>`).join('');
 }
 </script>
 </body>
