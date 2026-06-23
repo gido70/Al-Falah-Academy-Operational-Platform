@@ -43,10 +43,20 @@
       <span>منصة المتابعة الإدارية للمكتبات</span>
     </div>
     <nav class="nav">
-      <a href="../index.html">&#8592; الرئيسية</a>
+      <a id="backBtn" href="../index.html">&#8592; الرئيسية</a>
     </nav>
   </div>
 </header>
+<script>
+(function(){
+  var p = new URLSearchParams(location.search).get('from');
+  var btn = document.getElementById('backBtn');
+  if(p === 'management'){
+    btn.href = '../management/index.html';
+    btn.textContent = '← صفحة الإدارة';
+  }
+})();
+</script>
 <div class="wrap">
   <section class="hero">
     <div class="logo-box">
