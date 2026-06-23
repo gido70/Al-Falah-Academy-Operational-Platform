@@ -121,7 +121,7 @@ textarea{min-height:110px;resize:vertical}.span{grid-column:1/-1}
     <p id="viewSummary"></p>
     <div class="pdf-box">
       <h2>عرض ملف PDF</h2>
-      <div id="pdfNotice" class="empty">سيظهر ملف PDF هنا بعد الربط مع Supabase Storage. في هذه النسخة التجريبية يظهر اسم الملف فقط.</div>
+      <div id="pdfNotice" class="empty hidden">لم يُرفع ملف PDF لهذا التقرير بعد.</div>
       <iframe id="pdfFrame" class="pdf-frame hidden"></iframe>
       <div class="actions" style="justify-content:flex-start">
         <a id="downloadPdf" class="btn blue hidden" href="#" target="_blank">تنزيل PDF</a>
@@ -196,6 +196,22 @@ async function openReport(id){
   document.getElementById('viewTitle').textContent=r.title;
   document.getElementById('viewSummary').textContent=r.content||'لا يوجد ملخص تنفيذي.';
   document.getElementById('viewMeta').innerHTML=`<span class="pill ${r.status}">${statusText(r.status)}</span>`;
+  // عرض PDF
+  const frame=document.getElementById('pdfFrame');
+  const notice=document.getElementById('pdfNotice');
+  const dlBtn=document.getElementById('downloadPdf');
+  if(r.pdf_url){
+    frame.src=r.pdf_url;
+    frame.classList.remove('hidden');
+    notice.classList.add('hidden');
+    dlBtn.href=r.pdf_url;
+    dlBtn.classList.remove('hidden');
+  } else {
+    frame.classList.add('hidden');
+    frame.src='';
+    notice.classList.remove('hidden');
+    dlBtn.classList.add('hidden');
+  }
   await renderFeedback();
   document.getElementById('reportView').scrollIntoView({behavior:'smooth'});
 }
