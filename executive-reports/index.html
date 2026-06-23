@@ -142,14 +142,14 @@ textarea{min-height:110px;resize:vertical}.span{grid-column:1/-1}
   </section>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
 <script>
 const categories = {school:'تقارير المدارس',company:'تقارير الشركات',system:'تقارير الأنظمة',collection:'تقارير المجموعات',project:'تقارير المشاريع',other:'تقارير أخرى'};
 let currentCategory = null;
 let editingId = null;
-const KEY = 'alfalah_executive_reports_demo_v1';
 
-function getReports(){ return JSON.parse(localStorage.getItem(KEY) || '[]'); }
-function setReports(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function sb(){ return window.alfalahSupabase || window.supabaseClient || null; }
 
 function openCategory(key,title){
   currentCategory = key;
@@ -174,52 +174,83 @@ function showForm(id=null){
   document.getElementById('wordFile').value='';
   document.getElementById('pdfFile').value='';
   if(id){
-    const r = getReports().find(x=>x.id===id);
-    if(r){
-      document.getElementById('title').value=r.title||'';
-      document.getElementById('summary').value=r.summary||'';
-      document.getElementById('status').value=r.status||'draft';
-    }
+    loadReportForEdit(id);
   }
   document.getElementById('reportForm').scrollIntoView({behavior:'smooth'});
 }
+async function loadReportForEdit(id){
+  const client = sb();
+  if(!client){ showError('لا يوجد اتصال بقاعدة البيانات'); return; }
+  const {data,error} = await client.from('reports').select('*').eq('id',id).single();
+  if(error){ showError('خطأ في تحميل التقرير: ' + error.message); return; }
+  if(data){
+    document.getElementById('title').value = data.title || '';
+    document.getElementById('summary').value = data.content || '';
+    document.getElementById('status').value = data.status || 'draft';
+  }
+}
 function hideForm(){ document.getElementById('reportForm').classList.add('hidden'); editingId=null; }
 function fileName(id){ const f=document.getElementById(id).files[0]; return f ? f.name : ''; }
-function saveReport(){
-  const title=document.getElementById('title').value.trim();
+
+async function saveReport(){
+  const title = document.getElementById('title').value.trim();
   if(!title){ alert('أدخل عنوان التقرير'); return; }
-  let data=getReports();
+  const client = sb();
+  if(!client){ showError('لا يوجد اتصال بقاعدة البيانات'); return; }
+  const payload = {
+    title,
+    content: document.getElementById('summary').value.trim(),
+    status: document.getElementById('status').value,
+    type: currentCategory,
+    school: 'all',
+    author: 'الأدمن'
+  };
+  let error;
   if(editingId){
-    data=data.map(r=>r.id===editingId?{...r,title,summary:document.getElementById('summary').value.trim(),status:document.getElementById('status').value,word_name:fileName('wordFile')||r.word_name,pdf_name:fileName('pdfFile')||r.pdf_name,updated_at:new Date().toLocaleString('ar')}:r);
-  }else{
-    data.unshift({id:'r_'+Date.now(),category:currentCategory,title,summary:document.getElementById('summary').value.trim(),status:document.getElementById('status').value,word_name:fileName('wordFile'),pdf_name:fileName('pdfFile'),created_at:new Date().toLocaleString('ar'),feedback:[]});
+    payload.updated_at = new Date().toISOString();
+    ({error} = await client.from('reports').update(payload).eq('id', editingId));
+  } else {
+    ({error} = await client.from('reports').insert(payload));
   }
-  setReports(data); hideForm(); renderReports();
+  if(error){ showError('خطأ في الحفظ: ' + error.message); return; }
+  hideForm(); renderReports();
 }
-function deleteReport(id){
+
+async function deleteReport(id){
   if(!confirm('حذف التقرير؟')) return;
-  setReports(getReports().filter(r=>r.id!==id));
+  const client = sb();
+  if(!client){ showError('لا يوجد اتصال بقاعدة البيانات'); return; }
+  const {error} = await client.from('reports').delete().eq('id', id);
+  if(error){ showError('خطأ في الحذف: ' + error.message); return; }
   renderReports();
 }
-function markSent(id){
-  setReports(getReports().map(r=>r.id===id?{...r,status:'sent'}:r));
+
+async function markSent(id){
+  const client = sb();
+  if(!client){ showError('لا يوجد اتصال بقاعدة البيانات'); return; }
+  const {error} = await client.from('reports').update({status:'sent', updated_at: new Date().toISOString()}).eq('id', id);
+  if(error){ showError('خطأ: ' + error.message); return; }
   renderReports();
 }
+
 function statusText(s){return s==='sent'?'مرسل للإدارة':s==='closed'?'مغلق':'مسودة'}
-function renderReports(){
-  const list=document.getElementById('reportsList');
-  const data=getReports().filter(r=>r.category===currentCategory);
-  if(!data.length){ list.innerHTML='<div class="empty">لا توجد تقارير في هذا التصنيف حتى الآن.</div>'; return; }
-  list.innerHTML=data.map(r=>`
+
+async function renderReports(){
+  const list = document.getElementById('reportsList');
+  list.innerHTML = '<div class="empty">جارٍ التحميل...</div>';
+  const client = sb();
+  if(!client){ list.innerHTML='<div class="empty">لا يوجد اتصال بقاعدة البيانات</div>'; return; }
+  const {data,error} = await client.from('reports').select('*').eq('type', currentCategory).order('created_at', {ascending:false});
+  if(error){ list.innerHTML='<div class="empty">خطأ في تحميل البيانات: ' + error.message + '</div>'; return; }
+  if(!data || !data.length){ list.innerHTML='<div class="empty">لا توجد تقارير في هذا التصنيف حتى الآن.</div>'; return; }
+  list.innerHTML = data.map(r=>`
     <div class="report-item">
       <h3>${r.title}</h3>
       <div class="meta">
         <span class="pill ${r.status}">${statusText(r.status)}</span>
-        <span class="pill">PDF: ${r.pdf_name || 'لم يرفع بعد'}</span>
-        <span class="pill">Word: ${r.word_name || 'لم يرفع بعد'}</span>
-        <span class="pill">${r.created_at || ''}</span>
+        <span class="pill">${r.created_at ? new Date(r.created_at).toLocaleDateString('ar') : ''}</span>
       </div>
-      <p>${r.summary || 'لا يوجد ملخص تنفيذي.'}</p>
+      <p>${r.content || 'لا يوجد ملخص تنفيذي.'}</p>
       <div class="actions" style="justify-content:flex-start">
         <button class="btn blue" onclick="showForm('${r.id}')">تعديل</button>
         <button class="btn gold" onclick="markSent('${r.id}')">إرسال للإدارة</button>
@@ -227,6 +258,8 @@ function renderReports(){
       </div>
     </div>`).join('');
 }
+
+function showError(msg){ alert(msg); }
 </script>
 </body>
 </html>
