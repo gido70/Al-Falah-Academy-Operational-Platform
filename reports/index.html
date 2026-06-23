@@ -4,71 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta name="theme-color" content="#0c447c">
-<title>مركز التقارير التنفيذي</title>
-<link rel="stylesheet" href="./css/reports.css">
+<title>مركز التقارير التنفيذية</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+:root{--navy:#0c447c;--blue:#185fa5;--teal:#0f9d8a;--gold:#ba7517;--bg:#e8f0fa;--text:#0c2a4a;--muted:#5a7fa8;--border:#b8d4ea;--card:#ffffff;--shadow:0 14px 34px rgba(12,68,124,.14)}
+*{box-sizing:border-box}body{margin:0;font-family:Cairo,Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#f7fbff 0%,var(--bg) 100%);color:var(--text)}
+.top{background:linear-gradient(135deg,var(--navy),var(--blue),var(--teal));color:#fff;box-shadow:0 8px 24px rgba(12,68,124,.22)}
+.top-inner{max-width:1180px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.brand{font-weight:900;font-size:22px}.home{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:9px 16px;font-weight:700;background:rgba(255,255,255,.12)}
+.wrap{max-width:1180px;margin:auto;padding:28px 18px 44px}.hero{background:#fff;border:1px solid var(--border);border-radius:24px;padding:30px;text-align:center;box-shadow:var(--shadow);margin-bottom:24px}.hero h1{margin:0 0 8px;font-size:34px;color:var(--navy)}.hero p{margin:0;color:var(--muted);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.report-card{min-height:185px;background:var(--card);border:1px solid var(--border);border-radius:24px;padding:30px 20px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;box-shadow:var(--shadow);transition:.18s ease}.report-card:hover{transform:translateY(-4px);border-color:var(--teal);box-shadow:0 18px 42px rgba(12,68,124,.2)}.report-card .icon{font-size:54px;line-height:1}.report-card .title{font-size:24px;font-weight:900}.report-card:focus{outline:3px solid rgba(15,157,138,.28);outline-offset:3px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h1{font-size:28px}}@media(max-width:560px){.top-inner{justify-content:center;text-align:center}.grid{grid-template-columns:1fr}.report-card{min-height:150px}.hero{padding:24px 16px}}
+</style>
 </head>
 <body>
-<header class="top">
-  <div class="top-inner">
-    <div class="brand"><img src="../assets/logo.png" alt="شعار أكاديمية الفلاح"><span>مركز التقارير التنفيذي</span></div>
-    <nav class="nav">
-      <a href="../management/index.html">العودة إلى منصة المتابعة الإدارية</a>
-      <a class="active" href="./index.html">مركز التقارير التنفيذي</a>
-    </nav>
-  </div>
-</header>
+<header class="top"><div class="top-inner"><div class="brand">أكاديمية الفلاح | مركز التقارير التنفيذية</div><a class="home" href="../index.html">العودة إلى صفحة الأدمن الرئيسية</a></div></header>
 <main class="wrap">
-  <section class="hero">
-    <div class="logo-box"><img src="../assets/logo.png" alt="شعار أكاديمية الفلاح"></div>
-    <h1>مركز التقارير التنفيذي</h1>
-    <p>مساحة مستقلة لعرض التقارير المرفوعة للإدارة، ومتابعة ما يحتاج إلى مراجعة أو قرار إداري دون التأثير على التقارير التحليلية الحالية في المنصة.</p>
-  </section>
-
-  <div class="alert-strip">
-    <b>🔴 لا توجد تقارير جديدة حالياً</b>
-    <span>ستظهر هنا التنبيهات المختصرة عند ربط المركز بقاعدة البيانات لاحقاً.</span>
-  </div>
-
-  <section class="card">
-    <h2>مؤشرات سريعة</h2>
-    <div class="stats-grid">
-      <div class="stat"><strong>0</strong><span>تقارير جديدة</span></div>
-      <div class="stat"><strong>0</strong><span>بانتظار المراجعة</span></div>
-      <div class="stat"><strong>0</strong><span>تحتاج متابعة</span></div>
-      <div class="stat"><strong>0</strong><span>تقارير معتمدة</span></div>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>تقارير تحتاج مراجعة</h2>
-    <div class="empty">لا توجد تقارير تحتاج مراجعة حالياً. عند رفع تقرير جديد سيظهر هنا مباشرة مع حالة المراجعة.</div>
-  </section>
-
-  <section class="card">
-    <h2>آخر التقارير</h2>
-    <table class="reports-table" aria-label="آخر التقارير">
-      <thead><tr><th>التقرير</th><th>النوع</th><th>الجهة</th><th>الحالة</th><th>الإجراء</th></tr></thead>
-      <tbody>
-        <tr>
-          <td colspan="5" class="muted">لا توجد تقارير منشورة بعد. هذه الصفحة جاهزة للربط لاحقاً بجدول reports.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="card">
-    <h2>تصنيفات التقارير</h2>
-    <div class="category-grid">
-      <a class="category" href="#" data-category="school"><span class="icon">🏫</span><b>تقارير المدارس</b><span>تقارير تقييم ومتابعة مكتبات المدارس.</span></a>
-      <a class="category" href="#" data-category="company"><span class="icon">🏢</span><b>تقارير الشركات</b><span>تقارير الموردين والشركات والاجتماعات الفنية.</span></a>
-      <a class="category" href="#" data-category="system"><span class="icon">💻</span><b>تقارير الأنظمة</b><span>تقارير أنظمة المكتبة والتحول التقني.</span></a>
-      <a class="category" href="#" data-category="collection"><span class="icon">📚</span><b>تقارير المجموعات</b><span>تقارير المجموعات والفهرسة والتنظيم.</span></a>
-      <a class="category" href="#" data-category="project"><span class="icon">🚀</span><b>تقارير المشاريع</b><span>تقارير المبادرات وخطط التطوير.</span></a>
-      <a class="category" href="#" data-category="other"><span class="icon">📊</span><b>تقارير أخرى</b><span>أي تقارير تنفيذية لا تدخل ضمن التصنيفات السابقة.</span></a>
-    </div>
-  </section>
+<section class="hero"><h1>مركز التقارير التنفيذية</h1><p>مساحة مستقلة للتقارير التنفيذية المكتوبة يدوياً، دون التأثير على التقارير التشغيلية الحالية.</p></section>
+<section class="grid" aria-label="تصنيفات مركز التقارير التنفيذية">
+<a class="report-card" href="#" data-category="schools"><span class="icon">🏫</span><span class="title">تقارير المدارس</span></a>
+<a class="report-card" href="#" data-category="companies"><span class="icon">🏢</span><span class="title">تقارير الشركات</span></a>
+<a class="report-card" href="#" data-category="systems"><span class="icon">💻</span><span class="title">تقارير الأنظمة</span></a>
+<a class="report-card" href="#" data-category="collections"><span class="icon">📚</span><span class="title">تقارير المجموعات</span></a>
+<a class="report-card" href="#" data-category="projects"><span class="icon">🚀</span><span class="title">تقارير المشاريع</span></a>
+<a class="report-card" href="#" data-category="other"><span class="icon">📊</span><span class="title">تقارير أخرى</span></a>
+</section>
 </main>
-<script src="./js/reports.js"></script>
+<script>
+document.querySelectorAll('.report-card').forEach(card=>{card.addEventListener('click',e=>{e.preventDefault();});});
+</script>
 </body>
 </html>
