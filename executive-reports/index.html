@@ -201,7 +201,7 @@ async function saveReport(){
     title,
     content: document.getElementById('summary').value.trim(),
     status: document.getElementById('status').value,
-    type: currentCategory,
+    category: currentCategory,
     school: 'all',
     author: 'الأدمن'
   };
@@ -240,7 +240,7 @@ async function renderReports(){
   list.innerHTML = '<div class="empty">جارٍ التحميل...</div>';
   const client = sb();
   if(!client){ list.innerHTML='<div class="empty">لا يوجد اتصال بقاعدة البيانات</div>'; return; }
-  const {data,error} = await client.from('reports').select('*').eq('type', currentCategory).order('created_at', {ascending:false});
+  const {data,error} = await client.from('reports').select('*').eq('category', currentCategory).order('created_at', {ascending:false});
   if(error){ list.innerHTML='<div class="empty">خطأ في تحميل البيانات: ' + error.message + '</div>'; return; }
   if(!data || !data.length){ list.innerHTML='<div class="empty">لا توجد تقارير في هذا التصنيف حتى الآن.</div>'; return; }
   list.innerHTML = data.map(r=>`
