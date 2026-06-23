@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>مركز التقارير التنفيذية - الأدمن</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+:root{
+  --navy:#0c447c;--blue:#185fa5;--teal:#0f9d8a;--gold:#ba7517;--amber:#f0a500;
+  --bg:#e8f0fa;--text:#0c2a4a;--muted:#5a7fa8;--border:#b8d4f0;
+  --soft:#f8fbff;--danger:#c0392b;--grad:linear-gradient(135deg,#0c447c,#185fa5,#0f9d8a)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#e8f0fa,#f7fbff);color:var(--text);direction:rtl}
+.top{position:sticky;top:0;z-index:50;background:rgba(232,240,250,.96);backdrop-filter:blur(10px);border-bottom:1px solid #cfe2f5}
+.top-inner{max-width:1180px;margin:auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:900;color:var(--navy);font-size:20px}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav a,.nav button{border:2px solid var(--border);background:#fff;color:var(--navy);padding:9px 16px;border-radius:999px;font-family:Cairo,Tahoma,sans-serif;font-weight:900;cursor:pointer;font-size:14px;text-decoration:none}
+.nav a.active,.nav button.active{background:linear-gradient(135deg,#0f6e56,#0f9d8a);color:#fff;border-color:transparent}
+.wrap{max-width:1180px;margin:auto;padding:18px 16px 70px}
+.hero{background:var(--grad);border-radius:24px;color:#fff;text-align:center;padding:34px 24px 30px;margin:0 0 18px;box-shadow:0 14px 36px rgba(12,68,124,.22);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:-80px;bottom:-90px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.10)}
+.hero h1{font-size:clamp(27px,4vw,44px);line-height:1.35;margin:0 0 10px;font-weight:900}
+.hero p{font-size:17px;line-height:1.9;margin:0 auto;max-width:850px;color:rgba(255,255,255,.92)}
+.notice{background:linear-gradient(90deg,#fff8e6,#fffdf5);border-right:7px solid var(--gold);border-radius:16px;padding:15px 18px;line-height:2;color:#5c3b00;font-size:16px;margin:16px 0}
+.card{background:#fff;border:1.5px solid var(--border);border-radius:24px;padding:24px;margin:18px 0;box-shadow:0 8px 26px rgba(12,68,124,.10)}
+.card h2{font-size:28px;color:var(--navy);margin:0 0 18px;font-weight:900}
+.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.category{background:#fff;border:1.5px solid var(--border);border-top:7px solid var(--teal);border-radius:22px;padding:26px;text-align:center;min-height:160px;box-shadow:0 8px 24px rgba(12,68,124,.08);cursor:pointer;transition:.15s;text-decoration:none;color:var(--text)}
+.category:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(12,68,124,.15)}
+.category .icon{display:block;font-size:46px;margin-bottom:12px}
+.category b{display:block;color:var(--navy);font-size:24px;margin-bottom:6px}
+.category span.desc{font-size:14px;color:var(--muted);line-height:1.8}
+.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin:16px 0}
+.btn{border:0;border-radius:14px;padding:12px 20px;font-family:Cairo,Tahoma,sans-serif;font-weight:900;cursor:pointer;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.teal{background:linear-gradient(135deg,#0f6e56,#0f9d8a);color:#fff}
+.btn.gold{background:linear-gradient(135deg,#ba7517,#f0a500);color:#fff}
+.btn.blue{background:linear-gradient(135deg,#0c447c,#185fa5);color:#fff}
+.btn.red{background:linear-gradient(135deg,#9b1d1d,#c0392b);color:#fff}
+.btn.outline{background:#fff;border:2px solid var(--border);color:var(--navy)}
+.hidden{display:none!important}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+label{display:block;font-weight:900;color:var(--navy);font-size:15px;margin:0 0 7px}
+select,input,textarea{width:100%;min-height:50px;border:2px solid var(--border);border-radius:14px;background:#f8fbff;padding:10px 13px;font-family:Cairo,Tahoma,sans-serif;font-size:14px;color:var(--text);outline:none}
+textarea{min-height:110px;resize:vertical}.span{grid-column:1/-1}
+.hint{font-size:12px;color:var(--muted);line-height:1.7;margin-top:5px}
+.reports-list{display:grid;gap:12px;margin-top:14px}
+.report-item{background:#f8fbff;border:1.5px solid #d8e6f5;border-radius:18px;padding:16px;line-height:1.9}
+.report-item h3{margin:0;color:var(--navy);font-size:21px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:900;background:#e6f1fb;color:var(--navy)}
+.pill.sent{background:#e1f5ee;color:#085041}.pill.draft{background:#fff3cc;color:#7a4a00}.pill.closed{background:#fcebeb;color:#791f1f}
+.pdf-box{background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:16px;margin-top:12px}
+.pdf-frame{width:100%;height:560px;border:1px solid var(--border);border-radius:16px;background:#f8fbff}
+.feedback-list{display:grid;gap:10px;margin-top:12px}
+.feedback-item{background:#fff;border:1px solid #d8e6f5;border-radius:14px;padding:12px;white-space:pre-wrap}
+.empty{background:#fff8e6;border-right:5px solid var(--gold);border-radius:14px;padding:16px;text-align:center;color:#603b06;font-weight:800}
+@media(max-width:900px){.category-grid,.form-grid{grid-template-columns:1fr}.hero{padding:26px 16px}.card{padding:18px}.pdf-frame{height:420px}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">مركز التقارير التنفيذية - الأدمن</div>
+    <nav class="nav">
+      <a href="../index.html">الرئيسية</a>
+      <a href="../executive-management/index.html">عرض الإدارة العليا</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>مركز التقارير التنفيذية</h1>
+    <p>نظام مستقل لرفع التقارير المكتوبة يدوياً بصيغتي Word و PDF، ثم إرسالها للإدارة العليا للاطلاع والتعليق.</p>
+  </section>
+
+  <div class="notice">هذه الصفحة لا تعرض التقييمات أو الدوام أو التقارير التحليلية القديمة. وظيفتها فقط إدارة التقارير التنفيذية المرفوعة يدوياً.</div>
+
+  <section id="categories" class="card">
+    <h2>تصنيفات التقارير</h2>
+    <div class="category-grid">
+      <div class="category" onclick="openCategory('school','تقارير المدارس')"><span class="icon">🏫</span><b>تقارير المدارس</b><span class="desc">تقارير تنفيذية مكتوبة عن المدارس والمكتبات المدرسية.</span></div>
+      <div class="category" onclick="openCategory('company','تقارير الشركات')"><span class="icon">🏢</span><b>تقارير الشركات</b><span class="desc">عروض ودراسات الشركات والموردين.</span></div>
+      <div class="category" onclick="openCategory('system','تقارير الأنظمة')"><span class="icon">💻</span><b>تقارير الأنظمة</b><span class="desc">دراسات نظم إدارة المكتبات والتحول التقني.</span></div>
+      <div class="category" onclick="openCategory('collection','تقارير المجموعات')"><span class="icon">📚</span><b>تقارير المجموعات</b><span class="desc">تقارير تنمية المجموعات والفهرسة والمعالجة.</span></div>
+      <div class="category" onclick="openCategory('project','تقارير المشاريع')"><span class="icon">🚀</span><b>تقارير المشاريع</b><span class="desc">تقارير المبادرات والمشاريع التطويرية.</span></div>
+      <div class="category" onclick="openCategory('other','تقارير أخرى')"><span class="icon">📊</span><b>تقارير أخرى</b><span class="desc">أي تقارير تنفيذية لا تندرج تحت التصنيفات السابقة.</span></div>
+    </div>
+  </section>
+
+  <section id="categoryView" class="card hidden">
+    <div class="toolbar">
+      <h2 id="categoryTitle">التقارير</h2>
+      <div>
+        <button class="btn teal" onclick="showForm()">+ تقرير جديد</button>
+        <button class="btn outline" onclick="backHome()">رجوع للتصنيفات</button>
+      </div>
+    </div>
+    <div id="reportsList" class="reports-list"></div>
+  </section>
+
+  <section id="reportForm" class="card hidden">
+    <h2 id="formTitle">تقرير جديد</h2>
+    <div class="form-grid">
+      <div>
+        <label>عنوان التقرير</label>
+        <input id="title" placeholder="مثال: التقرير التنفيذي لتطوير مكتبات أكاديمية الفلاح">
+      </div>
+      <div>
+        <label>حالة التقرير</label>
+        <select id="status">
+          <option value="draft">مسودة</option>
+          <option value="sent">مرسل للإدارة</option>
+          <option value="closed">مغلق</option>
+        </select>
+      </div>
+      <div class="span">
+        <label>ملخص تنفيذي مختصر</label>
+        <textarea id="summary" placeholder="اكتب ملخصاً مختصراً يظهر للإدارة العليا قبل فتح ملف PDF."></textarea>
+      </div>
+      <div>
+        <label>ملف Word للأدمن فقط</label>
+        <input id="wordFile" type="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        <div class="hint">سيظهر للأدمن فقط عند الربط مع قاعدة البيانات.</div>
+      </div>
+      <div>
+        <label>ملف PDF للإدارة العليا</label>
+        <input id="pdfFile" type="file" accept="application/pdf,.pdf">
+        <div class="hint">هذا هو الملف الذي سيُعرض للإدارة العليا.</div>
+      </div>
+    </div>
+    <div class="actions toolbar">
+      <button class="btn teal" onclick="saveReport()">حفظ التقرير</button>
+      <button class="btn outline" onclick="hideForm()">إلغاء</button>
+    </div>
+  </section>
+</main>
+
+<script>
+const categories = {school:'تقارير المدارس',company:'تقارير الشركات',system:'تقارير الأنظمة',collection:'تقارير المجموعات',project:'تقارير المشاريع',other:'تقارير أخرى'};
+let currentCategory = null;
+let editingId = null;
+const KEY = 'alfalah_executive_reports_demo_v1';
+
+function getReports(){ return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+function setReports(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+
+function openCategory(key,title){
+  currentCategory = key;
+  document.getElementById('categories').classList.add('hidden');
+  document.getElementById('categoryView').classList.remove('hidden');
+  document.getElementById('categoryTitle').textContent = title;
+  renderReports();
+}
+function backHome(){
+  document.getElementById('categoryView').classList.add('hidden');
+  document.getElementById('reportForm').classList.add('hidden');
+  document.getElementById('categories').classList.remove('hidden');
+  currentCategory = null; editingId = null;
+}
+function showForm(id=null){
+  editingId = id;
+  document.getElementById('reportForm').classList.remove('hidden');
+  document.getElementById('formTitle').textContent = id ? 'تعديل التقرير' : 'تقرير جديد';
+  document.getElementById('title').value='';
+  document.getElementById('summary').value='';
+  document.getElementById('status').value='draft';
+  document.getElementById('wordFile').value='';
+  document.getElementById('pdfFile').value='';
+  if(id){
+    const r = getReports().find(x=>x.id===id);
+    if(r){
+      document.getElementById('title').value=r.title||'';
+      document.getElementById('summary').value=r.summary||'';
+      document.getElementById('status').value=r.status||'draft';
+    }
+  }
+  document.getElementById('reportForm').scrollIntoView({behavior:'smooth'});
+}
+function hideForm(){ document.getElementById('reportForm').classList.add('hidden'); editingId=null; }
+function fileName(id){ const f=document.getElementById(id).files[0]; return f ? f.name : ''; }
+function saveReport(){
+  const title=document.getElementById('title').value.trim();
+  if(!title){ alert('أدخل عنوان التقرير'); return; }
+  let data=getReports();
+  if(editingId){
+    data=data.map(r=>r.id===editingId?{...r,title,summary:document.getElementById('summary').value.trim(),status:document.getElementById('status').value,word_name:fileName('wordFile')||r.word_name,pdf_name:fileName('pdfFile')||r.pdf_name,updated_at:new Date().toLocaleString('ar')}:r);
+  }else{
+    data.unshift({id:'r_'+Date.now(),category:currentCategory,title,summary:document.getElementById('summary').value.trim(),status:document.getElementById('status').value,word_name:fileName('wordFile'),pdf_name:fileName('pdfFile'),created_at:new Date().toLocaleString('ar'),feedback:[]});
+  }
+  setReports(data); hideForm(); renderReports();
+}
+function deleteReport(id){
+  if(!confirm('حذف التقرير؟')) return;
+  setReports(getReports().filter(r=>r.id!==id));
+  renderReports();
+}
+function markSent(id){
+  setReports(getReports().map(r=>r.id===id?{...r,status:'sent'}:r));
+  renderReports();
+}
+function statusText(s){return s==='sent'?'مرسل للإدارة':s==='closed'?'مغلق':'مسودة'}
+function renderReports(){
+  const list=document.getElementById('reportsList');
+  const data=getReports().filter(r=>r.category===currentCategory);
+  if(!data.length){ list.innerHTML='<div class="empty">لا توجد تقارير في هذا التصنيف حتى الآن.</div>'; return; }
+  list.innerHTML=data.map(r=>`
+    <div class="report-item">
+      <h3>${r.title}</h3>
+      <div class="meta">
+        <span class="pill ${r.status}">${statusText(r.status)}</span>
+        <span class="pill">PDF: ${r.pdf_name || 'لم يرفع بعد'}</span>
+        <span class="pill">Word: ${r.word_name || 'لم يرفع بعد'}</span>
+        <span class="pill">${r.created_at || ''}</span>
+      </div>
+      <p>${r.summary || 'لا يوجد ملخص تنفيذي.'}</p>
+      <div class="actions" style="justify-content:flex-start">
+        <button class="btn blue" onclick="showForm('${r.id}')">تعديل</button>
+        <button class="btn gold" onclick="markSent('${r.id}')">إرسال للإدارة</button>
+        <button class="btn red" onclick="deleteReport('${r.id}')">حذف</button>
+      </div>
+    </div>`).join('');
+}
+</script>
+</body>
+</html>
