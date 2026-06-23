@@ -68,11 +68,21 @@ textarea{min-height:110px;resize:vertical}.span{grid-column:1/-1}
   <div class="top-inner">
     <div class="brand">الإدارة التنفيذية للتقارير</div>
     <nav class="nav">
-      <a href="../index.html">الرئيسية</a>
-      <a href="../executive-reports/index.html">دخول الأدمن</a>
+      <a id="btnBack" href="../index.html">الرئيسية</a>
+
     </nav>
   </div>
 </header>
+<script>
+(function(){
+  var from = new URLSearchParams(location.search).get('from');
+  var btn = document.getElementById('btnBack');
+  if(from === 'management'){
+    btn.href = '../management/index.html';
+    btn.textContent = '← صفحة الإدارة';
+  }
+})();
+</script>
 
 <main class="wrap">
   <section class="hero">
@@ -158,7 +168,7 @@ async function renderReports(){
   list.innerHTML='<div class="empty">جارٍ التحميل...</div>';
   const client=sb();
   if(!client){list.innerHTML='<div class="empty">لا يوجد اتصال بقاعدة البيانات</div>';return;}
-  const {data,error}=await client.from('reports').select('*').eq('type',currentCategory).neq('status','draft').order('created_at',{ascending:false});
+  const {data,error}=await client.from('reports').select('*').eq('category',currentCategory).neq('status','draft').order('created_at',{ascending:false});
   if(error){list.innerHTML='<div class="empty">خطأ: '+error.message+'</div>';return;}
   if(!data||!data.length){list.innerHTML='<div class="empty">لا توجد تقارير مرسلة للإدارة في هذا التصنيف حتى الآن.</div>';return;}
   list.innerHTML=data.map(r=>`
