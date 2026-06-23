@@ -43,17 +43,18 @@
       <span>منصة المتابعة الإدارية للمكتبات</span>
     </div>
     <nav class="nav">
-      <a id="backBtn" href="../index.html">&#8592; الرئيسية</a>
+      <a id="btnAdmin" href="../index.html" style="display:none">&#8592; الرئيسية</a>
+      <a id="btnMgmt" href="../management/index.html" style="display:none">&#8592; صفحة الإدارة</a>
     </nav>
   </div>
 </header>
 <script>
 (function(){
-  var p = new URLSearchParams(location.search).get('from');
-  var btn = document.getElementById('backBtn');
-  if(p === 'management'){
-    btn.href = '../management/index.html';
-    btn.textContent = '← صفحة الإدارة';
+  var from = new URLSearchParams(location.search).get('from');
+  if(from === 'management'){
+    document.getElementById('btnMgmt').style.display = 'inline-flex';
+  } else {
+    document.getElementById('btnAdmin').style.display = 'inline-flex';
   }
 })();
 </script>
