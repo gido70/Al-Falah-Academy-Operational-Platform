@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="theme-color" content="#0c447c">
+<title>عرض التقرير التنفيذي</title>
+<link rel="stylesheet" href="./css/reports.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><img src="../assets/logo.png" alt="شعار أكاديمية الفلاح"><span>عرض التقرير التنفيذي</span></div>
+    <nav class="nav">
+      <a href="./index.html">العودة إلى مركز التقارير</a>
+      <a href="../management/index.html">العودة إلى منصة المتابعة الإدارية</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <h1>عرض التقرير التنفيذي</h1>
+    <p>هذه الصفحة مخصصة لاحقاً لعرض التقرير المختار وملخصه التنفيذي وتوجيهات الإدارة.</p>
+  </section>
+  <div class="view-layout">
+    <section class="card">
+      <h2>ملخص التقرير</h2>
+      <div class="summary-list">
+        <div class="summary-item"><b>الموضوع</b><span class="muted">سيظهر هنا موضوع التقرير عند الربط بقاعدة البيانات.</span></div>
+        <div class="summary-item"><b>أهم نتيجة</b><span class="muted">سيظهر هنا أهم ما خلص إليه التقرير.</span></div>
+        <div class="summary-item"><b>أهم مشكلة</b><span class="muted">سيظهر هنا التحدي أو الملاحظة الأبرز.</span></div>
+        <div class="summary-item"><b>أهم توصية</b><span class="muted">سيظهر هنا الإجراء المقترح للإدارة.</span></div>
+        <div class="summary-item"><b>الجهة المعنية</b><span class="muted">سيظهر هنا اسم المدرسة أو الجهة أو المشروع.</span></div>
+      </div>
+    </section>
+    <aside class="card">
+      <h2>التوجيه الإداري</h2>
+      <div class="actions">
+        <button class="action-btn" type="button">اعتماد</button>
+        <button class="action-btn" type="button">طلب تعديل</button>
+        <button class="action-btn" type="button">متابعة</button>
+        <button class="action-btn" type="button">إغلاق</button>
+      </div>
+      <p class="muted">الأزرار جاهزة شكلياً فقط في المرحلة الأولى، وسيتم ربطها لاحقاً بجدول report_actions.</p>
+      <textarea placeholder="ملاحظة الإدارة..."></textarea>
+    </aside>
+  </div>
+</main>
+<script src="./js/actions.js"></script>
+</body>
+</html>
