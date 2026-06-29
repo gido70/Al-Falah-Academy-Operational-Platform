@@ -107,6 +107,10 @@
 .admin-school-panel input{width:auto;min-height:auto;accent-color:var(--teal);transform:scale(1.05)}
 @media(max-width:900px){.admin-school-panel{position:absolute;max-height:245px}}
 
+
+/* SAFE FIX: unify management attendance time display with admin page */
+.time-ltr{direction:ltr!important;unicode-bidi:isolate!important;display:inline-block!important;white-space:nowrap!important;font-family:Cairo,Tahoma,Arial,sans-serif!important}
+
 </style>
 </head>
 <body>
@@ -517,7 +521,7 @@ async function renderDirectorWeeklyAttendance(){
 
     const todayRow=weekRows.find(x=>x.today);
     if(todayRow){
-      nowBox.textContent = `اليوم ${todayRow.name}: ${todayRow.type} — الحضور ${todayRow.cin} — الانصراف ${todayRow.cout}`;
+      nowBox.textContent = `اليوم ${todayRow.name}: ${todayRow.type} — الحضور <span class="time-ltr">${esc(todayRow.cin)}</span> — الانصراف <span class="time-ltr">${esc(todayRow.cout)}</span>`;
       if(todayRow.cls==='excuse') nowBox.className='week-status-now warn';
       if(todayRow.cls==='leave') nowBox.className='week-status-now err';
     }
@@ -636,7 +640,7 @@ if(r && n) r.value=n;
     const raw=String(d.time||d.work_time||d.hours||d.attendance_time||'');
     let all=raw.match(/\d{1,2}\s*:\s*\d{2}\s*(?:AM|PM|am|pm)?/g)||[];
     if(all.length>=2)return {in:all[0].replace(/\s+/g,' '),out:all[1].replace(/\s+/g,' ')};
-    const g=dayNo2(iso); if(g===5)return {in:'08:00 AM',out:'12:00 PM'}; return {in:'08:00 AM',out:'03:00 PM'};
+    const g=dayNo2(iso); if(g===5)return {in:'08:00 AM',out:'11:30 AM'}; return {in:'08:00 AM',out:'02:00 PM'};
   }
   function typeClass(t){t=String(t||'');if(t.includes('زيارة'))return 'field';if(t.includes('استئذان'))return 'excuse';if(t.includes('إجاز')||t.includes('غياب'))return 'leave';if(t.includes('عن بعد'))return 'remote';return 'official'}
   function minOf(t){let m=String(t||'').match(/(\d{1,2})\s*:\s*(\d{2})\s*(AM|PM|am|pm)?/);if(!m)return null;let h=+m[1],mi=+m[2],ap=(m[3]||'').toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return h*60+mi}
@@ -650,8 +654,8 @@ if(r && n) r.value=n;
     try{
       const all=await timeout(window.loadWorkDays(),12000); const map=new Map((all||[]).map(d=>[d.date,d])); let rows=[],total=0,field=0,excuse=0,leave=0;
       for(let i=0;i<5;i++){const iso=add2(start,i), r=map.get(iso)||{date:iso,type:'لا يوجد سجل محفوظ',loc:'—',tasks:'',note:''};const tm=timesOf(r,iso), cls=typeClass(r.type), inn=minOf(tm.in), out=minOf(tm.out); if(r.type!=='لا يوجد سجل محفوظ'&&cls!=='leave'&&inn!=null&&out!=null)total+=Math.max(0,out-inn); if(cls==='field')field++; if(cls==='excuse')excuse++; if(cls==='leave')leave++; rows.push({...r,iso,name:arDay2(iso),cls,cin:tm.in,cout:tm.out,today:iso===today});}
-      const tr=rows.find(x=>x.today); if(tr){nowBox.textContent=`اليوم ${tr.name}: ${tr.type} — الحضور ${tr.cin} — الانصراف ${tr.cout}`; if(tr.cls==='excuse')nowBox.className='week-status-now warn'; if(tr.cls==='leave')nowBox.className='week-status-now err';}
-      holder.innerHTML=`<div class="week-att-table-wrap"><table class="week-att-table"><thead><tr><th>اليوم</th><th>الحضور</th><th>الانصراف</th><th>نوع الدوام</th><th>الأعمال / الموقع</th></tr></thead><tbody>${rows.map(r=>`<tr class="${r.today?'week-day-today':''}"><td>${E(r.name)}<br><span class="muted">${dmy2(r.iso)}</span></td><td>${E(r.cin)}</td><td>${E(r.cout)}</td><td><span class="att-pill ${r.cls}">${E(r.type)}</span></td><td>${E(join2([r.tasks,r.note,r.loc])||'—')}</td></tr>`).join('')}</tbody></table></div><div class="week-kpis"><div class="week-kpi"><strong>${htxt(total)}</strong><span>إجمالي الساعات</span></div><div class="week-kpi"><strong>${field}</strong><span>أيام ميدانية</span></div><div class="week-kpi"><strong>${excuse}</strong><span>استئذان</span></div><div class="week-kpi"><strong>${leave}</strong><span>إجازة / غياب</span></div></div>`;
+      const tr=rows.find(x=>x.today); if(tr){nowBox.innerHTML=`اليوم ${E(tr.name)}: ${E(tr.type)} — الحضور <span class="time-ltr">${E(tr.cin)}</span> — الانصراف <span class="time-ltr">${E(tr.cout)}</span>`; if(tr.cls==='excuse')nowBox.className='week-status-now warn'; if(tr.cls==='leave')nowBox.className='week-status-now err';}
+      holder.innerHTML=`<div class="week-att-table-wrap"><table class="week-att-table"><thead><tr><th>اليوم</th><th>الحضور</th><th>الانصراف</th><th>نوع الدوام</th><th>الأعمال / الموقع</th></tr></thead><tbody>${rows.map(r=>`<tr class="${r.today?'week-day-today':''}"><td>${E(r.name)}<br><span class="muted">${dmy2(r.iso)}</span></td><td><span class="time-ltr">${E(r.cin)}</span></td><td><span class="time-ltr">${E(r.cout)}</span></td><td><span class="att-pill ${r.cls}">${E(r.type)}</span></td><td>${E(join2([r.tasks,r.note,r.loc])||'—')}</td></tr>`).join('')}</tbody></table></div><div class="week-kpis"><div class="week-kpi"><strong>${htxt(total)}</strong><span>إجمالي الساعات</span></div><div class="week-kpi"><strong>${field}</strong><span>أيام ميدانية</span></div><div class="week-kpi"><strong>${excuse}</strong><span>استئذان</span></div><div class="week-kpi"><strong>${leave}</strong><span>إجازة / غياب</span></div></div>`;
     }catch(e){console.warn(e);nowBox.className='week-status-now err';nowBox.textContent='تعذر تحميل جدول دوام الأسبوع. تأكد من اتصال قاعدة البيانات ثم حدّث الصفحة.';holder.innerHTML='<div class="week-empty">لم يتم عرض الجدول حتى لا تبقى الصفحة معلقة على التحميل.</div>';}
   };
   document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>window.renderDirectorWeeklyAttendance&&window.renderDirectorWeeklyAttendance(),700));
