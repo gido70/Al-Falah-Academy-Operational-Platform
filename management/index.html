@@ -610,7 +610,7 @@ if(r && n) r.value=n;
     const loc=pick2(d,[`dloc${i}`,`loc${i}`,`location${i}`])||d.location||row.location||'—';
     const tasks=join2([d[`task${i}`],d[`tasks${i}`],d[`dtasks${i}`],d[`daily_tasks${i}`],d[`anote${i}`],d[`story${i}`],d[`action${i}`],d[`work${i}`]]);
     const note=join2([d[`note${i}`],d[`dnote${i}`],d[`remarks${i}`],d[`comment${i}`]]);
-    const time=join2([d[`time${i}`],d[`work_time${i}`],(d[`from${i}`]&&d[`to${i}`])?`${d[`from${i}`]} - ${d[`to${i}`]}`:'',row.start_time&&row.end_time?`${row.start_time} - ${row.end_time}`:'']);
+    const time=join2([(d[`ain${i}`]&&d[`aout${i}`])?`${d[`ain${i}`]} - ${d[`aout${i}`]}`:'',d[`time${i}`],d[`work_time${i}`],(d[`from${i}`]&&d[`to${i}`])?`${d[`from${i}`]} - ${d[`to${i}`]}`:'',row.start_time&&row.end_time?`${row.start_time} - ${row.end_time}`:'']);
     return {date,name:WORK_NAMES[i]||arDay2(date),week:Number(d.wnum||d.week_number||row.week_number||weekNo2(date)||0),month:date.slice(5,7),type,loc,tasks,note,time,raw:d};
   }
   function singleDay(row){
@@ -636,7 +636,7 @@ if(r && n) r.value=n;
     const raw=String(d.time||d.work_time||d.hours||d.attendance_time||'');
     let all=raw.match(/\d{1,2}\s*:\s*\d{2}\s*(?:AM|PM|am|pm)?/g)||[];
     if(all.length>=2)return {in:all[0].replace(/\s+/g,' '),out:all[1].replace(/\s+/g,' ')};
-    const g=dayNo2(iso); if(g===5)return {in:'08:00 AM',out:'12:00 PM'}; return {in:'08:00 AM',out:'03:00 PM'};
+    const g=dayNo2(iso); if(g===5)return {in:'08:00 AM',out:'11:30 AM'}; return {in:'08:00 AM',out:'02:00 PM'};
   }
   function typeClass(t){t=String(t||'');if(t.includes('زيارة'))return 'field';if(t.includes('استئذان'))return 'excuse';if(t.includes('إجاز')||t.includes('غياب'))return 'leave';if(t.includes('عن بعد'))return 'remote';return 'official'}
   function minOf(t){let m=String(t||'').match(/(\d{1,2})\s*:\s*(\d{2})\s*(AM|PM|am|pm)?/);if(!m)return null;let h=+m[1],mi=+m[2],ap=(m[3]||'').toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return h*60+mi}
