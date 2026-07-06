@@ -321,7 +321,7 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
 }
 
 
-/* === تنسيق التاريخ العربي: يوم / شهر / سنة === */
+/* === تنسيق التاريخ العربي: يوم عمل / شهر / سنة === */
 .date-display{
   direction:ltr;
   text-align:center;
@@ -2225,7 +2225,7 @@ function buildManagerLetterFinal(){
   text += "• عمل عن بعد: "+st.remote+"\n";
   text += "• استئذان / خروج مبكر: "+st.excuse+"\n";
   if(pills.length){ text += "\nثالثاً: أبرز الأعمال المنجزة\n" + pills.map(function(x){return "• "+x}).join("\n") + "\n"; }
-  if(stories.length){ text += "\nرابعاً: أحداث يومية مهمة\n" + stories.join("\n") + "\n"; }
+  if(stories.length){ text += "\nرابعاً: أحداث يوم عملية مهمة\n" + stories.join("\n") + "\n"; }
   if(chal){ text += "\nخامساً: التحديات والمستجدات\n" + chal + "\n"; }
   if(pending){ text += "\nما لم يكتمل وسبب التأجيل\n" + pending + "\n"; }
   if(req && reqType && reqType!=="لا توجد طلبات خاصة"){ text += "\nطلبات واحتياجات للمتابعة\n• " + reqType + ": " + req + "\n"; }
@@ -2355,7 +2355,7 @@ document.addEventListener("click", function(e){
 setTimeout(renderSmartBarsFinal, 800);
 
 
-// === تنسيق التاريخ بصيغة يوم / شهر / سنة ===
+// === تنسيق التاريخ بصيغة يوم عمل / شهر / سنة ===
 function formatDateDMY(value){
   if(!value) return "";
   // native date input returns yyyy-mm-dd
@@ -2379,7 +2379,7 @@ function applyDateDirection(){
     el.classList.add("date-display");
     if(!el.dataset.dateReady){
       el.dataset.dateReady="1";
-      el.title="سيظهر التاريخ في التقارير بصيغة: يوم / شهر / سنة";
+      el.title="سيظهر التاريخ في التقارير بصيغة: يوم عمل / شهر / سنة";
     }
   });
 }
@@ -2866,7 +2866,7 @@ else{setTimeout(WKM.init,600);}
     el.innerHTML=data.map(function(x){
       var w=Math.round(((Number(x.n)||0)/max)*100);
       return '<div class="smart-bar-row"><div>'+x.l+'</div><div class="smart-track"><div class="smart-fill" style="width:'+w+'%"></div></div><div>'+x.n+'</div></div>';
-    }).join('')+'<div class="chart-note">هذه المؤشرات محسوبة تلقائياً من نوع العمل المختار لكل يوم، ولا تعتمد على إدخال يدوي منفصل.</div>';
+    }).join('')+'<div class="chart-note">هذه المؤشرات محسوبة تلقائياً من نوع العمل المختار لكل يوم عمل، ولا تعتمد على إدخال يدوي منفصل.</div>';
   };
   function applyAccurateReportNumbers(){
     var r=document.getElementById('rKpis'); if(r) r.innerHTML=kpiHtml('r');
@@ -3006,11 +3006,11 @@ else{setTimeout(WKM.init,600);}
     var st=statsFromData(d), days=actionSummary(d), work=selectedWorkLabels(d);
     var sentences=[];
     sentences.push('يعرض هذا الرابط خلاصة تنفيذية للأسبوع رقم '+(weekNo(d)||'—')+'، ويجمع بين سجل الدوام، مواقع العمل، الأعمال اليومية، والملاحظات المكتوبة في النموذج.');
-    if(st.field) sentences.push('تضمن الأسبوع '+st.field+' يوم/أيام ذات طابع ميداني أو زيارة مباشرة، مما يعكس حضورًا عمليًا في المدارس أو مواقع المتابعة.');
-    if(st.remote) sentences.push('يوجد '+st.remote+' يوم عمل عن بُعد، وهو ما يشير إلى وجود أعمال متابعة أو إعداد أو توثيق تمت خارج المقر.');
+    if(st.field) sentences.push('تضمن الأسبوع '+st.field+' يوم عمل/أيام ذات طابع ميداني أو زيارة مباشرة، مما يعكس حضورًا عمليًا في المدارس أو مواقع المتابعة.');
+    if(st.remote) sentences.push('يوجد '+st.remote+' يوم عمل عمل عن بُعد، وهو ما يشير إلى وجود أعمال متابعة أو إعداد أو توثيق تمت خارج المقر.');
     if(st.external || st.meeting) sentences.push('توجد مهام تنسيقية أو اجتماعات خارجية تحتاج إلى توثيق مختصر للنتائج أو القرارات المرتبطة بها.');
     if(work.length) sentences.push('تم تحديد '+work.length+' بند/بنود من الأعمال المنجزة في خطة الأسبوع.');
-    if(!work.length && days.some(function(x){return x.task;})) sentences.push('توجد تفاصيل يومية مكتوبة، ويُنصح بالاعتماد عليها في المتابعة بدل الاكتفاء بعدّاد المؤشرات.');
+    if(!work.length && days.some(function(x){return x.task;})) sentences.push('توجد تفاصيل يوم عملية مكتوبة، ويُنصح بالاعتماد عليها في المتابعة بدل الاكتفاء بعدّاد المؤشرات.');
     if(!sentences.length) sentences.push('لا توجد بيانات كافية لإنتاج قراءة أسبوعية واضحة؛ يُفضّل استكمال نوع الدوام وملاحظات الأيام قبل إرسال الرابط.');
     return sentences.join(' ');
   }
@@ -3477,7 +3477,7 @@ else{setTimeout(WKM.init,600);}
     d.wstatus='إجازة سنوية'; d.work_type='إجازة سنوية';
     d.week_title='إجازة سنوية: '+arDate(from)+' إلى '+arDate(to);
     d.annualLeaveFrom=from; d.annualLeaveTo=to; d.annualLeaveDays=String(overlapDays(from,to)); d.annualLeaveNote=note||'';
-    d.wleave='إجازة سنوية من '+arDate(from)+' إلى '+arDate(to)+' — '+d.annualLeaveDays+' يوم عمل';
+    d.wleave='إجازة سنوية من '+arDate(from)+' إلى '+arDate(to)+' — '+d.annualLeaveDays+' يوم عمل عمل';
     if(note) d.wleave += ' — '+note;
     for(var i=0;i<5;i++){
       var day=addDaysISO(mon,i); var inRange=(day>=from && day<=to);
@@ -3508,9 +3508,9 @@ else{setTimeout(WKM.init,600);}
     if(!from||!to){el.value='';return;}
     if(from>to){el.value='تاريخ النهاية قبل البداية';return;}
     var n=overlapDays(from,to);
-    el.value=n+' يوم عمل';
+    el.value=n+' يوم عمل عمل';
     var wl=byName('wleave');
-    if(wl) wl.value='إجازة سنوية من '+arDate(from)+' إلى '+arDate(to)+' — '+n+' يوم عمل';
+    if(wl) wl.value='إجازة سنوية من '+arDate(from)+' إلى '+arDate(to)+' — '+n+' يوم عمل عمل';
   }
   window.updateAnnualLeaveDaysFromAnyRange=updateLeaveDays;
   function applyAnnualLeaveToCurrentWeek(){
@@ -3618,8 +3618,8 @@ else{setTimeout(WKM.init,600);}
     if(e<s) return null;
     const d=new Date(s);
     while(d<=e){
-      const day=d.getDay(); //0=Sun 5=Fri 6=Sat
-      if(day!==5 && day!==6){ count++; } // يحسب أيام العمل فقط (الأحد-الخميس)
+      const day=d.getDay(); //0=Sun 6=Sat
+      if(day!==0 && day!==6){ count++; } // يحسب أيام العمل فقط (الإثنين-الجمعة)
       d.setDate(d.getDate()+1);
     }
     return count;
@@ -3631,7 +3631,7 @@ else{setTimeout(WKM.init,600);}
     const days = daysBetween(start,end);
     if(!box) return;
     if(days === null){ box.textContent = 'اختر تاريخ البداية والنهاية بشكل صحيح'; return; }
-    box.textContent = days + ' يوم';
+    box.textContent = days + ' يوم عمل';
   }
   function getLeaves(){
     try{return JSON.parse(localStorage.getItem('alfalah_employee_leaves') || '[]') || [];}catch(e){return [];}
@@ -3645,7 +3645,7 @@ else{setTimeout(WKM.init,600);}
     const items = getLeaves();
     if(!items.length){ list.innerHTML = '<div class="leave-saved-item">لا توجد إجازات محفوظة بعد.</div>'; return; }
     list.innerHTML = items.slice().reverse().map(function(x){
-      return '<div class="leave-saved-item"><b>'+x.type+'</b> — '+x.status+'<br>الفترة: '+x.start+' إلى '+x.end+' — '+x.days+' يوم'+(x.notes?'<br>ملاحظات: '+x.notes:'')+'</div>';
+      return '<div class="leave-saved-item"><b>'+x.type+'</b> — '+x.status+'<br>الفترة: '+x.start+' إلى '+x.end+' — '+x.days+' يوم عمل'+(x.notes?'<br>ملاحظات: '+x.notes:'')+'</div>';
     }).join('');
   }
   window.openLeaveModal = function(){
