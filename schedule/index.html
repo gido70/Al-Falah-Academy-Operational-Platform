@@ -480,7 +480,7 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
           <input type="date" id="leaveEnd">
         </div>
         <div class="fld full">
-          <label>عدد الأيام</label>
+          <label>عدد أيام العمل</label>
           <div class="leave-days-box" id="leaveDaysBox">اختر تاريخ البداية والنهاية</div>
         </div>
         <div class="fld full">
@@ -3614,8 +3614,15 @@ else{setTimeout(WKM.init,600);}
     if(!start || !end) return null;
     const s = new Date(start + 'T00:00:00');
     const e = new Date(end + 'T00:00:00');
-    const diff = Math.round((e - s) / 86400000);
-    return diff >= 0 ? diff + 1 : null;
+    let count=0;
+    if(e<s) return null;
+    const d=new Date(s);
+    while(d<=e){
+      const day=d.getDay(); //0=Sun 5=Fri 6=Sat
+      if(day!==5 && day!==6){ count++; } // يحسب أيام العمل فقط (الأحد-الخميس)
+      d.setDate(d.getDate()+1);
+    }
+    return count;
   }
   function calcLeaveDays(){
     const box = byId('leaveDaysBox');
