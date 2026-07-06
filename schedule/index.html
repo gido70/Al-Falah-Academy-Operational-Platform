@@ -405,19 +405,10 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
 .import-preview-warn{background:#fffbeb;border:1px solid #fbbf24;color:#78350f;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800;margin-top:10px;text-align:center}
 .save-db-strong{background:linear-gradient(135deg,#0d3b6e,#0e7f70)!important;color:#fff!important;border:2px solid rgba(255,255,255,.3)!important;font-weight:900!important}
 
-
-/* === ANNUAL LEAVE RANGE SAFE ADDITION === */
-.annual-leave-box{background:linear-gradient(135deg,#fff8e6,#ffffff);border:2px dashed var(--amber);border-radius:16px;padding:14px;margin-top:6px;box-shadow:0 4px 14px rgba(184,134,11,.08)}
-.annual-leave-title{font-size:15px;font-weight:900;color:var(--navy);margin-bottom:4px}
-.annual-leave-sub{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:10px}
-.annual-leave-grid{margin-top:8px}
-.annual-leave-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:flex-start}
-.annual-leave-result{margin-top:10px;background:#f8fafc;border:1px solid var(--border);border-right:5px solid var(--amber);border-radius:12px;padding:10px 12px;font-size:12px;color:var(--navy);font-weight:800;line-height:1.8}
-@media(max-width:850px){.annual-leave-actions{justify-content:center}}
 </style>
 </head>
-<body><a class="alfalah-fixed-home" href="../index.html">🏠 الرئيسية</a>
-<a class="platform-home-btn" href="../index.html">🏠 الرئيسية</a>
+<body><a class="alfalah-fixed-home" href="/Al-Falah-Academy-Operational-Platform/index.html">🏠 الرئيسية</a>
+<a class="platform-home-btn" href="/Al-Falah-Academy-Operational-Platform/index.html">🏠 الرئيسية</a>
 
 <div id="toast"></div>
 
@@ -539,21 +530,6 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
       <div class="fld full"><small style="color:#64748b;font-weight:700">اختر بداية الأسبوع من التقويم. إذا لم تكن الاثنين سيصححها النظام تلقائيًا إلى أقرب اثنين، ويجعل النهاية يوم الجمعة.</small></div>
       <div class="fld"><label>فترة المهمة</label><input value="13 أبريل 2026 — 31 ديسمبر 2026" readonly name="wmission"></div>
       <div class="fld"><label>إجازة متوقعة (إن وجدت)</label><input name="wleave" placeholder="مثال: أسبوعان في يوليو 2026"></div>
-      <div class="annual-leave-box full" id="annualLeaveBox">
-        <div class="annual-leave-title">🌴 تسجيل الإجازة السنوية الممتدة</div>
-        <div class="annual-leave-sub">استخدم هذا القسم عند وجود إجازة سنوية تمتد لأكثر من أسبوع. سيقوم النظام بتوزيعها تلقائياً على الأسابيع الواقعة داخل الفترة، لتظهر في رابط المدير وصفحة المتابعة الإدارية حسب كل أسبوع.</div>
-        <div class="g3 annual-leave-grid">
-          <div class="fld"><label>بداية الإجازة السنوية</label><input type="date" id="annualLeaveFrom" name="annualLeaveFrom"></div>
-          <div class="fld"><label>نهاية الإجازة السنوية</label><input type="date" id="annualLeaveTo" name="annualLeaveTo"></div>
-          <div class="fld"><label>مدة الإجازة</label><input id="annualLeaveDays" name="annualLeaveDays" readonly placeholder="تحسب تلقائياً"></div>
-          <div class="fld full"><label>ملاحظة الإجازة</label><input id="annualLeaveNote" name="annualLeaveNote" placeholder="مثال: إجازة سنوية معتمدة حسب الفترة المحددة"></div>
-        </div>
-        <div class="annual-leave-actions">
-          <button type="button" class="btn btn-gold bsm" id="btnApplyAnnualLeaveWeek">🌴 تطبيقها على الأسبوع الحالي</button>
-          <button type="button" class="btn btn-teal bsm" id="btnSaveAnnualLeaveRange">💾 حفظ الإجازة على كل الأسابيع</button>
-        </div>
-        <div class="annual-leave-result" id="annualLeaveResult">اختر بداية ونهاية الإجازة، ثم اضغط حفظ الإجازة على كل الأسابيع.</div>
-      </div>
     </div>
   </div>
 
@@ -3328,144 +3304,5 @@ else{setTimeout(WKM.init,600);}
 })();
 </script>
 
-
-<script>
-/* === ANNUAL LEAVE RANGE LOGIC — SAFE ADDITION 2026-07 === */
-(function(){
-  function q(id){return document.getElementById(id)}
-  function byName(n){return document.querySelector('[name="'+n+'"]')}
-  function pad(n){return String(n).padStart(2,'0')}
-  function parseISO(s){if(!s)return null;var d=new Date(String(s)+'T00:00:00');return isNaN(d)?null:d}
-  function fmt(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
-  function addDaysISO(s,n){var d=parseISO(s);if(!d)return '';d.setDate(d.getDate()+n);return fmt(d)}
-  function mondayISO(s){var d=parseISO(s);if(!d)return '';var g=d.getDay();var diff=(g===0?-6:1-g);d.setDate(d.getDate()+diff);return fmt(d)}
-  function weekNoInMonth(s){var d=parseISO(s);if(!d)return '';var first=new Date(d.getFullYear(),d.getMonth(),1);var fg=first.getDay();var offset=(fg===0?6:fg-1);return String(Math.ceil((d.getDate()+offset)/7));}
-  function dateKey(s){return String(s||'').replace(/[^0-9]/g,'')}
-  function arDate(s){try{var d=parseISO(s);return d?d.toLocaleDateString('ar-AE',{year:'numeric',month:'long',day:'numeric'}):s}catch(e){return s}}
-  function isWorkday(s){var d=parseISO(s);if(!d)return false;var g=d.getDay();return g>=1&&g<=5}
-  function overlapDays(from,to){var a=parseISO(from),b=parseISO(to),n=0;if(!a||!b||a>b)return 0;for(var d=new Date(a);d<=b;d.setDate(d.getDate()+1)){var g=d.getDay();if(g>=1&&g<=5)n++;}return n}
-  function rangeWeeks(from,to){var out=[];var start=mondayISO(from);var last=mondayISO(to);if(!start||!last)return out;for(var cur=start;cur<=last;cur=addDaysISO(cur,7))out.push(cur);return out;}
-  function toast(msg,color){ if(typeof window.toast==='function') window.toast(msg); else alert(msg); }
-  function readJson(x){try{return JSON.parse(x||'null')}catch(e){return null}}
-  function textJoin(arr){return (arr||[]).map(function(v){return String(v||'').trim()}).filter(Boolean).join(' / ')}
-  function setVal(nameOrId,v){var el=q(nameOrId)||byName(nameOrId); if(el) el.value=v;}
-  function getVal(nameOrId){var el=q(nameOrId)||byName(nameOrId); return el?el.value:'';}
-  function defaultDay(i){return {ain:(i===4?'08:00':'08:00'),aout:(i===4?'11:30':'14:00'),atype:'دوام رسمي',anote:'',dloc:'المقر الإداري — الدانة',dtasks:''};}
-  async function loadExistingWeek(mon){
-    var d=readJson(localStorage.getItem('falah_week_'+dateKey(mon))) || readJson(localStorage.getItem('falah_week_'+mon)) || readJson(localStorage.getItem('falah_week_date_'+mon));
-    if(d) return d;
-    try{
-      var c=(window.alfalahSupabase)||(window.AlfalahDBSync&&window.AlfalahDBSync.client&&window.AlfalahDBSync.client())||null;
-      if(c){
-        var r=await c.from('daily_work_logs').select('*').eq('work_date',mon).maybeSingle();
-        if(r && r.data){
-          return (typeof r.data.full_data==='object'&&r.data.full_data) || readJson(r.data.full_data) || readJson(r.data.tasks) || readJson(r.data.notes) || {};
-        }
-      }
-    }catch(e){console.warn('annual leave existing week read failed',e)}
-    return {};
-  }
-  function buildWeekData(base,mon,from,to,note){
-    var d=Object.assign({},base||{});
-    d.wstart=mon; d.wend=addDaysISO(mon,4); d.work_date=mon;
-    d.wnum=weekNoInMonth(mon); d.week_number_ui=d.wnum;
-    d.wstatus='إجازة سنوية'; d.work_type='إجازة سنوية';
-    d.week_title='إجازة سنوية: '+arDate(from)+' إلى '+arDate(to);
-    d.annualLeaveFrom=from; d.annualLeaveTo=to; d.annualLeaveDays=String(overlapDays(from,to)); d.annualLeaveNote=note||'';
-    d.wleave='إجازة سنوية من '+arDate(from)+' إلى '+arDate(to)+' — '+d.annualLeaveDays+' يوم عمل';
-    if(note) d.wleave += ' — '+note;
-    for(var i=0;i<5;i++){
-      var day=addDaysISO(mon,i); var inRange=(day>=from && day<=to);
-      var cur=defaultDay(i);
-      if(d['atype'+i]) cur.atype=d['atype'+i];
-      if(d['ain'+i]) cur.ain=d['ain'+i];
-      if(d['aout'+i]) cur.aout=d['aout'+i];
-      if(d['anote'+i]) cur.anote=d['anote'+i];
-      if(d['dloc'+i]) cur.dloc=d['dloc'+i];
-      if(d['dtasks'+i]) cur.dtasks=d['dtasks'+i];
-      if(inRange){
-        d['ain'+i]=''; d['aout'+i]=''; d['atype'+i]='إجازة سنوية';
-        d['anote'+i]=textJoin(['إجازة سنوية ضمن الفترة '+arDate(from)+' إلى '+arDate(to),note]);
-        d['dloc'+i]='—'; d['dtasks'+i]='إجازة سنوية معتمدة ضمن الفترة المحددة.';
-      }else{
-        d['ain'+i]=cur.ain; d['aout'+i]=cur.aout; d['atype'+i]=cur.atype; d['anote'+i]=cur.anote; d['dloc'+i]=cur.dloc; d['dtasks'+i]=cur.dtasks;
-      }
-    }
-    d._savedAt=new Date().toISOString();
-    d._savedAtAr=new Date().toLocaleString('ar-AE');
-    return d;
-  }
-  function updateLeaveDays(){
-    var from=getVal('annualLeaveFrom'), to=getVal('annualLeaveTo');
-    var el=q('annualLeaveDays');
-    if(!el)return;
-    if(!from||!to){el.value='';return;}
-    if(from>to){el.value='تاريخ النهاية قبل البداية';return;}
-    var n=overlapDays(from,to);
-    el.value=n+' يوم عمل';
-    var wl=byName('wleave');
-    if(wl) wl.value='إجازة سنوية من '+arDate(from)+' إلى '+arDate(to)+' — '+n+' يوم عمل';
-  }
-  function applyAnnualLeaveToCurrentWeek(){
-    var from=getVal('annualLeaveFrom'), to=getVal('annualLeaveTo'), note=getVal('annualLeaveNote');
-    if(!from||!to||from>to){alert('حدد بداية ونهاية الإجازة السنوية بصورة صحيحة.');return;}
-    var start=getVal('wstart')||mondayISO(from);
-    if(!getVal('wstart')){setVal('wstart',mondayISO(from));setVal('wend',addDaysISO(mondayISO(from),4));}
-    if(typeof alignWeekRange==='function') alignWeekRange();
-    setVal('wstatus','إجازة سنوية');
-    for(var i=0;i<5;i++){
-      var day=addDaysISO(getVal('wstart'),i);
-      if(day>=from && day<=to){
-        setVal('ain'+i,''); setVal('aout'+i,''); setVal('atype'+i,'إجازة سنوية');
-        setVal('anote'+i,textJoin(['إجازة سنوية ضمن الفترة '+arDate(from)+' إلى '+arDate(to),note]));
-        setVal('dloc'+i,'—'); setVal('dtasks'+i,'إجازة سنوية معتمدة ضمن الفترة المحددة.');
-        if(typeof styleRow==='function') styleRow(i);
-      }
-    }
-    updateLeaveDays();
-    if(typeof updateAttSumm==='function') updateAttSumm();
-    if(typeof syncToReport==='function') syncToReport();
-    var res=q('annualLeaveResult'); if(res) res.textContent='تم تطبيق الإجازة السنوية على أيام الأسبوع الحالي الواقعة داخل الفترة.';
-  }
-  async function saveAnnualLeaveRange(){
-    var from=getVal('annualLeaveFrom'), to=getVal('annualLeaveTo'), note=getVal('annualLeaveNote');
-    if(!from||!to||from>to){alert('حدد بداية ونهاية الإجازة السنوية بصورة صحيحة.');return;}
-    var weeks=rangeWeeks(from,to); if(!weeks.length){alert('لا توجد أسابيع صالحة داخل الفترة.');return;}
-    if(!confirm('سيتم تسجيل الإجازة السنوية على '+weeks.length+' أسبوع/أسابيع. هل تريد المتابعة؟')) return;
-    var saved=0, dbSaved=0, failed=[];
-    for(var w=0;w<weeks.length;w++){
-      var mon=weeks[w];
-      try{
-        var base=await loadExistingWeek(mon);
-        var d=buildWeekData(base,mon,from,to,note);
-        localStorage.setItem('falah_week_'+dateKey(mon),JSON.stringify(d));
-        localStorage.setItem('falah_week_'+mon,JSON.stringify(d));
-        localStorage.setItem('falah_week_date_'+mon,JSON.stringify(d));
-        saved++;
-        if(window.falahSafeWeekDateSave){ await window.falahSafeWeekDateSave(d); dbSaved++; }
-        else if(window.ScheduleImportPreview && ScheduleImportPreview._saveDataToDatabase){ await ScheduleImportPreview._saveDataToDatabase(d); dbSaved++; }
-      }catch(e){console.error(e);failed.push(mon);}
-    }
-    var msg='تم تجهيز الإجازة السنوية على '+saved+' أسبوع/أسابيع';
-    if(dbSaved) msg+='، وحُفظ منها في قاعدة البيانات: '+dbSaved;
-    if(failed.length) msg+='، وتعذر حفظ: '+failed.join('، ');
-    var res=q('annualLeaveResult'); if(res) res.textContent=msg;
-    if(weeks.length){
-      var first=weeks[0]; var d=readJson(localStorage.getItem('falah_week_'+dateKey(first))) || readJson(localStorage.getItem('falah_week_'+first));
-      if(d && typeof setFormData==='function'){ setFormData(d); if(typeof syncToReport==='function') setTimeout(syncToReport,120); }
-    }
-    toast('🌴 '+msg,'#0e7f70');
-  }
-  function bind(){
-    ['annualLeaveFrom','annualLeaveTo'].forEach(function(id){var el=q(id); if(el){el.addEventListener('change',updateLeaveDays);el.addEventListener('input',updateLeaveDays);}});
-    var st=byName('wstatus'); if(st){st.addEventListener('change',function(){if(st.value==='إجازة سنوية'){var from=q('annualLeaveFrom'),to=q('annualLeaveTo');if(!from.value&&getVal('wstart'))from.value=getVal('wstart');to.value='';updateLeaveDays();}})}
-    var b1=q('btnApplyAnnualLeaveWeek'); if(b1)b1.addEventListener('click',applyAnnualLeaveToCurrentWeek);
-    var b2=q('btnSaveAnnualLeaveRange'); if(b2)b2.addEventListener('click',saveAnnualLeaveRange);
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind); else bind();
-  window.applyAnnualLeaveToCurrentWeek=applyAnnualLeaveToCurrentWeek;
-  window.saveAnnualLeaveRange=saveAnnualLeaveRange;
-})();
-</script>
 </body>
 </html>
