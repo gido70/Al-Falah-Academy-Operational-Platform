@@ -414,12 +414,89 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
 .annual-leave-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:flex-start}
 .annual-leave-result{margin-top:10px;background:#f8fafc;border:1px solid var(--border);border-right:5px solid var(--amber);border-radius:12px;padding:10px 12px;font-size:12px;color:var(--navy);font-weight:800;line-height:1.8}
 @media(max-width:850px){.annual-leave-actions{justify-content:center}}
+
+/* === LEAVE MANAGEMENT MODAL SAFE ADDITION === */
+.leave-modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:999999;align-items:center;justify-content:center;padding:16px;direction:rtl}
+.leave-modal-overlay.show{display:flex}
+.leave-modal-card{background:#fff;border:1.5px solid var(--border);border-radius:22px;max-width:760px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 24px 70px rgba(13,59,110,.35)}
+.leave-modal-head{background:var(--grad);color:#fff;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.leave-modal-head h3{margin:0;font-size:20px;font-weight:900;color:#fff}
+.leave-modal-close{border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:12px;width:42px;height:42px;font-size:22px;font-weight:900;cursor:pointer}
+.leave-modal-body{padding:18px 20px}
+.leave-modal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.leave-modal-grid .full{grid-column:1/-1}
+.leave-modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.leave-days-box{background:#f8fafc;border:1.5px solid var(--border);border-right:5px solid var(--gold);border-radius:12px;padding:10px 12px;font-weight:900;color:var(--navy);line-height:1.8}
+.leave-saved-list{display:grid;gap:8px;margin-top:12px}
+.leave-saved-item{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:10px;line-height:1.8;font-size:12px}
+.leave-mini-btn{background:rgba(212,160,23,.32)!important;border-color:var(--amber)!important;color:#fff!important}
+@media(max-width:850px){.leave-modal-grid{grid-template-columns:1fr}.leave-modal-card{max-height:88vh}.leave-modal-head h3{font-size:17px}}
+@media print{.leave-modal-overlay{display:none!important}}
+
 </style>
 </head>
 <body><a class="alfalah-fixed-home" href="../index.html">🏠 الرئيسية</a>
 <a class="platform-home-btn" href="../index.html">🏠 الرئيسية</a>
 
 <div id="toast"></div>
+
+<div class="leave-modal-overlay" id="leaveModal" aria-hidden="true">
+  <div class="leave-modal-card" role="dialog" aria-modal="true" aria-labelledby="leaveModalTitle">
+    <div class="leave-modal-head">
+      <h3 id="leaveModalTitle">🏖️ إدارة الإجازات</h3>
+      <button type="button" class="leave-modal-close" onclick="closeLeaveModal()">×</button>
+    </div>
+    <div class="leave-modal-body">
+      <div class="leave-modal-grid">
+        <div class="fld">
+          <label>نوع الإجازة</label>
+          <select id="leaveType">
+            <option value="إجازة سنوية">🏖️ إجازة سنوية</option>
+            <option value="إجازة مرضية">🤒 إجازة مرضية</option>
+            <option value="إجازة أمومة">👶 إجازة أمومة</option>
+            <option value="حج / عمرة">🕌 حج / عمرة</option>
+            <option value="إجازة دراسية">🎓 إجازة دراسية</option>
+            <option value="دورة تدريبية">📚 دورة تدريبية</option>
+            <option value="مهمة رسمية">🏛️ مهمة رسمية</option>
+            <option value="إجازة اضطرارية">📝 إجازة اضطرارية</option>
+            <option value="إجازة بدون راتب">💼 إجازة بدون راتب</option>
+            <option value="أخرى">➕ أخرى</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>الحالة</label>
+          <select id="leaveStatus">
+            <option value="معتمدة">🟢 معتمدة</option>
+            <option value="قيد الاعتماد">🟡 قيد الاعتماد</option>
+            <option value="مرفوضة">🔴 مرفوضة</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>من</label>
+          <input type="date" id="leaveStart">
+        </div>
+        <div class="fld">
+          <label>إلى</label>
+          <input type="date" id="leaveEnd">
+        </div>
+        <div class="fld full">
+          <label>عدد الأيام</label>
+          <div class="leave-days-box" id="leaveDaysBox">اختر تاريخ البداية والنهاية</div>
+        </div>
+        <div class="fld full">
+          <label>ملاحظات</label>
+          <textarea id="leaveNotes" placeholder="ملاحظات اختيارية عن الإجازة"></textarea>
+        </div>
+      </div>
+      <div class="leave-modal-actions">
+        <button type="button" class="btn btn-gold" onclick="saveLeaveRecord()">💾 حفظ الإجازة</button>
+        <button type="button" class="btn btn-soft" onclick="closeLeaveModal()">إغلاق</button>
+      </div>
+      <div id="leaveSavedList" class="leave-saved-list"></div>
+    </div>
+  </div>
+</div>
+
 
 <div class="email-panel" id="emailPanel">
   <div class="email-card">
@@ -466,6 +543,7 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
   <div class="gold-bar"></div>
   <nav class="hdr-nav" id="hdrNav"></nav>
   <div class="hdr-actions">
+<button type="button" class="ha ha-gold leave-mini-btn" onclick="openLeaveModal()">🏖️ إدارة الإجازات</button>
     <button class="ha ha-gold" id="ha-gen">📄 التقرير الكامل</button>
     <button class="ha" style="background:rgba(91,33,182,.3);border-color:#a78bfa;" id="ha-mgr">👔 عرض المدير</button>
     <button class="ha ha-teal" id="ha-email">📧 Gmail</button>
@@ -3528,5 +3606,77 @@ else{setTimeout(WKM.init,600);}
   window.saveAnnualLeaveRange=saveAnnualLeaveRange;
 })();
 </script>
+
+<script id="leave-modal-script">
+(function(){
+  function byId(id){return document.getElementById(id);}
+  function daysBetween(start,end){
+    if(!start || !end) return null;
+    const s = new Date(start + 'T00:00:00');
+    const e = new Date(end + 'T00:00:00');
+    const diff = Math.round((e - s) / 86400000);
+    return diff >= 0 ? diff + 1 : null;
+  }
+  function calcLeaveDays(){
+    const box = byId('leaveDaysBox');
+    const start = byId('leaveStart') ? byId('leaveStart').value : '';
+    const end = byId('leaveEnd') ? byId('leaveEnd').value : '';
+    const days = daysBetween(start,end);
+    if(!box) return;
+    if(days === null){ box.textContent = 'اختر تاريخ البداية والنهاية بشكل صحيح'; return; }
+    box.textContent = days + ' يوم';
+  }
+  function getLeaves(){
+    try{return JSON.parse(localStorage.getItem('alfalah_employee_leaves') || '[]') || [];}catch(e){return [];}
+  }
+  function setLeaves(items){
+    localStorage.setItem('alfalah_employee_leaves', JSON.stringify(items));
+  }
+  function renderLeaves(){
+    const list = byId('leaveSavedList');
+    if(!list) return;
+    const items = getLeaves();
+    if(!items.length){ list.innerHTML = '<div class="leave-saved-item">لا توجد إجازات محفوظة بعد.</div>'; return; }
+    list.innerHTML = items.slice().reverse().map(function(x){
+      return '<div class="leave-saved-item"><b>'+x.type+'</b> — '+x.status+'<br>الفترة: '+x.start+' إلى '+x.end+' — '+x.days+' يوم'+(x.notes?'<br>ملاحظات: '+x.notes:'')+'</div>';
+    }).join('');
+  }
+  window.openLeaveModal = function(){
+    const modal = byId('leaveModal');
+    if(modal){ modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); }
+    calcLeaveDays(); renderLeaves();
+  };
+  window.closeLeaveModal = function(){
+    const modal = byId('leaveModal');
+    if(modal){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+  };
+  window.saveLeaveRecord = function(){
+    const type = byId('leaveType') ? byId('leaveType').value : 'إجازة';
+    const status = byId('leaveStatus') ? byId('leaveStatus').value : 'معتمدة';
+    const start = byId('leaveStart') ? byId('leaveStart').value : '';
+    const end = byId('leaveEnd') ? byId('leaveEnd').value : '';
+    const notes = byId('leaveNotes') ? byId('leaveNotes').value.trim() : '';
+    const days = daysBetween(start,end);
+    if(!start || !end || days === null){ alert('يرجى اختيار تاريخ بداية ونهاية صحيحين.'); return; }
+    const items = getLeaves();
+    items.push({id:Date.now(), type:type, status:status, start:start, end:end, days:days, notes:notes, created_at:new Date().toISOString()});
+    setLeaves(items);
+    renderLeaves();
+    alert('تم حفظ الإجازة بنجاح.');
+    closeLeaveModal();
+  };
+  document.addEventListener('input', function(e){
+    if(e.target && (e.target.id === 'leaveStart' || e.target.id === 'leaveEnd')) calcLeaveDays();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLeaveModal();
+  });
+  document.addEventListener('click', function(e){
+    const modal = byId('leaveModal');
+    if(modal && e.target === modal) closeLeaveModal();
+  });
+})();
+</script>
+
 </body>
 </html>
