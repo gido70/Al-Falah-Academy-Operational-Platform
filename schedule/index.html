@@ -3685,5 +3685,9 @@ else{setTimeout(WKM.init,600);}
 })();
 </script>
 
-</body>
+<script>
+let leaveEditIndex=-1;
+function deleteLeaveRecord(i){if(!confirm('هل تريد حذف هذه الإجازة؟'))return;let a=JSON.parse(localStorage.getItem('alfalah_employee_leaves')||'[]');a.splice(i,1);localStorage.setItem('alfalah_employee_leaves',JSON.stringify(a));if(window.renderLeaveSavedList)renderLeaveSavedList();if(window.renderEmployeeLeaves)renderEmployeeLeaves();}
+function editLeaveRecord(i){let a=JSON.parse(localStorage.getItem('alfalah_employee_leaves')||'[]');let r=a[i];if(!r)return;leaveEditIndex=i;leaveType.value=r.type;leaveStatus.value=r.status;leaveStart.value=r.start;leaveEnd.value=r.end;leaveNotes.value=r.notes||'';if(window.updateLeaveDays)updateLeaveDays();}
+</script></body>
 </html>
