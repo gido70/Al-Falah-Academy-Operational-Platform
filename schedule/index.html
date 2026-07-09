@@ -3644,8 +3644,9 @@ else{setTimeout(WKM.init,600);}
     if(!list) return;
     const items = getLeaves();
     if(!items.length){ list.innerHTML = '<div class="leave-saved-item">لا توجد إجازات محفوظة بعد.</div>'; return; }
-    list.innerHTML = items.slice().reverse().map(function(x){
-      return '<div class="leave-saved-item"><b>'+x.type+'</b> — '+x.status+'<br>الفترة: '+x.start+' إلى '+x.end+' — '+x.days+' يوم عمل'+(x.notes?'<br>ملاحظات: '+x.notes:'')+'<br><button onclick="deleteLeaveRecord('+i+')" style="margin-top:6px;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:4px 14px;cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;font-weight:700">🗑️ حذف</button></div>';
+    list.innerHTML = items.slice().reverse().map(function(x, i){
+      var realIndex = items.length - 1 - i;
+      return '<div class="leave-saved-item"><b>'+x.type+'</b> — '+x.status+'<br>الفترة: '+x.start+' إلى '+x.end+' — '+x.days+' يوم عمل'+(x.notes?'<br>ملاحظات: '+x.notes:'')+'<br><button onclick="deleteLeaveRecord('+realIndex+')" style="margin-top:6px;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:4px 14px;cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;font-weight:700">🗑️ حذف</button></div>';
     }).join('');
   }
   window.openLeaveModal = function(){
