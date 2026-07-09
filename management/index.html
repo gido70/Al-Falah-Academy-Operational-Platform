@@ -757,17 +757,9 @@ if(r && n) r.value=n;
           (active?'<span class="employee-leave-pill">متبقٍ: '+remaining+' يوم عمل</span>':'')+
         '</div>'+
         (x.notes?'<div style="margin-top:6px;color:#5c3b00">ملاحظات: '+String(x.notes).replace(/[<>]/g,'')+'</div>':'')+
-        '<div style="margin-top:10px"><button onclick="deleteLeave(\''+x.id+'\')" style="background:#c0392b;color:#fff;border:none;border-radius:8px;padding:6px 16px;cursor:pointer;font-family:Cairo,sans-serif;font-size:14px;font-weight:700">🗑️ حذف</button></div>'+
       '</div>';
     }).join('');
   }
-  function deleteLeave(id){
-    if(!confirm('هل تريد حذف هذه الإجازة؟')) return;
-    var leaves=getLeaves().filter(function(x){ return x.id !== id; });
-    localStorage.setItem('alfalah_employee_leaves', JSON.stringify(leaves));
-    renderEmployeeLeaves();
-  }
-  window.deleteLeave = deleteLeave;
   document.addEventListener('DOMContentLoaded', renderEmployeeLeaves);
   window.addEventListener('storage', renderEmployeeLeaves);
   window.renderEmployeeLeaves = renderEmployeeLeaves;
