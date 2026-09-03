@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>سجل النشاط اليومي | أكاديمية الفلاح</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+:root{--navy:#0c447c;--blue:#185fa5;--teal:#0f9d8a;--gold:#ba7517;--amber:#f0a500;--bg:#e8f0fa;--text:#0c2a4a;--muted:#5a7fa8;--border:#b8d4f0;--green:#0f6e56;--red:#c0392b;--soft:#f8fbff;--grad:linear-gradient(135deg,#0c447c,#185fa5,#0f9d8a)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Cairo,Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#e8f0fa,#f7fbff);color:var(--text)}
+.wrap{max-width:1160px;margin:auto;padding:18px 16px 80px}.top{position:sticky;top:0;z-index:50;background:rgba(232,240,250,.96);backdrop-filter:blur(10px);border-bottom:1px solid #cfe2f5}.topin{max-width:1160px;margin:auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{font-weight:900;color:var(--navy)}.home{border:0;border-radius:999px;padding:10px 16px;background:var(--grad);color:white;text-decoration:none;font-weight:900}
+.hero{background:var(--grad);border-radius:24px;color:#fff;text-align:center;padding:30px 24px;margin-bottom:18px;box-shadow:0 14px 36px rgba(12,68,124,.22)}.hero h1{margin:0;font-size:36px}.hero p{margin:8px auto 0;max-width:850px;line-height:1.9;color:rgba(255,255,255,.92)}
+.card{background:#fff;border:1.5px solid var(--border);border-radius:24px;padding:24px;margin:18px 0;box-shadow:0 8px 26px rgba(12,68,124,.10)}.card h2{margin:0 0 16px;color:var(--navy);font-size:27px}.card h3{margin:0 0 10px;color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}label{display:block;font-weight:900;color:var(--navy);margin-bottom:6px}input,select,textarea{width:100%;min-height:50px;border:2px solid var(--border);border-radius:14px;padding:10px 12px;background:#f8fbff;font-family:Cairo,sans-serif;color:var(--text);font-size:14px;outline:none}textarea{min-height:100px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,.12);background:white}.hint{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.7}
+.btn{border:0;border-radius:13px;padding:11px 18px;font-family:Cairo,sans-serif;font-weight:900;cursor:pointer}.btn.teal{background:linear-gradient(135deg,var(--green),var(--teal));color:white}.btn.gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:white}.btn.outline{background:white;border:2px solid var(--border);color:var(--navy)}.btn.red{background:#fff1f1;color:#8d1d1d;border:1px solid #f2b5b5}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.multi{position:relative}.multi-btn{width:100%;min-height:50px;border:2px solid var(--border);border-radius:14px;background:#f8fbff;padding:10px 12px;text-align:right;font-family:Cairo,sans-serif;font-weight:700;color:var(--text);cursor:pointer}.multi.open .multi-btn{border-color:var(--blue);background:white}.multi-panel{display:none;position:absolute;top:calc(100% + 5px);right:0;left:0;z-index:60;background:white;border:2px solid var(--border);border-radius:16px;box-shadow:0 16px 36px rgba(12,68,124,.20);max-height:310px;overflow:auto;padding:8px}.multi.open .multi-panel{display:block}.multi-panel label{display:flex;align-items:center;gap:8px;padding:9px;border-radius:10px;margin:0;color:var(--text);font-weight:700;cursor:pointer}.multi-panel label:hover{background:#eef6ff}.multi-panel input[type=checkbox]{width:auto;min-height:auto}.add-option{display:flex;gap:6px;padding:9px;border-top:1px solid #e4edf7;position:sticky;bottom:0;background:white}.add-option input{min-height:42px}.add-option button{white-space:nowrap}
+.status{display:none;margin-top:12px;border-radius:12px;padding:12px;font-weight:800}.status.ok{display:block;background:#e1f5ee;color:#085041;border-right:5px solid var(--teal)}.status.warn{display:block;background:#fff8e6;color:#5c3b00;border-right:5px solid var(--gold)}.status.err{display:block;background:#fcebeb;color:#791f1f;border-right:5px solid var(--red)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.kpi{background:#f8fbff;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}.kpi strong{display:block;color:var(--navy);font-size:26px}.kpi span{color:var(--muted);font-weight:800;font-size:12px}.record{background:#f8fbff;border:1.5px solid #d8e6f5;border-radius:18px;padding:16px;margin:12px 0}.record-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}.record-title{font-weight:900;color:var(--navy)}.record-meta{font-size:12px;color:var(--muted)}.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.chip{display:inline-block;background:#e6f1fb;color:var(--navy);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:800}.record-body{line-height:1.9}.record-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.empty{background:#fff8e6;border-right:5px solid var(--gold);border-radius:14px;padding:14px;text-align:center;color:#603b06;font-weight:800}.report{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:20px}.report h3{border-bottom:2px solid #d8e6f5;padding-bottom:8px}.report-section{margin:16px 0}.summary-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.summary-item{background:#f8fbff;border:1px solid #d8e6f5;border-radius:14px;padding:12px}.summary-item b{display:block;color:var(--navy)}
+@media(max-width:900px){.grid,.grid2,.kpis,.summary-list{grid-template-columns:1fr}.hero h1{font-size:28px}.multi-panel{position:static;margin-top:6px}.record-head{display:block}.topin{justify-content:center}}
+@media print{.top,.no-print,.entry-card,.filters-card,.record-actions{display:none!important}.wrap{max-width:100%;padding:0}.card{box-shadow:none}.hero{box-shadow:none}.report{border:0}}
+
+/* === مركز إخراج التقارير — مسار مستقل مميز === */
+.output-center{border:2px solid #8b5a83;background:linear-gradient(135deg,#fff,#fbf6ff);box-shadow:0 12px 34px rgba(99,42,88,.12);position:relative;overflow:visible}
+.output-center:before{content:"";position:absolute;right:0;top:0;bottom:0;width:8px;background:linear-gradient(180deg,#6f2b5f,#8b5a83,#ba7517);border-radius:0 24px 24px 0}
+.output-head{background:linear-gradient(135deg,#542044,#76345f,#0c447c);color:#fff;border-radius:20px;padding:18px 20px;margin:-4px 0 18px}
+.output-head h2{color:#fff!important;margin:0 0 6px!important}.output-head p{margin:0;line-height:1.9;color:rgba(255,255,255,.92)}
+.output-badge{display:inline-block;background:#fff3cc;color:#6b3b00;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:900;margin-bottom:8px}
+.output-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:start}
+.output-note{background:#f8f1fb;border-right:6px solid #6f2b5f;border-radius:14px;padding:12px 14px;line-height:1.9;color:#4f2145;font-weight:700;margin-top:12px}
+.btn.word{background:linear-gradient(135deg,#185fa5,#0c447c);color:#fff}.btn.mail{background:linear-gradient(135deg,#6f2b5f,#9a477e);color:#fff}.btn.snapshot{background:linear-gradient(135deg,#7a4a00,#ba7517);color:#fff}
+.report-ref{display:inline-block;background:#f3eaf6;color:#6f2b5f;border:1px solid #dbc3e2;border-radius:999px;padding:5px 11px;font-weight:900;font-size:12px;margin:4px}
+.snapshot-list{display:grid;gap:10px;margin-top:12px}.snapshot-card{background:#fbf8fc;border:1.5px solid #dfcde4;border-radius:16px;padding:14px}.snapshot-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.snapshot-ref{font-weight:900;color:#6f2b5f}.snapshot-meta{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.output-tools{grid-template-columns:1fr}}
+@media print{.output-center,.snapshot-section{display:none!important}}
+
+</style>
+</head>
+<body>
+<header class="top no-print"><div class="topin"><div class="brand">📘 سجل النشاط اليومي — أكاديمية الفلاح</div><a class="home" href="../schedule/index.html">🏠 العودة إلى الصفحة الرئيسية</a></div></header>
+<div class="wrap">
+<section class="hero"><h1>سجل النشاط اليومي</h1><p>المصدر الأساسي لتوثيق العمل اليومي: اجتماع، زيارة، اتصال، متابعة، تقرير، أو أي نشاط آخر. يُسجل الحدث مرة واحدة، ثم يمكن تجميعه تلقائيًا في تقرير يومي أو أسبوعي أو شهري أو لفترة مخصصة.</p></section>
+
+<section class="card entry-card">
+<h2>إضافة نشاط جديد</h2>
+<div class="grid">
+  <div><label>التاريخ</label><input id="activityDate" type="date"></div>
+  <div><label>وقت البداية</label><input id="startTime" type="time"></div>
+  <div><label>وقت النهاية (اختياري)</label><input id="endTime" type="time"></div>
+
+  <div><label>نوع النشاط</label><div class="multi" data-field="activityTypes"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+  <div><label>الجهة / الأطراف</label><div class="multi" data-field="entities"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+  <div><label>وسيلة التواصل</label><div class="multi" data-field="channels"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+
+  <div><label>المدرسة / الموقع</label><div class="multi" data-field="locations"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+  <div><label>تصنيف الموضوع</label><div class="multi" data-field="topics"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+  <div><label>حالة المتابعة</label><div class="multi" data-field="followupStatus"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+
+  <div class="full"><label>عنوان النشاط / الموضوع</label><input id="subject" placeholder="مثال: اجتماع مع الإدارة التعليمية بشأن خطة تطوير المكتبات"></div>
+  <div class="full"><label>ما تم</label><textarea id="details" placeholder="اكتب بإيجاز ما حدث وما تم تنفيذه..."></textarea></div>
+  <div class="full"><label>النتيجة / القرار</label><textarea id="result" placeholder="النتيجة التي انتهى إليها النشاط أو ما تم الاتفاق عليه..."></textarea></div>
+  <div><label>متابعة لاحقة؟</label><select id="needsFollowup"><option value="لا">لا</option><option value="نعم">نعم</option></select></div>
+  <div><label>تاريخ المتابعة</label><input id="followupDate" type="date"></div>
+  <div><label>الأولوية</label><select id="priority"><option value="عادية">عادية</option><option value="مهمة">مهمة</option><option value="عاجلة">عاجلة</option></select></div>
+  <div class="full"><label>ملاحظة / تعقيب حر</label><textarea id="note" placeholder="أي ملاحظة إضافية تريد حفظها كما هي..."></textarea></div>
+</div>
+<div class="actions"><button class="btn teal" type="button" onclick="saveActivity()">💾 حفظ النشاط</button><button class="btn outline" type="button" onclick="clearForm()">🧹 نشاط جديد</button></div>
+<div id="saveStatus" class="status"></div>
+</section>
+
+<section class="card filters-card">
+<h2>استرجاع السجل وإعداد التقرير</h2>
+<div class="grid">
+  <div><label>نوع التقرير</label><select id="reportMode" onchange="setReportDates()"><option value="day">يومي</option><option value="week">أسبوعي</option><option value="month">شهري</option><option value="custom">فترة مخصصة</option><option value="all">كل السجل</option></select></div>
+  <div><label>من تاريخ</label><input id="fromDate" type="date"></div>
+  <div><label>إلى تاريخ</label><input id="toDate" type="date"></div>
+  <div><label>بحث نصي</label><input id="searchText" placeholder="شركة، مدرسة، موضوع، اسم..."></div>
+  <div><label>فلتر نوع النشاط</label><div class="multi" data-field="filterActivityTypes"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+  <div><label>فلتر الجهة</label><div class="multi" data-field="filterEntities"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div></div>
+</div>
+<div class="actions"><button class="btn teal" type="button" onclick="renderReport()">📊 إنشاء التقرير</button><button class="btn outline" type="button" onclick="exportJSON()">⬇️ نسخة احتياطية JSON</button><label class="btn outline" style="cursor:pointer">⬆️ استيراد JSON<input id="importFile" type="file" accept="application/json,.json" style="display:none" onchange="importJSON(event)"></label></div>
+</section>
+
+<section class="card output-center no-print">
+  <div class="output-head"><span class="output-badge">مسار جديد مستقل</span><h2>مركز إخراج ومشاركة التقرير</h2><p>حدد مستوى الإخراج والجهة الموجّه إليها، ثم أنشئ التقرير. لا يوجد ربط بأي بريد إلكتروني؛ جميع خيارات المراسلة تعمل بالنسخ فقط.</p></div>
+  <div class="output-tools">
+    <div><label>مستوى الإخراج</label><select id="outputLevel"><option value="full">تقرير كامل</option><option value="executive">تقرير تنفيذي</option><option value="brief">ملخص سريع</option></select><div class="hint">يؤثر فقط على شكل المخرج، ولا يغيّر البيانات المحفوظة.</div></div>
+    <div><label>موجّه إلى</label><div class="multi" data-field="outputRecipients"><button class="multi-btn" type="button"></button><div class="multi-panel"></div></div><div class="hint">يمكن اختيار أكثر من جهة، أو الضغط «+ إضافة» لإضافة جهة جديدة ثابتة.</div></div>
+    <div><label>عنوان التقرير</label><input id="outputTitle" placeholder="مثال: التقرير الأسبوعي لأعمال المتابعة"></div>
+  </div>
+  <div class="output-note">يُحفظ النشاط مرة واحدة. هذه الأدوات تغيّر طريقة إخراج التقرير فقط: نص، بريد منسوخ، Word، طباعة، أو نسخة مرجعية محفوظة.</div>
+  <div class="actions">
+    <button class="btn teal" type="button" onclick="renderReport()">🔄 إنشاء / تحديث التقرير</button>
+    <button class="btn outline" type="button" onclick="copyReport()">📋 نسخ نص التقرير</button>
+    <button class="btn mail" type="button" onclick="copyEmailDraft()">✉️ نسخ البريد كاملًا</button>
+    <button class="btn word" type="button" onclick="exportWord()">📝 تصدير Word</button>
+    <button class="btn gold" type="button" onclick="printReport()">🖨️ طباعة</button>
+    <button class="btn snapshot" type="button" onclick="saveReportSnapshot()">🔖 حفظ نسخة مرجعية</button>
+  </div>
+  <div id="outputStatus" class="status"></div>
+</section>
+
+<section class="card"><h2>التقرير الناتج</h2><div id="reportOutput"><div class="empty">اختر الفترة واضغط «إنشاء التقرير».</div></div></section>
+<section class="card snapshot-section"><h2>النسخ المرجعية المحفوظة</h2><div class="hint">توثّق ما تم إخراجه في وقت محدد برقم مرجعي، دون تغيير سجل الأنشطة الأصلي.</div><div id="snapshotList" class="snapshot-list"></div></section>
+<section class="card"><h2>آخر الأنشطة المحفوظة</h2><div id="recentList"></div></section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
+<script>
+const STORE_KEY='alfalah_daily_activity_v1';
+const OPTIONS_KEY='alfalah_daily_activity_options_v1';
+const TABLE_NAME='daily_activity_logs';
+const SNAPSHOT_KEY='alfalah_daily_activity_report_snapshots_v1';
+const DEFAULT_OPTIONS={
+ activityTypes:['اجتماع','زيارة ميدانية','اتصال هاتفي','بريد إلكتروني','متابعة','إعداد تقرير','تحليل','مراجعة مستندات','تنسيق','تدريب','مهمة إدارية'],
+ entities:['الإدارة التعليمية','إدارة المدرسة','موظف إدارة تعليمية','شركة','مورد / ناشر','أخصائي مكتبة','جهة خارجية','فريق داخلي'],
+ channels:['حضوري','هاتف','WhatsApp','بريد إلكتروني','Zoom','Google Meet','Microsoft Teams'],
+ locations:['الديوان','الخبيصي','الجيمي','الشارقة','بني ياس','محمد بن زايد','الدانة','عن بُعد'],
+ topics:['تقييم المكتبات','الدوام','المجموعات','الأنظمة','التدريب','الكادر المهني','الاشتراكات','التقارير','العروض التقديمية','متابعة إدارية','تحول رقمي'],
+ followupStatus:['مكتمل','قيد المتابعة','بانتظار رد','مطلوب إجراء','مؤجل'],
+ outputRecipients:['الإدارة التعليمية','مدير الإدارة','إدارة المدرسة','شركة / مورد','جهة خارجية','للحفظ الداخلي']
+};
+const selections={};
+function $(id){return document.getElementById(id)}
+function safe(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function uuid(){return (crypto&&crypto.randomUUID)?crypto.randomUUID():'act_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
+function today(){return new Date().toISOString().slice(0,10)}
+function getOptions(){try{return {...DEFAULT_OPTIONS,...JSON.parse(localStorage.getItem(OPTIONS_KEY)||'{}')}}catch(e){return {...DEFAULT_OPTIONS}}}
+function saveOptions(o){localStorage.setItem(OPTIONS_KEY,JSON.stringify(o))}
+function getLocal(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'[]')}catch(e){return []}}
+function setLocal(rows){localStorage.setItem(STORE_KEY,JSON.stringify(rows))}
+function sb(){return window.alfalahSupabase||window.supabaseClient||(window.AlfalahDBSync&&window.AlfalahDBSync.client&&window.AlfalahDBSync.client())||null}
+function showStatus(msg,type='ok'){let el=$('saveStatus');el.textContent=msg;el.className='status '+type}
+function baseField(field){return field.replace(/^filter/,'').replace(/^A/,'a').replace(/^E/,'e')}
+function optionKeyForField(field){if(field==='filterActivityTypes')return 'activityTypes';if(field==='filterEntities')return 'entities';return field}
+function renderMulti(el){const field=el.dataset.field,key=optionKeyForField(field),opts=getOptions()[key]||[];selections[field]=selections[field]||[];const btn=el.querySelector('.multi-btn'),panel=el.querySelector('.multi-panel');btn.textContent=selections[field].length?selections[field].join('، '):'— اختر واحدًا أو أكثر —';panel.innerHTML=opts.map(v=>`<label><input type="checkbox" value="${safe(v)}" ${selections[field].includes(v)?'checked':''}> <span>${safe(v)}</span></label>`).join('')+`<div class="add-option"><input type="text" placeholder="خيار جديد"><button class="btn outline" type="button">+ إضافة</button></div>`;panel.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListener('change',()=>{const vals=[...panel.querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);selections[field]=vals;btn.textContent=vals.length?vals.join('، '):'— اختر واحدًا أو أكثر —'}));panel.querySelector('.add-option button').onclick=()=>{const inp=panel.querySelector('.add-option input'),v=inp.value.trim();if(!v)return;const all=getOptions();all[key]=all[key]||[];if(!all[key].includes(v))all[key].push(v);saveOptions(all);if(!selections[field].includes(v))selections[field].push(v);document.querySelectorAll(`.multi[data-field="${field}"]`).forEach(renderMulti);syncRelatedFilters();};btn.onclick=(e)=>{e.stopPropagation();document.querySelectorAll('.multi.open').forEach(x=>{if(x!==el)x.classList.remove('open')});el.classList.toggle('open')};}
+function syncRelatedFilters(){document.querySelectorAll('.multi').forEach(renderMulti)}
+document.addEventListener('click',e=>{if(!e.target.closest('.multi'))document.querySelectorAll('.multi.open').forEach(x=>x.classList.remove('open'))});
+function clearForm(){['startTime','endTime','subject','details','result','followupDate','note'].forEach(id=>$(id).value='');$('activityDate').value=today();$('needsFollowup').value='لا';$('priority').value='عادية';['activityTypes','entities','channels','locations','topics','followupStatus'].forEach(k=>selections[k]=[]);syncRelatedFilters();showStatus('جاهز لإدخال نشاط جديد.','ok')}
+function payloadFromForm(){return{id:uuid(),activity_date:$('activityDate').value||today(),start_time:$('startTime').value||'',end_time:$('endTime').value||'',activity_types:[...(selections.activityTypes||[])],entities:[...(selections.entities||[])],channels:[...(selections.channels||[])],locations:[...(selections.locations||[])],topics:[...(selections.topics||[])],followup_status:[...(selections.followupStatus||[])],subject:$('subject').value.trim(),details:$('details').value.trim(),result:$('result').value.trim(),needs_followup:$('needsFollowup').value==='نعم',followup_date:$('followupDate').value||'',priority:$('priority').value,note:$('note').value.trim(),created_at:new Date().toISOString(),updated_at:new Date().toISOString()}}
+async function saveActivity(){const d=payloadFromForm();if(!d.subject&&!d.details&&!d.activity_types.length){showStatus('اكتب عنوانًا أو تفاصيل أو اختر نوع النشاط قبل الحفظ.','warn');return}let rows=getLocal();rows.push(d);setLocal(rows);let cloud='محفوظ محليًا';try{const c=sb();if(c){const res=await c.from(TABLE_NAME).insert(d).select('id').maybeSingle();if(res.error)throw res.error;cloud='ومزامن مع قاعدة البيانات'}}catch(e){console.warn('daily activity cloud save',e);cloud='محفوظ محليًا؛ لم تُفعّل قاعدة بيانات السجل الجديد بعد'}showStatus('تم حفظ النشاط '+cloud+'.','ok');renderRecent();clearForm();}
+async function loadCloud(){try{const c=sb();if(!c)return null;const res=await c.from(TABLE_NAME).select('*').order('activity_date',{ascending:false}).order('start_time',{ascending:false});if(res.error)throw res.error;return Array.isArray(res.data)?res.data:null}catch(e){return null}}
+async function getAllRows(){const cloud=await loadCloud();if(cloud&&cloud.length){const local=getLocal(),map=new Map();[...cloud,...local].forEach(r=>map.set(r.id||JSON.stringify(r),r));return [...map.values()]}return getLocal()}
+function rangeForMode(mode){const now=new Date();if(mode==='day'){const t=today();return[t,t]}if(mode==='week'){const d=new Date(now);const g=d.getDay(),diff=(g===0?-6:1-g);d.setDate(d.getDate()+diff);const a=d.toISOString().slice(0,10);const e=new Date(d);e.setDate(e.getDate()+4);return[a,e.toISOString().slice(0,10)]}if(mode==='month'){const a=new Date(now.getFullYear(),now.getMonth(),1).toISOString().slice(0,10);const e=new Date(now.getFullYear(),now.getMonth()+1,0).toISOString().slice(0,10);return[a,e]}return['','']}
+function setReportDates(){const m=$('reportMode').value,[a,b]=rangeForMode(m);if(m!=='custom'&&m!=='all'){$('fromDate').value=a;$('toDate').value=b}else if(m==='all'){$('fromDate').value='';$('toDate').value=''}}
+function within(r,a,b){return(!a||r.activity_date>=a)&&(!b||r.activity_date<=b)}
+function intersects(arr,selected){return!selected.length||(arr||[]).some(x=>selected.includes(x))}
+function countValues(rows,key){const c={};rows.forEach(r=>(r[key]||[]).forEach(v=>c[v]=(c[v]||0)+1));return Object.entries(c).sort((a,b)=>b[1]-a[1])}
+function dateLabel(a,b){if(a&&b&&a===b)return a;if(a||b)return`${a||'البداية'} إلى ${b||'النهاية'}`;return'كل السجل'}
+async function filteredRows(){let rows=await getAllRows(),a=$('fromDate').value,b=$('toDate').value,q=$('searchText').value.trim().toLowerCase(),acts=selections.filterActivityTypes||[],ents=selections.filterEntities||[];return rows.filter(r=>within(r,a,b)&&intersects(r.activity_types,acts)&&intersects(r.entities,ents)&&(!q||JSON.stringify(r).toLowerCase().includes(q))).sort((x,y)=>(x.activity_date+' '+(x.start_time||'')).localeCompare(y.activity_date+' '+(y.start_time||'')))}
+async function renderReport(){
+  const rows=await filteredRows(),a=$('fromDate').value,b=$('toDate').value;
+  const level=$('outputLevel')?.value||'full';
+  const recipients=selections.outputRecipients||[];
+  const customTitle=$('outputTitle')?.value.trim()||'';
+  const days=new Set(rows.map(r=>r.activity_date)).size,follow=rows.filter(r=>r.needs_followup).length,entities=new Set(rows.flatMap(r=>r.entities||[])).size;
+  const acts=countValues(rows,'activity_types'),ch=countValues(rows,'channels'),ents=countValues(rows,'entities'),locs=countValues(rows,'locations'),topics=countValues(rows,'topics');
+  const title=customTitle||(({brief:'ملخص النشاط',executive:'التقرير التنفيذي للنشاط',full:'تقرير سجل النشاط اليومي'})[level]||'تقرير سجل النشاط اليومي');
+  let html=`<div class="report" data-output-level="${safe(level)}"><div style="text-align:center"><span class="report-ref">${level==='brief'?'ملخص سريع':level==='executive'?'تقرير تنفيذي':'تقرير كامل'}</span><h3>${safe(title)}</h3><p><b>الفترة:</b> ${safe(dateLabel(a,b))}${recipients.length?`<br><b>موجّه إلى:</b> ${safe(recipients.join('، '))}`:''}</p></div>
+  <div class="kpis"><div class="kpi"><strong>${rows.length}</strong><span>إجمالي الأنشطة</span></div><div class="kpi"><strong>${days}</strong><span>أيام نشاط</span></div><div class="kpi"><strong>${entities}</strong><span>جهات مختلفة</span></div><div class="kpi"><strong>${follow}</strong><span>متابعات لاحقة</span></div></div>`;
+  if(!rows.length){html+='<div class="empty">لا توجد أنشطة مطابقة لهذه الفترة أو الفلاتر.</div></div>';$('reportOutput').innerHTML=html;return}
+  html+=`<div class="report-section"><h3>ملخص النشاط</h3><div class="summary-list">${acts.slice(0,12).map(([k,v])=>`<div class="summary-item"><b>${safe(k)}</b>${v} مرة</div>`).join('')}</div></div>`;
+  if(level!=='brief'){
+    html+=`<div class="report-section"><h3>وسائل التواصل</h3><div class="summary-list">${ch.slice(0,12).map(([k,v])=>`<div class="summary-item"><b>${safe(k)}</b>${v} مرة</div>`).join('')}</div></div>`;
+    html+=`<div class="report-section"><h3>الجهات الأكثر ورودًا</h3><div class="summary-list">${ents.slice(0,12).map(([k,v])=>`<div class="summary-item"><b>${safe(k)}</b>${v} مرة</div>`).join('')}</div></div>`;
+  }
+  if(level==='full'){
+    html+=`<div class="report-section"><h3>المواقع والمدارس</h3><div class="summary-list">${locs.slice(0,12).map(([k,v])=>`<div class="summary-item"><b>${safe(k)}</b>${v} مرة</div>`).join('')}</div></div>`;
+    html+=`<div class="report-section"><h3>الموضوعات</h3><div class="summary-list">${topics.slice(0,12).map(([k,v])=>`<div class="summary-item"><b>${safe(k)}</b>${v} مرة</div>`).join('')}</div></div>`;
+  }
+  if(level!=='brief'){
+    html+=`<div class="report-section"><h3>${level==='executive'?'أبرز الأعمال والنتائج':'التفاصيل الزمنية'}</h3>`;
+    let cur='';
+    rows.forEach(r=>{
+      if(level==='full'&&r.activity_date!==cur){cur=r.activity_date;html+=`<h3 style="margin-top:18px">${safe(cur)}</h3>`}
+      html+=recordHTML(r,false,level==='executive');
+    });
+    html+='</div>';
+  } else {
+    const followRows=rows.filter(r=>r.needs_followup);
+    html+=`<div class="report-section"><h3>الخلاصة</h3><p>تم تسجيل <b>${rows.length}</b> نشاطًا خلال ${days} يوم/أيام، شملت ${entities} جهة/جهات، ويوجد ${follow} بند/بنود تحتاج متابعة.</p>${followRows.length?`<p><b>المتابعات المفتوحة:</b> ${followRows.slice(0,8).map(r=>safe(r.subject||r.details||'متابعة')).join('؛ ')}</p>`:''}</div>`;
+  }
+  html+='</div>';$('reportOutput').innerHTML=html;
+}
+function recordHTML(r,actions=true,executive=false){
+  const chips=[...(r.activity_types||[]),...(r.channels||[]),...(r.entities||[])].slice(0,12);
+  const body=executive
+    ? `${r.result?'<b>النتيجة:</b> '+safe(r.result)+'<br>':''}${r.needs_followup?'<b>متابعة:</b> '+safe(r.followup_date||'مطلوبة بدون تاريخ'):''}`
+    : `${r.details?'<b>ما تم:</b> '+safe(r.details)+'<br>':''}${r.result?'<b>النتيجة:</b> '+safe(r.result)+'<br>':''}${r.note?'<b>ملاحظة:</b> '+safe(r.note)+'<br>':''}${r.needs_followup?'<b>متابعة:</b> '+safe(r.followup_date||'مطلوبة بدون تاريخ'):''}`;
+  return`<div class="record"><div class="record-head"><div><div class="record-title">${safe(r.subject||'نشاط بدون عنوان')}</div><div class="record-meta">${safe(r.activity_date)} ${r.start_time?'— '+safe(r.start_time):''}${r.end_time?' إلى '+safe(r.end_time):''}</div></div><div class="record-meta">${safe(r.priority||'')}</div></div><div class="chips">${chips.map(x=>`<span class="chip">${safe(x)}</span>`).join('')}</div><div class="record-body">${body}</div>${actions?`<div class="record-actions"><button class="btn red" type="button" onclick="deleteActivity('${safe(r.id)}')">حذف</button></div>`:''}</div>`;
+}
+async function renderRecent(){const rows=(await getAllRows()).sort((a,b)=>(b.activity_date+' '+(b.start_time||'')).localeCompare(a.activity_date+' '+(a.start_time||''))).slice(0,12);$('recentList').innerHTML=rows.length?rows.map(r=>recordHTML(r,true)).join(''):'<div class="empty">لا توجد أنشطة محفوظة حتى الآن.</div>'}
+async function deleteActivity(id){if(!confirm('حذف هذا النشاط فقط؟'))return;setLocal(getLocal().filter(r=>r.id!==id));try{const c=sb();if(c)await c.from(TABLE_NAME).delete().eq('id',id)}catch(e){}renderRecent();renderReport();}
+function outputStatus(msg,type='ok'){const el=$('outputStatus');if(!el)return;el.textContent=msg;el.className='status '+type}
+function reportReady(){const t=($('reportOutput')?.innerText||'').trim();return t&&!t.includes('اختر الفترة واضغط')}
+function copyReport(){if(!reportReady()){outputStatus('أنشئ التقرير أولًا.','warn');return}const t=$('reportOutput').innerText;navigator.clipboard?.writeText(t).then(()=>outputStatus('تم نسخ نص التقرير كاملًا.','ok')).catch(()=>prompt('انسخ التقرير:',t))}
+function reportReference(){const d=new Date(),pad=n=>String(n).padStart(2,'0');return`DA-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`}
+function currentReportMeta(){return{ref:reportReference(),title:$('outputTitle')?.value.trim()||$('reportOutput')?.querySelector('h3')?.textContent||'تقرير سجل النشاط اليومي',level:$('outputLevel')?.value||'full',recipients:[...(selections.outputRecipients||[])],from:$('fromDate')?.value||'',to:$('toDate')?.value||'',created_at:new Date().toISOString()}}
+function copyEmailDraft(){
+  if(!reportReady()){outputStatus('أنشئ التقرير أولًا.','warn');return}
+  const m=currentReportMeta(),to=m.recipients.length?m.recipients.join('، '):'السادة المعنيين';
+  const body=`السادة/ ${to}\n\nتحية طيبة،\n\nأرفق أدناه ${m.title} عن الفترة ${dateLabel(m.from,m.to)}.\n\n${$('reportOutput').innerText}\n\nمع التقدير.`;
+  navigator.clipboard?.writeText(body).then(()=>outputStatus('تم نسخ البريد كاملًا. افتح أي خدمة بريد والصقه كما هو.','ok')).catch(()=>prompt('انسخ البريد:',body));
+}
+function exportWord(){
+  if(!reportReady()){outputStatus('أنشئ التقرير أولًا.','warn');return}
+  const m=currentReportMeta(),html=`<!doctype html><html dir="rtl"><head><meta charset="utf-8"><style>body{font-family:Arial,Tahoma,sans-serif;direction:rtl;line-height:1.9;color:#0c2a4a;margin:35px}h1,h2,h3{color:#0c447c}.kpis,.summary-list{display:block}.kpi,.summary-item,.record{border:1px solid #b8d4f0;border-radius:10px;padding:10px;margin:8px 0}.chip,.report-ref{display:inline-block;border:1px solid #b8d4f0;border-radius:14px;padding:2px 8px;margin:2px}</style></head><body><h2>${safe(m.title)}</h2><p><b>الرقم المرجعي:</b> ${safe(m.ref)}</p>${$('reportOutput').innerHTML}</body></html>`;
+  const blob=new Blob(['\ufeff',html],{type:'application/msword;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${m.ref}.doc`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200);outputStatus('تم تجهيز ملف Word متوافق مع العربية.','ok');
+}
+function printReport(){if(!reportReady()){outputStatus('أنشئ التقرير أولًا.','warn');return}window.print()}
+function getSnapshots(){try{return JSON.parse(localStorage.getItem(SNAPSHOT_KEY)||'[]')}catch(e){return[]}}
+function setSnapshots(v){localStorage.setItem(SNAPSHOT_KEY,JSON.stringify(v))}
+function saveReportSnapshot(){
+  if(!reportReady()){outputStatus('أنشئ التقرير أولًا.','warn');return}
+  const m=currentReportMeta(),snap={...m,text:$('reportOutput').innerText,html:$('reportOutput').innerHTML};
+  const arr=getSnapshots();arr.unshift(snap);setSnapshots(arr.slice(0,200));renderSnapshots();outputStatus('تم حفظ نسخة مرجعية برقم '+m.ref+'.','ok');
+}
+function renderSnapshots(){
+  const arr=getSnapshots(),el=$('snapshotList');if(!el)return;
+  el.innerHTML=arr.length?arr.slice(0,30).map((x,i)=>`<div class="snapshot-card"><div class="snapshot-head"><div><div class="snapshot-ref">${safe(x.ref)}</div><b>${safe(x.title)}</b></div><div class="snapshot-meta">${safe((x.created_at||'').replace('T',' ').slice(0,19))}</div></div><div class="snapshot-meta">الفترة: ${safe(dateLabel(x.from,x.to))}${x.recipients?.length?' — موجّه إلى: '+safe(x.recipients.join('، ')):''}</div><div class="record-actions"><button class="btn outline" type="button" onclick="restoreSnapshot(${i})">عرض النسخة</button><button class="btn red" type="button" onclick="deleteSnapshot(${i})">حذف النسخة</button></div></div>`).join(''):'<div class="empty">لا توجد نسخ مرجعية محفوظة حتى الآن.</div>';
+}
+function restoreSnapshot(i){const x=getSnapshots()[i];if(!x)return;$('reportOutput').innerHTML=x.html||`<div class="report"><pre>${safe(x.text||'')}</pre></div>`;window.scrollTo({top:$('reportOutput').getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'})}
+function deleteSnapshot(i){if(!confirm('حذف النسخة المرجعية فقط؟ لن يُحذف أي نشاط أصلي.'))return;const a=getSnapshots();a.splice(i,1);setSnapshots(a);renderSnapshots()}
+async function exportJSON(){const rows=await getAllRows();const blob=new Blob([JSON.stringify({version:1,exported_at:new Date().toISOString(),options:getOptions(),rows},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='alfalah-daily-activity-backup-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importJSON(ev){const f=ev.target.files?.[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result),rows=Array.isArray(d)?d:(d.rows||[]),existing=getLocal(),map=new Map(existing.map(x=>[x.id,x]));rows.forEach(x=>map.set(x.id||uuid(),x));setLocal([...map.values()]);if(d.options){const o=getOptions();Object.keys(d.options).forEach(k=>o[k]=[...new Set([...(o[k]||[]),...(d.options[k]||[])])]);saveOptions(o)}syncRelatedFilters();renderRecent();showStatus('تم استيراد النسخة الاحتياطية محليًا دون حذف البيانات الحالية.','ok')}catch(e){showStatus('تعذر قراءة ملف JSON.','err')}};rd.readAsText(f);ev.target.value=''}
+window.addEventListener('DOMContentLoaded',()=>{$('activityDate').value=today();document.querySelectorAll('.multi').forEach(renderMulti);setReportDates();renderRecent();renderSnapshots();});
+</script>
+</body>
+</html>
