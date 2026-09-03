@@ -41,6 +41,28 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);direc
 .ha-teal{background:rgba(14,127,112,.3);border-color:var(--teal);}
 .ha-red{border-color:#f87171;color:#fca5a5;}
 
+
+/* === DAILY ACTIVITY PRIMARY ENTRY — isolated addition === */
+.daily-activity-entry{
+  display:block;
+  margin:0 20px 14px;
+  padding:13px 22px;
+  border-radius:16px;
+  text-decoration:none;
+  color:#fff!important;
+  background:linear-gradient(135deg,#0e7f70 0%,#159b8c 52%,#b8860b 100%);
+  border:1.5px solid rgba(255,255,255,.55);
+  box-shadow:0 7px 20px rgba(2,44,55,.24), inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .18s ease,box-shadow .18s ease;
+  text-align:center;
+}
+.daily-activity-entry:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(2,44,55,.30),inset 0 1px 0 rgba(255,255,255,.3)}
+.daily-activity-entry strong{display:block;font-size:17px;font-weight:900;letter-spacing:.1px}
+.daily-activity-entry span{display:block;margin-top:2px;font-size:11.5px;font-weight:700;color:rgba(255,255,255,.92)}
+.daily-activity-entry .dae-icon{font-size:18px;margin-left:6px}
+@media(max-width:700px){.daily-activity-entry{margin:0 12px 12px;padding:12px 14px}.daily-activity-entry strong{font-size:15px}.daily-activity-entry span{font-size:10.5px}}
+@media print{.daily-activity-entry{display:none!important}}
+
 /* ── PAGES ── */
 .pg{display:none;} .pg.active{display:block;}
 input[type=file]#impF{display:none;}
@@ -555,6 +577,10 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
     <button class="ha" id="ha-weeks-btn" style="border-color:rgba(255,255,255,.6);" onclick="WKM.showList()">📅 الأسابيع</button>
     <button class="ha ha-red" id="ha-reset">🔄 تصفير</button>
   </div>
+  <a class="daily-activity-entry" href="../daily-activity/index.html" aria-label="فتح سجل النشاط اليومي">
+    <strong><span class="dae-icon">📘</span>سجل النشاط اليومي — نقطة البداية للعمل والمتابعة</strong>
+    <span>سجّل أحداث اليوم مرة واحدة، واستخرج منها تقارير اليوم والأسبوع والشهر والفترة.</span>
+  </a>
 </header>
 
 <form id="wForm">
