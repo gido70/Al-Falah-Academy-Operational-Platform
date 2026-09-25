@@ -694,9 +694,15 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
     <div class="sc-head"><div class="sc-num">📄</div><div><div class="sc-title">📄 التقرير الأسبوعي فقط</div></div></div>
     <div class="g2" style="align-items:end">
       <div class="fld"><label for="weekly-word-week">الأسبوع المحفوظ</label><select id="weekly-word-week"><option value="">جارٍ تحميل الأسابيع...</option></select></div>
-      <div><button type="button" class="btn btn-word" id="weekly-word-export">إنشاء التقرير الأسبوعي Word</button></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn btn-soft" id="weekly-word-preview" aria-expanded="false" aria-controls="weekly-word-preview-panel">معاينة التقرير</button>
+        <button type="button" class="btn btn-word" id="weekly-word-export">إنشاء التقرير الأسبوعي Word</button>
+      </div>
     </div>
     <p id="weekly-word-status" role="status" style="font-size:12px;margin-top:9px"></p>
+    <div id="weekly-word-preview-panel" hidden style="margin-top:12px">
+      <iframe id="weekly-word-preview-frame" title="معاينة التقرير الأسبوعي" sandbox="" style="width:100%;height:420px;border:1px solid var(--border);border-radius:10px;background:#fff"></iframe>
+    </div>
   </section>
 
 </div><!-- end pg-week -->
@@ -2846,6 +2852,9 @@ else{setTimeout(WKM.init,600);}
   'use strict';
   var select=document.getElementById('weekly-word-week');
   var button=document.getElementById('weekly-word-export');
+  var previewButton=document.getElementById('weekly-word-preview');
+  var previewPanel=document.getElementById('weekly-word-preview-panel');
+  var previewFrame=document.getElementById('weekly-word-preview-frame');
   var status=document.getElementById('weekly-word-status');
   var saved=[];
   function message(s){status.textContent=s;}
@@ -2935,6 +2944,16 @@ else{setTimeout(WKM.init,600);}
     document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},60000);
     message('تم إنشاء تقرير الأسبوع المحدد للقراءة والتصدير فقط.');
   });
+  previewButton.addEventListener('click',function(){
+    if(!previewPanel.hidden){previewPanel.hidden=true;previewButton.setAttribute('aria-expanded','false');return;}
+    var item=saved[Number(select.value)];
+    if(select.value==='' || !item){message('اختر أسبوعًا محفوظًا أولًا.');return;}
+    previewFrame.srcdoc=build(item.data);
+    previewPanel.hidden=false;
+    previewButton.setAttribute('aria-expanded','true');
+    message('معاينة الأسبوع المحدد دون حفظ أي بيانات.');
+  });
+  select.addEventListener('change',function(){previewPanel.hidden=true;previewButton.setAttribute('aria-expanded','false');previewFrame.removeAttribute('srcdoc');});
   select.addEventListener('focus',refresh);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh);else refresh();
 })();
