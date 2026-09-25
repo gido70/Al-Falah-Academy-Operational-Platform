@@ -2897,11 +2897,14 @@ else{setTimeout(WKM.init,600);}
   function paragraph(labelText,value){return clean(value)?'<h2>'+escapeHtml(labelText)+'</h2><p>'+escapeHtml(value).replace(/\n/g,'<br>')+'</p>':'';}
   function fields(d,list){return list.map(function(pair){
     var key=pair[1];
+    var value=clean(d[key]);
+    // These are form defaults, not activities selected or completed by the user.
+    if(!value || ['لم يبدأ','لم تبدأ','فكرة أولية','لا توجد طلبات خاصة'].includes(value))return '';
     var visitRecorded=Number(d.visits_count)>0||clean(d.approved_visit)||clean(d.field_obs)||clean(d.follow_up);
     if((key==='visits_type'||key==='visit_status')&&!visitRecorded)return '';
     if(key==='comm_parties'&&!(Number(d.contacts_count)>0||clean(d.comm_detail)))return '';
     if(key==='week_request_priority'&&!clean(d.week_requests))return '';
-    return clean(d[key])?'<p><strong>'+escapeHtml(pair[0])+':</strong> '+escapeHtml(d[key])+'</p>':'';
+    return '<p><strong>'+escapeHtml(pair[0])+':</strong> '+escapeHtml(value)+'</p>';
   }).join('');}
   function build(d){
     var names=['الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
