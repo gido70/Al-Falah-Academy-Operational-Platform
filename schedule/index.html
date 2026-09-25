@@ -2906,8 +2906,10 @@ else{setTimeout(WKM.init,600);}
       work=d._pills.map(function(id){var found=PILL_IDS.find(function(p){return p.id===id;});return found?found.label:'';}).filter(Boolean).join('، ');
     }
     var sections=paragraph('الأعمال المحددة خلال الأسبوع',work)
+      +paragraph('أعمال أخرى ومستجدات',d.other_work)
       +paragraph('أهم الإنجازات',d.achievements)
       +fields(d,[['الزيارة المعتمدة','approved_visit'],['عدد الزيارات','visits_count'],['نوع الزيارة','visits_type'],['حالة الزيارة','visit_status'],['الملاحظات الميدانية','field_obs'],['المتابعة المطلوبة','follow_up'],['عدد الاجتماعات','meetings_count'],['عدد الاتصالات','contacts_count'],['الجهات الرئيسية','comm_parties'],['تفاصيل الاتصالات ونتائجها','comm_detail'],['الشركة أو المورد','company_name'],['نوع اجتماع الشركة','company_meeting_type'],['تفاصيل اجتماع الشركة','company_detail'],['نتيجة اجتماع الشركة','company_result'],['الزيارة الخارجية','ext_visit_place'],['هدف الزيارة الخارجية','ext_visit_goal'],['الاستفادة من الزيارة','ext_visit_benefit'],['الجهة الرسمية','official_entity'],['الغرض من الزيارة الرسمية','official_purpose'],['نتيجة الزيارة الرسمية','official_result'],['منصة الاجتماع الافتراضي','virtual_platform'],['عدد الاجتماعات الافتراضية','virtual_count'],['ملخص الاجتماعات الافتراضية','virtual_summary']])
+      +fields(d,[['نوع التدريب','training_type'],['اسم الدورة','training_name'],['الجهة المنظمة','training_org'],['حالة التدريب','training_status'],['مخرجات التدريب','training_outcome'],['هدف الاجتماع الافتراضي','virtual_goal'],['حالة تحليل البيانات','data_status'],['خطة تطوير المجموعات','collections_status'],['نظام المكتبات الموحد','system_status'],['تقييم الكادر المهني','staff_status'],['ملخص التحليل والتخطيط','analysis_summary']])
       +paragraph('التحديات',d.challenges)+paragraph('ما لم يكتمل',d.pending)
       +fields(d,[['نوع الطلب','week_request_type'],['أولوية الطلب','week_request_priority'],['تفاصيل الطلب','week_requests']])
       +paragraph('خطة الأسبوع القادم',d.next_week);
