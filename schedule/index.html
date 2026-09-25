@@ -689,6 +689,16 @@ textarea.manager-letter:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba
     <div class="fld" style="margin-top:10px"><label>أعمال أخرى / مستجدات</label><textarea name="other_work" placeholder="أي أعمال إضافية لم تُذكر أعلاه..."></textarea></div>
   </div>
 
+  <!-- التقرير الأسبوعي المستقل داخل تفاصيل الأسبوع المفتوح -->
+  <section class="sc" id="weekly-word-only" dir="rtl" style="margin-top:18px;text-align:right">
+    <div class="sc-head"><div class="sc-num">📄</div><div><div class="sc-title">📄 التقرير الأسبوعي فقط</div></div></div>
+    <div class="g2" style="align-items:end">
+      <div class="fld"><label for="weekly-word-week">الأسبوع المحفوظ</label><select id="weekly-word-week"><option value="">جارٍ تحميل الأسابيع...</option></select></div>
+      <div><button type="button" class="btn btn-word" id="weekly-word-export">إنشاء التقرير الأسبوعي Word</button></div>
+    </div>
+    <p id="weekly-word-status" role="status" style="font-size:12px;margin-top:9px"></p>
+  </section>
+
 </div><!-- end pg-week -->
 
 <!-- ════ PAGE: VISITS ════ -->
@@ -2829,6 +2839,94 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 else{setTimeout(WKM.init,600);}
 </script>
 
+
+<!-- قراءة الأسابيع وتصدير Word فقط، مستقل عن وظائف الحفظ والتقارير الحالية -->
+<script>
+(function(){
+  'use strict';
+  var select=document.getElementById('weekly-word-week');
+  var button=document.getElementById('weekly-word-export');
+  var status=document.getElementById('weekly-word-status');
+  var saved=[];
+  function message(s){status.textContent=s;}
+  function parse(v){if(v && typeof v==='object')return v;try{return JSON.parse(v||'null');}catch(e){return null;}}
+  function clean(v){return String(v==null?'':v).trim();}
+  function escapeHtml(v){return clean(v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function rowData(row){
+    var d=parse(row.full_data)||parse(row.tasks)||parse(row.notes)||{};
+    if(!d || typeof d!=='object' || Array.isArray(d))d={};
+    d=Object.assign({},d);
+    if(!d.wnum && row.week_number!=null)d.wnum=String(row.week_number);
+    if(!d.wstart && row.work_date)d.wstart=row.work_date;
+    if(!d.week_title && row.week_title)d.week_title=row.week_title;
+    if(!d.wstatus && row.work_type)d.wstatus=row.work_type;
+    return d;
+  }
+  function dateOf(d){return clean(d.wstart||d.week_start||d.work_date);}
+  function identity(d){return dateOf(d)||[clean(d.wnum||d.week_number),clean(d.wend)].join('|');}
+  function add(d,source){
+    if(!d || typeof d!=='object' || Array.isArray(d))return;
+    var id=identity(d);if(!id || id==='|')return;
+    var idx=saved.findIndex(function(item){return identity(item.data)===id;});
+    if(idx<0)saved.push({data:d,source:source});
+    else if(source==='database')saved[idx]={data:d,source:source};
+  }
+  function label(d){return 'الأسبوع '+clean(d.wnum||d.week_number||'—')+' | '+(dateOf(d)||'—')+' إلى '+clean(d.wend||'—');}
+  async function refresh(){
+    var previous=select.value;saved=[];message('جارٍ قراءة الأسابيع المحفوظة...');
+    try{
+      for(var i=0;i<localStorage.length;i++){
+        var key=localStorage.key(i);
+        if(key && (/^falah_week_(?!date_)/.test(key)||/^falah_week_date_/.test(key)))add(parse(localStorage.getItem(key)),'device');
+      }
+    }catch(e){console.warn('Cannot read locally saved weeks',e);}
+    var client=window.alfalahSupabase||window.supabaseClient||(window.AlfalahDBSync&&window.AlfalahDBSync.client&&window.AlfalahDBSync.client());
+    if(client){
+      try{
+        var result=await client.from('daily_work_logs').select('*').order('updated_at',{ascending:false}).limit(100);
+        if(result.error)throw result.error;
+        (result.data||[]).forEach(function(row){add(rowData(row),'database');});
+      }catch(e){console.warn('Cannot read saved weeks from database',e);message('تعذرت قراءة القاعدة؛ تُعرض الأسابيع المحفوظة على هذا الجهاز فقط.');}
+    }
+    saved.sort(function(a,b){return dateOf(b.data).localeCompare(dateOf(a.data));});
+    select.replaceChildren(new Option(saved.length?'— اختر أسبوعًا محفوظًا —':'— لا توجد أسابيع محفوظة —',''));
+    saved.forEach(function(item,i){select.add(new Option(label(item.data),String(i)));});
+    if(previous && saved[Number(previous)])select.value=previous;
+    if(!status.textContent.includes('تعذرت'))message(saved.length?'':'لا توجد أسابيع محفوظة للتصدير.');
+  }
+  function paragraph(labelText,value){return clean(value)?'<h2>'+escapeHtml(labelText)+'</h2><p>'+escapeHtml(value).replace(/\n/g,'<br>')+'</p>':'';}
+  function fields(d,list){return list.map(function(pair){return clean(d[pair[1]])?'<p><strong>'+escapeHtml(pair[0])+':</strong> '+escapeHtml(d[pair[1]])+'</p>':'';}).join('');}
+  function build(d){
+    var names=['الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
+    var rows=names.map(function(day,i){
+      return '<tr><th scope="row">'+day+'</th>'+['atype','ain','aout','dloc','dtasks','anote'].map(function(key){return '<td>'+escapeHtml(d[key+i]||'—').replace(/\n/g,'<br>')+'</td>';}).join('')+'</tr>';
+    }).join('');
+    var work='';
+    if(Array.isArray(d._pills) && typeof PILL_IDS!=='undefined'){
+      work=d._pills.map(function(id){var found=PILL_IDS.find(function(p){return p.id===id;});return found?found.label:'';}).filter(Boolean).join('، ');
+    }
+    var sections=paragraph('الأعمال المحددة خلال الأسبوع',work)
+      +paragraph('أهم الإنجازات',d.achievements)
+      +fields(d,[['الزيارة المعتمدة','approved_visit'],['عدد الزيارات','visits_count'],['نوع الزيارة','visits_type'],['حالة الزيارة','visit_status'],['الملاحظات الميدانية','field_obs'],['المتابعة المطلوبة','follow_up'],['عدد الاجتماعات','meetings_count'],['عدد الاتصالات','contacts_count'],['الجهات الرئيسية','comm_parties'],['تفاصيل الاتصالات ونتائجها','comm_detail'],['الشركة أو المورد','company_name'],['نوع اجتماع الشركة','company_meeting_type'],['تفاصيل اجتماع الشركة','company_detail'],['نتيجة اجتماع الشركة','company_result'],['الزيارة الخارجية','ext_visit_place'],['هدف الزيارة الخارجية','ext_visit_goal'],['الاستفادة من الزيارة','ext_visit_benefit'],['الجهة الرسمية','official_entity'],['الغرض من الزيارة الرسمية','official_purpose'],['نتيجة الزيارة الرسمية','official_result'],['منصة الاجتماع الافتراضي','virtual_platform'],['عدد الاجتماعات الافتراضية','virtual_count'],['ملخص الاجتماعات الافتراضية','virtual_summary']])
+      +paragraph('التحديات',d.challenges)+paragraph('ما لم يكتمل',d.pending)
+      +fields(d,[['نوع الطلب','week_request_type'],['أولوية الطلب','week_request_priority'],['تفاصيل الطلب','week_requests']])
+      +paragraph('خطة الأسبوع القادم',d.next_week);
+    var css='@page{size:A4;margin:18mm}html,body{direction:rtl;text-align:right}body,p,h1,h2,table,th,td{font-family:Amiri,serif;direction:rtl;text-align:right}body,p,table,th,td{font-size:12pt}h1,h2{font-size:14pt;font-weight:bold}h1{text-align:center}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:1px solid #9aa8b8;padding:6px;vertical-align:top;word-wrap:break-word}th{background:#eef2f7}p{line-height:1.7;margin:6px 0}';
+    return '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><style>'+css+'</style></head><body dir="rtl"><h1>التقرير الأسبوعي فقط</h1><p>أكاديمية الفلاح — '+escapeHtml(label(d))+'</p>'+fields(d,[['نوع الدوام الأسبوعي','wstatus']])+'<table dir="rtl"><thead><tr><th>اليوم</th><th>نوع الدوام</th><th>الحضور</th><th>الانصراف</th><th>الموقع</th><th>الأعمال اليومية</th><th>الملاحظات</th></tr></thead><tbody>'+rows+'</tbody></table>'+sections+'</body></html>';
+  }
+  button.addEventListener('click',function(){
+    var item=saved[Number(select.value)];
+    if(select.value==='' || !item){message('اختر أسبوعًا محفوظًا أولًا.');return;}
+    var html=build(item.data);
+    var url=URL.createObjectURL(new Blob(['\ufeff',html],{type:'application/msword;charset=utf-8'}));
+    var a=document.createElement('a');a.href=url;a.download='التقرير_الأسبوعي_'+(dateOf(item.data)||clean(item.data.wnum)||'محفوظ').replace(/[^0-9-]/g,'')+'.doc';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},60000);
+    message('تم إنشاء تقرير الأسبوع المحدد للقراءة والتصدير فقط.');
+  });
+  select.addEventListener('focus',refresh);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh);else refresh();
+})();
+</script>
 
 <!-- PATCH: accurate attendance statistics for manager/report outputs - 2026-05-13 -->
 <script>
