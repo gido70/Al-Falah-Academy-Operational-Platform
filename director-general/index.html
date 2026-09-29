@@ -4,14 +4,15 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>متابعة المدير العام لتطوير المكتبات | أكاديمية الفلاح</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
 :root{--navy:#103d70;--teal:#087e71;--gold:#aa7417;--line:#d5e3f0;--bg:#f0f5fb;--ink:#18364f}
-*{box-sizing:border-box}html,body{direction:rtl;text-align:right}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 Cairo,Tahoma,Arial,sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}html,body{direction:rtl;text-align:right}body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.65 Amiri,serif}
 .wrap{max-width:1100px;margin:auto;padding:16px 16px 60px}.hero{background:linear-gradient(120deg,var(--navy),#185f98,var(--teal));color:#fff;border-radius:22px;padding:28px;margin-bottom:15px}.hero img{width:112px;background:#fff;border-radius:12px;padding:6px}.hero h1{font-size:clamp(23px,4vw,35px);margin:9px 0 0}.hero p{margin:3px 0 0}
-.tabs{display:flex;gap:8px;overflow:auto;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:3}.tabs button,.btn{font:700 14px Cairo,Tahoma,Arial,sans-serif;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--navy);padding:10px 15px;cursor:pointer;white-space:nowrap}.tabs button.active,.btn.primary{background:var(--navy);color:#fff}.btn.small{font-size:12px;padding:7px 12px}.btn:disabled{opacity:.55;cursor:wait}
-.page{display:none}.page.active{display:block}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:12px 0;box-shadow:0 4px 15px #0c447c0c}.card h2,.card h3{color:var(--navy);margin:0 0 8px}.lead{font-size:18px}.muted{color:#5e7082;font-size:13px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tile{border:1px solid var(--line);border-right:5px solid var(--teal);border-radius:15px;padding:15px;background:#fbfdff}.tile h3{margin:0 0 5px}.badge{display:inline-block;border-radius:99px;background:#e7f4f0;color:#08675d;padding:3px 10px;font-size:12px;font-weight:800}.notice{background:#fff8e8;border-right:5px solid var(--gold);padding:13px;border-radius:12px}.list{display:grid;gap:10px}.item{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fbfdff}.item h3{margin:0 0 4px}a{color:#15578c}a.btn{text-decoration:none;display:inline-block;margin:4px 0}.form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}select,textarea{font:inherit;border:1px solid #a9c3da;border-radius:12px;padding:10px;background:#fff;color:var(--ink)}select{min-width:230px}textarea{width:100%;min-height:100px;resize:vertical}.thread{border-right:4px solid var(--teal);padding:9px 13px;margin:9px 0;background:#f3f8fc;border-radius:10px;white-space:pre-wrap}.thread .reply{background:#e6f5ee;padding:9px;border-radius:9px;margin-top:7px}.status{font-size:13px;color:var(--teal);min-height:22px}.files{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.files img{width:100%;height:130px;object-fit:cover;border-radius:9px}.details{margin-top:10px}details{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}summary{cursor:pointer;color:var(--navy);font-weight:800}
-@media(max-width:800px){.grid,.files{grid-template-columns:1fr}.hero{padding:20px}.card{padding:15px}.tabs button{padding:9px 11px}}
-@media print{.tabs,.btn,textarea,select{display:none!important}.page{display:block!important}.card{break-inside:avoid}}
+.tabs{display:flex;gap:8px;overflow:auto;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:3}.tabs button,.btn{font:700 17px Amiri,serif;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--navy);padding:10px 15px;cursor:pointer;white-space:nowrap}.tabs button.active,.btn.primary{background:var(--navy);color:#fff}.btn.small{font-size:16px;padding:7px 12px}.btn:disabled{opacity:.55;cursor:wait}
+.page{display:none}.page.active{display:block}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:12px 0;box-shadow:0 4px 15px #0c447c0c}.card h2,.card h3{color:var(--navy);margin:0 0 8px}.lead{font-size:21px}.muted{color:#5e7082;font-size:16px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tile{border:1px solid var(--line);border-right:5px solid var(--teal);border-radius:15px;padding:15px;background:#fbfdff}.tile h3{margin:0 0 5px}.badge{display:inline-block;border-radius:99px;background:#e7f4f0;color:#08675d;padding:3px 10px;font-size:16px;font-weight:800}.notice{background:#fff8e8;border-right:5px solid var(--gold);padding:13px;border-radius:12px}.list{display:grid;gap:10px}.item{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fbfdff}.item h3{margin:0 0 4px}a{color:#15578c}a.btn{text-decoration:none;display:inline-block;margin:4px 0}.form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}select,textarea{font:inherit;border:1px solid #a9c3da;border-radius:12px;padding:10px;background:#fff;color:var(--ink)}select{min-width:230px}textarea{width:100%;min-height:100px;resize:vertical}.thread{border-right:4px solid var(--teal);padding:9px 13px;margin:9px 0;background:#f3f8fc;border-radius:10px;white-space:pre-wrap}.thread .reply{background:#e6f5ee;padding:9px;border-radius:9px;margin-top:7px}.status{font-size:16px;color:var(--teal);min-height:22px}.files{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.files img{width:100%;height:130px;object-fit:cover;border-radius:9px}.details{margin-top:10px}details{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}summary{cursor:pointer;color:var(--navy);font-weight:800}
+.folder-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.folder{border:1px solid var(--line);border-radius:15px;background:#fbfdff;padding:15px}.folder h3{margin:0}.folder .count{color:var(--teal);font-weight:800}.folder .item{margin-top:10px}.folder button{margin-top:8px}.back-row{margin-bottom:12px}.viewer[hidden]{display:none}.viewer{position:fixed;inset:0;z-index:20;background:#102c45db;display:flex;align-items:center;justify-content:center;padding:12px}.viewer-panel{background:#fff;border-radius:16px;width:min(100%,1100px);max-height:96vh;display:flex;flex-direction:column;overflow:hidden}.viewer-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line)}.viewer-bar h2{font-size:18px;margin:0;flex:1;overflow-wrap:anywhere}.viewer-body{min-height:240px;height:75vh;overflow:auto;display:grid;place-items:center;background:#eef3f9;padding:8px}.viewer-body iframe,.viewer-body img,.viewer-body video{width:100%;height:100%;border:0;object-fit:contain}.viewer-body audio{width:min(100%,600px)}.viewer-body pre{white-space:pre-wrap;overflow-wrap:anywhere;align-self:start;justify-self:stretch}.viewer-body .notice{max-width:650px}.viewer[aria-hidden="true"]{visibility:hidden}.brief{margin:18px 0;padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff}.brief h2{font-size:26px}.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.action{border-right:4px solid var(--teal);padding:8px 12px;background:#f4f9fa;border-radius:8px}.action b{color:var(--navy)}
+@media(max-width:800px){.grid,.files,.folder-grid,.action-grid{grid-template-columns:1fr}.hero{padding:20px}.card{padding:15px}.tabs button{padding:9px 11px}.viewer-body{height:70vh}}
+@page{size:A4;margin:14mm}@media print{body{background:#fff;color:#162e42;font:12pt/1.5 Amiri,serif}body.printing-brief .wrap,body.printing-brief .viewer{display:none!important}body.printing-brief #printBriefClone{display:block!important}#printBriefClone{direction:rtl;text-align:right}#printBriefClone h2{font-size:18pt;color:#103d70;border-bottom:2px solid #087e71}#printBriefClone h3{font-size:14pt;color:#103d70}#printBriefClone .action-grid{grid-template-columns:repeat(2,1fr)}#printBriefClone .action{break-inside:avoid}.tabs,.btn,textarea,select{display:none!important}}
 </style>
 </head>
 <body><div class="wrap">
@@ -25,15 +26,28 @@
 <div class="tile"><h3>تنمية المجموعات</h3><p>توصية بتخصيص ٢٬٠٠٠ درهم لكل مدرسة، مع بحث ميزانية سنوية ثابتة وخطة احتياج لكل فرع.</p><button class="btn small" data-topic="collections">ملاحظة بشأن المجموعات</button></div>
 <div class="tile"><h3>الفهرسة والتنظيم</h3><p>تحديد نطاق الفهرسة والجرد ودراسة عرض الشركة المتخصصة وربط العمل بالنظام الموحد.</p><button class="btn small" data-topic="cataloging">ملاحظة بشأن الفهرسة</button></div>
 </div></div><div class="card"><h2>الخطوة الميدانية المقبلة</h2><p>بعد اكتمال تعيين الكادر الجديد، تُرتب زيارة للمكتبات الست لتحديد الاحتياجات المباشرة وبداية التنفيذ؛ وهي متابعة عملية للتقييم السابق.</p><button class="btn small" data-topic="visits">ملاحظة بشأن الزيارات</button></div><p class="status" id="overviewStatus">جارٍ تحميل فهرس المكتبات والتقارير...</p></section>
-<section class="page" id="schools"><div class="card"><h2>تقييم المكتبات الست</h2><p class="muted">تظهر خلاصة آخر تقييم لكل مكتبة أولًا، ويمكن فتح التقييمات السابقة وملفات المدرسة عند الحاجة.</p><div id="schoolsList" class="grid"><div class="notice">جارٍ تحميل التقييمات...</div></div></div></section>
-<section class="page" id="archive"><div class="card"><h2>التقارير والعروض التقديمية</h2><div id="reportsList" class="list"><div class="notice">جارٍ تحميل التقارير...</div></div></div><div class="card"><h2>صور وملفات المكتبات</h2><div class="form-row"><label for="fileSchool">المكتبة</label><select id="fileSchool"></select></div><div id="filesList" class="files"></div></div></section>
+<section class="page" id="schools"><div class="card"><h2>المكتبات الست</h2><p class="muted">افتح مكتبة لعرض تقييمها وصورها وشهادات كادرها ووثائقها في مكان واحد.</p><div id="schoolsList" class="grid"><div class="notice">جارٍ تحميل التقييمات...</div></div></div><div class="card" id="schoolDetails" hidden><div class="back-row"><button type="button" class="btn" id="backSchools">← العودة إلى المكتبات الست</button></div><h2 id="schoolTitle"></h2><p class="muted">التقييم والملفات ومحاور التنفيذ في صفحة واحدة. الخطوات أدناه مقترحة ولا تعني أنها أُنجزت.</p><div class="form-row"><button type="button" class="btn primary" id="schoolDiscussion">مناقشة هذه المكتبة</button><button type="button" class="btn" id="printSchoolBrief">طباعة الملخص التنفيذي / حفظ PDF</button></div><div id="schoolBrief" class="brief" dir="rtl"><h2 id="briefTitle"></h2><p id="briefMeta" class="muted"></p><div id="briefEvaluation"></div><h3>محاور المتابعة المقترحة</h3><div id="schoolActions" class="action-grid"></div><p class="muted">هذه قائمة تحضير للزيارات والتنفيذ؛ تحديد المسؤول والجدول والحالة يتم بعد الاتفاق، ولا تُسجل إنجازات تلقائيًا.</p><h3>الملفات المتاحة</h3><div id="briefFileCounts" class="muted">جارٍ حصر الملفات...</div></div><details><summary>التقييمات السابقة بتفصيلها</summary><div id="schoolEvaluation"></div></details><h3>صور وشهادات وملفات المكتبة</h3><div id="schoolFiles" class="folder-grid"></div></div></section>
+<section class="page" id="archive"><div class="card"><h2>التقارير والعروض التقديمية</h2><p class="muted">اختر التصنيف أولًا، ثم افتح الملف للمعاينة داخل المنصة.</p><div id="reportCategories" class="folder-grid"></div><div id="reportCategoryView" hidden><div class="back-row"><button class="btn" type="button" id="backReports">← العودة إلى تصنيفات التقارير</button></div><h3 id="reportCategoryTitle"></h3><div id="reportsList" class="list"></div></div></div></section>
 <section class="page" id="execution"><div class="card"><h2>ملاحظات المدير ومتابعة الردود</h2><p>اختر ملف التنفيذ أو المكتبة، واكتب ملاحظتك أو سؤالك. يظهر الرد أسفل الملاحظة نفسها، ويمكن متابعة النقاش بملاحظة جديدة في الموضوع ذاته.</p><label for="topic">الموضوع</label><div class="form-row"><select id="topic"></select><button id="refresh" class="btn" type="button">تحديث الردود</button></div><label for="comment">الملاحظة أو السؤال</label><textarea id="comment" maxlength="4000" placeholder="اكتب ملاحظة محددة أو سؤالًا عن خطوة التنفيذ..."></textarea><div class="form-row"><button id="send" class="btn primary" type="button">حفظ الملاحظة في المنصة</button><span id="message" role="status" class="status"></span></div></div><div class="card"><h2>سجل الموضوع المختار</h2><div id="threadList" class="list"></div></div></section>
 </main></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../supabase-config.js"></script>
+<div id="printBriefClone" hidden dir="rtl"></div><div class="viewer" id="fileViewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle" aria-hidden="true" hidden><div class="viewer-panel"><div class="viewer-bar"><button type="button" class="btn" id="closeViewer">← رجوع</button><h2 id="viewerTitle"></h2><a class="btn small" id="downloadFile" href="#" download>تنزيل اختياري</a></div><div class="viewer-body" id="viewerBody" role="status"></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/mammoth@1.13.0/mammoth.browser.min.js" defer></script><script src="../supabase-config.js"></script>
 <script>
 (() => {
   'use strict';
   const SCHOOLS={khb:'الخبيصي',jmi:'الجيمي',shj:'الشارقة',bny:'بني ياس',mzd:'محمد بن زايد',dan:'الدانة'};
+  const REPORT_CATEGORIES={school:'تقارير المدارس',company:'تقارير الشركات',system:'تقارير الأنظمة',collection:'تقارير المجموعات',project:'تقارير المشاريع',other:'تقارير أخرى',presentations:'العروض التقديمية'};
+  const FILE_CATEGORIES={photos:'صور المكتبة',certificates:'شهادات الكادر',books:'كتب ومجموعات المكتبة',activities:'الأنشطة والفعاليات',documents:'وثائق ونماذج أخرى'};
+  const SCHOOL_ACTIONS=[
+    ['الجرد','حصر الموجود وتحديد النواقص والأولويات قبل التنفيذ.'],
+    ['الفهرسة والتصنيف','تقدير حجم السجلات والكتب وخطة المعالجة وربطها بالنظام.'],
+    ['المجموعات','إعداد قائمة الاحتياج للمصادر وتحديد ما يلزم للميزانية.'],
+    ['الأنشطة وتحدي القراءة','تحديد فرص التفعيل وخطة عمل مناسبة للمكتبة والطلاب.'],
+    ['الشراكات','تنسيق مشاركة المعلمين والإدارة المدرسية في أنشطة المكتبة.'],
+    ['النظام والكادر','تحديد احتياج أمين المكتبة للتدريب وتجهيزات التشغيل.']
+  ];
+  const schoolEvaluations={}, reportGroups={};
+  let viewerBlob=null,viewerToken=0,previousFocus=null;
   const TOPICS={system:'نظام إدارة المكتبات',collections:'تنمية المجموعات',cataloging:'الفهرسة والجرد',visits:'الزيارات التنفيذية',staff:'الكادر والتدريب',presentations:'التقارير والعروض',...Object.fromEntries(Object.entries(SCHOOLS).map(([k,v])=>['school:'+k,'مكتبة '+v]))};
   const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const db=()=>window.alfalahSupabase||window.supabaseClient||null;
@@ -45,17 +59,131 @@
   function selectTopic(key){$('topic').value=key;show('execution');loadThread()}
   document.querySelectorAll('[data-topic]').forEach(x=>x.onclick=()=>selectTopic(x.dataset.topic));
   $('topic').replaceChildren(...Object.entries(TOPICS).map(([k,v])=>new Option(v,k)));
-  $('fileSchool').replaceChildren(...Object.entries(SCHOOLS).map(([k,v])=>new Option(v,k)));
-  $('topic').onchange=loadThread;$('fileSchool').onchange=loadFiles;$('refresh').onclick=loadThread;
+  $('topic').onchange=loadThread;$('refresh').onclick=loadThread;
+  $('backSchools').onclick=()=>{ $('schoolDetails').hidden=true;$('schoolsList').closest('.card').hidden=false;scrollTo({top:0,behavior:'smooth'}) };
+  $('printSchoolBrief').onclick=()=>{const copy=$('printBriefClone');copy.innerHTML=$('schoolBrief').innerHTML;document.body.classList.add('printing-brief');copy.hidden=false;window.print()};
+  window.addEventListener('afterprint',()=>{document.body.classList.remove('printing-brief');$('printBriefClone').hidden=true;$('printBriefClone').replaceChildren()});
+  $('backReports').onclick=()=>{ $('reportCategoryView').hidden=true;$('reportCategories').hidden=false };
+  $('closeViewer').onclick=closeViewer;
+  $('fileViewer').onclick=e=>{if(e.target===$('fileViewer'))closeViewer()};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('fileViewer').hidden)closeViewer()});
   async function request(table,query){const c=db();if(!c)throw Error('تعذر الاتصال بالبيانات');const r=await query(c.from(table));if(r.error)throw r.error;return r.data||[]}
   function schoolCode(r){const d=r.full_data||{};return clean(r.school_code||d['f-code']||d.school_code)}
   function evalDetails(r){const d=r.full_data||{};const lines=[['نقاط القوة',r.strengths||d['f-str']||d.str],['الفجوات والتحديات',r.weaknesses||d['f-chal']||d.chal],['التوصيات',r.recommendations||d['f-rec']||d.rec],['خطة العمل',r.action_plan||d['f-plan']||d.plan]].filter(x=>clean(x[1]));return `<div class="muted">تاريخ الزيارة: ${esc(date(r.visit_date||r.created_at))} · التقدير: ${esc(r.final_level||'—')} · الدرجة: ${esc(r.total_score??'—')} / ٥</div>${lines.map(([k,v])=>`<p><b>${k}:</b> ${esc(v)}</p>`).join('')}`}
-  async function loadSchools(){try{const rows=await request('library_evaluations',q=>q.select('id,school_code,school_id,total_score,final_level,strengths,weaknesses,recommendations,action_plan,full_data,visit_date,created_at').order('created_at',{ascending:false}).limit(200));const groups=Object.fromEntries(Object.keys(SCHOOLS).map(k=>[k,[]]));rows.forEach(r=>{const k=schoolCode(r);if(groups[k])groups[k].push(r)});$('schoolsList').innerHTML=Object.entries(SCHOOLS).map(([code,name])=>{const history=groups[code];if(!history.length)return `<article class="tile"><h3>${name}</h3><p>لا يوجد تقييم محفوظ برمز هذه المكتبة.</p></article>`;const r=history[0];return `<article class="tile"><h3>${name}</h3><span class="badge">${esc(r.final_level||'تقييم محفوظ')} · ${esc(r.total_score??'—')} / ٥</span><p class="muted">آخر تقييم: ${esc(date(r.visit_date||r.created_at))}</p><details><summary>عرض خلاصة التقييم</summary>${evalDetails(r)}</details>${history.length>1?`<details><summary>التقييمات السابقة (${history.length-1})</summary>${history.slice(1).map(x=>`<div class="details">${evalDetails(x)}</div>`).join('')}</details>`:''}<button class="btn small" data-school-topic="${code}">ملاحظة بشأن المكتبة</button></article>`}).join('');$('schoolsList').querySelectorAll('[data-school-topic]').forEach(x=>x.onclick=()=>selectTopic('school:'+x.dataset.schoolTopic));$('overviewStatus').textContent=`تتوفر تقييمات محفوظة لعدد ${Object.values(groups).filter(x=>x.length).length} من المكتبات الست.`}catch(e){$('schoolsList').textContent='تعذر تحميل التقييمات: '+e.message;$('overviewStatus').textContent='تعذر تحميل التقييمات الآن.'}}
-  async function loadReports(){try{const [reports,pres]=await Promise.all([request('reports',q=>q.select('id,title,category,summary,content,pdf_url,word_file,pdf_file,status,created_at').neq('status','draft').order('created_at',{ascending:false}).limit(100)),request('management_presentations',q=>q.select('id,title,description,presentation_url,pdf_url,ppt_url,created_at,is_active').eq('is_active',true).order('created_at',{ascending:false}).limit(100))]);const items=[...pres.map(x=>({...x,kind:'عرض تقديمي',url:x.pdf_url||x.presentation_url||x.ppt_url,description:x.description})),...reports.map(x=>({...x,kind:'تقرير',url:x.pdf_url||x.pdf_file||x.word_file,description:x.summary||x.content}))];$('reportsList').innerHTML=items.length?items.map(x=>`<article class="item"><span class="badge">${x.kind}</span> <span class="muted">${esc(date(x.created_at))}</span><h3>${esc(x.title||'بدون عنوان')}</h3><p>${esc(String(x.description||'').slice(0,400))}${String(x.description||'').length>400?'…':''}</p>${href(x.url)?`<a class="btn small" target="_blank" rel="noopener noreferrer" href="${esc(href(x.url))}">فتح الملف</a>`:''}</article>`).join(''):'<div class="notice">لا توجد تقارير منشورة حاليًا.</div>'}catch(e){$('reportsList').textContent='تعذر تحميل التقارير والعروض: '+e.message}}
-  async function loadFiles(){const code=$('fileSchool').value;$('filesList').textContent='جارٍ تحميل الملفات...';try{const ids={khb:4,jmi:5,shj:6,bny:3,mzd:2,dan:1};const rows=await request('school_files',q=>q.select('id,school_code,school_id,file_name,file_category,file_type,file_url,created_at').or(`school_code.eq.${code},school_id.eq.${ids[code]}`).order('created_at',{ascending:false}).limit(100));const visible=rows.filter(x=>x.file_category!=='specialist-certificates');$('filesList').innerHTML=visible.length?visible.map(x=>{const u=href(x.file_url),img=u&&(/^image\//.test(x.file_type||'')||/\.(png|jpe?g|webp)$/i.test(x.file_name||''));return `<article class="item">${img?`<img src="${esc(u)}" alt="${esc(x.file_name||'صورة المكتبة')}">`:''}<b>${esc(x.file_name||'ملف المدرسة')}</b><div class="muted">${esc(x.file_category||'')}</div>${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">فتح الملف</a>`:''}</article>`}).join(''):'<div class="notice">لا توجد ملفات لهذا الفرع في قاعدة البيانات.</div>'}catch(e){$('filesList').textContent='تعذر تحميل الملفات: '+e.message}}
+  async function loadSchools(){
+    try{
+      const rows=await request('library_evaluations',q=>q.select('id,school_code,school_id,total_score,final_level,strengths,weaknesses,recommendations,action_plan,full_data,visit_date,created_at').order('created_at',{ascending:false}).limit(200));
+      Object.keys(SCHOOLS).forEach(k=>schoolEvaluations[k]=[]);
+      rows.forEach(r=>{const k=schoolCode(r);if(schoolEvaluations[k])schoolEvaluations[k].push(r)});
+      $('schoolsList').innerHTML=Object.entries(SCHOOLS).map(([code,name])=>{const history=schoolEvaluations[code],last=history[0];return `<article class="tile"><h3>${esc(name)}</h3><p class="muted">${last?`آخر تقييم: ${esc(date(last.visit_date||last.created_at))} · ${esc(last.final_level||'تقييم محفوظ')}`:'لم يُحفظ تقييم لهذه المكتبة بعد.'}</p><button type="button" class="btn small" data-open-school="${code}">فتح مكتبة ${esc(name)}</button></article>`}).join('');
+      $('schoolsList').querySelectorAll('[data-open-school]').forEach(b=>b.onclick=()=>openSchool(b.dataset.openSchool));
+      $('overviewStatus').textContent=`تتوفر تقييمات محفوظة لعدد ${Object.values(schoolEvaluations).filter(x=>x.length).length} من المكتبات الست.`;
+    }catch(e){$('schoolsList').textContent='تعذر تحميل التقييمات: '+e.message;$('overviewStatus').textContent='تعذر تحميل التقييمات الآن.'}
+  }
+  function openSchool(code){
+    if(!SCHOOLS[code])return;
+    const history=schoolEvaluations[code]||[],latest=history[0];
+    $('schoolTitle').textContent='مكتبة '+SCHOOLS[code];
+    $('briefTitle').textContent='ملخص متابعة مكتبة '+SCHOOLS[code];
+    $('briefMeta').textContent=latest?'آخر تقييم محفوظ: '+date(latest.visit_date||latest.created_at):'لم يُحفظ تقييم لهذه المكتبة بعد.';
+    $('briefEvaluation').innerHTML=latest?evalDetails(latest):'<p>تُحدَّد الاحتياجات المباشرة خلال الزيارة المقبلة.</p>';
+    $('schoolEvaluation').innerHTML=history.length>1?history.slice(1).map(r=>`<div class="details">${evalDetails(r)}</div>`).join(''):'<p class="muted">لا توجد تقييمات سابقة أخرى.</p>';
+    $('schoolActions').innerHTML=SCHOOL_ACTIONS.map(([title,step])=>`<div class="action"><b>${title}</b><div>${step}</div></div>`).join('');
+    $('briefFileCounts').textContent='جارٍ حصر الملفات...';
+    $('schoolDiscussion').onclick=()=>selectTopic('school:'+code);
+    $('schoolsList').closest('.card').hidden=true;$('schoolDetails').hidden=false;
+    $('schoolFiles').textContent='جارٍ تحميل ملفات المكتبة...';scrollTo({top:0,behavior:'smooth'});loadFiles(code);
+  }
+  function documentCategory(x){
+    const original=clean(x.file_category).toLowerCase(),name=clean(x.file_name);
+    if(['specialist-certificates','certificates'].includes(original))return 'certificates';
+    if(['library-images','photos'].includes(original)||/^image\//.test(x.file_type||''))return 'photos';
+    if(/كتاب|كتب|مجموعات|مصادر|فهرس|جرد|إعارة|قائمة.*كتب|book|catalog|collection|inventory/i.test(name))return 'books';
+    if(/نشاط|فعالي|قراءة|مسابق|برنامج|مشارك|زيارة|activity|event|reading/i.test(name))return 'activities';
+    return 'documents';
+  }
+  function fileItem(x){
+    const u=href(x.file_url),name=clean(x.file_name)||'ملف المكتبة';
+    return `<article class="item"><b>${esc(name)}</b><div class="muted">${esc(date(x.created_at))}</div>${u?`<button class="btn small" type="button" data-preview-file="${esc(String(x.id))}">معاينة داخل المنصة</button>`:'<span class="muted">رابط الملف غير متاح.</span>'}</article>`;
+  }
+  let schoolFileMap={};
+  async function loadFiles(code){
+    try{
+      const ids={khb:4,jmi:5,shj:6,bny:3,mzd:2,dan:1};
+      const rows=await request('school_files',q=>q.select('id,school_code,school_id,file_name,file_category,file_type,file_url,created_at').or(`school_code.eq.${code},school_id.eq.${ids[code]}`).order('created_at',{ascending:false}).limit(300));
+      if($('schoolTitle').textContent!=='مكتبة '+SCHOOLS[code])return;
+      schoolFileMap=Object.fromEntries(rows.map(x=>[String(x.id),x]));
+      const groups=Object.fromEntries(Object.keys(FILE_CATEGORIES).map(k=>[k,[]]));rows.forEach(x=>groups[documentCategory(x)].push(x));
+      $('briefFileCounts').textContent=Object.entries(FILE_CATEGORIES).map(([k,title])=>title+': '+groups[k].length).join(' · ');
+      $('schoolFiles').innerHTML=Object.entries(FILE_CATEGORIES).map(([k,title])=>`<section class="folder"><h3>${title} <span class="count">(${groups[k].length})</span></h3>${groups[k].length?groups[k].map(fileItem).join(''):'<p class="muted">لا توجد ملفات في هذا القسم.</p>'}</section>`).join('');
+      $('schoolFiles').querySelectorAll('[data-preview-file]').forEach(b=>b.onclick=()=>openViewer(schoolFileMap[b.dataset.previewFile]));
+    }catch(e){$('schoolFiles').textContent='تعذر تحميل ملفات المكتبة: '+e.message}
+  }
+  function reportItem(x){
+    const u=href(x.url),description=String(x.description||'');
+    return `<article class="item"><span class="muted">${esc(date(x.created_at))}</span><h3>${esc(x.title||'بدون عنوان')}</h3><p>${esc(description.slice(0,350))}${description.length>350?'…':''}</p>${u?`<button class="btn small" type="button" data-preview-report="${esc(x.key)}">معاينة داخل المنصة</button>`:'<span class="muted">لا يوجد ملف مرفق للمعاينة.</span>'}</article>`;
+  }
+  let reportMap={};
+  async function loadReports(){
+    try{
+      const [reports,pres]=await Promise.all([
+        request('reports',q=>q.select('id,title,category,summary,content,pdf_url,word_file,pdf_file,status,created_at').neq('status','draft').order('created_at',{ascending:false}).limit(300)),
+        request('management_presentations',q=>q.select('id,title,description,presentation_url,pdf_url,ppt_url,created_at,is_active').eq('is_active',true).order('created_at',{ascending:false}).limit(200))
+      ]);
+      Object.keys(REPORT_CATEGORIES).forEach(k=>reportGroups[k]=[]);
+      const items=[...pres.map(x=>({...x,key:'p'+x.id,category:'presentations',url:x.pdf_url||x.presentation_url||x.ppt_url,description:x.description})),...reports.map(x=>({...x,key:'r'+x.id,url:x.pdf_url||x.pdf_file||x.word_file,description:x.summary||x.content}))];
+      reportMap=Object.fromEntries(items.map(x=>[x.key,x]));
+      items.forEach(x=>{const category=clean(x.category).toLowerCase(),k=REPORT_CATEGORIES[category]?category:'other';if(!/دوام|غياب|إجاز|استئذان|حضور|انصراف/.test(x.title||''))reportGroups[k].push(x)});
+      $('reportCategories').innerHTML=Object.entries(REPORT_CATEGORIES).map(([k,title])=>`<article class="folder"><h3>${title}</h3><p class="count">${reportGroups[k].length} ملف</p><button class="btn small" type="button" data-report-category="${k}">فتح التصنيف</button></article>`).join('');
+      $('reportCategories').querySelectorAll('[data-report-category]').forEach(b=>b.onclick=()=>openReportCategory(b.dataset.reportCategory));
+    }catch(e){$('reportCategories').textContent='تعذر تحميل التقارير والعروض: '+e.message}
+  }
+  function openReportCategory(k){
+    if(!REPORT_CATEGORIES[k])return;
+    $('reportCategoryTitle').textContent=REPORT_CATEGORIES[k];
+    const items=reportGroups[k]||[];
+    $('reportsList').innerHTML=items.length?items.map(reportItem).join(''):'<div class="notice">لا توجد ملفات في هذا التصنيف حاليًا.</div>';
+    $('reportsList').querySelectorAll('[data-preview-report]').forEach(b=>b.onclick=()=>{const x=reportMap[b.dataset.previewReport];openViewer({file_name:x.title||'تقرير',file_url:x.url,file_type:''})});
+    $('reportCategories').hidden=true;$('reportCategoryView').hidden=false;
+  }
+  function closeViewer(){
+    viewerToken++;$('fileViewer').hidden=true;$('fileViewer').setAttribute('aria-hidden','true');$('viewerBody').replaceChildren();document.body.style.overflow='';
+    if(viewerBlob){URL.revokeObjectURL(viewerBlob);viewerBlob=null}if(previousFocus)previousFocus.focus();
+  }
+  async function openViewer(file){
+    if(!file)return;const u=href(file.file_url);if(!u)return;
+    const token=++viewerToken,name=clean(file.file_name)||'ملف',body=$('viewerBody');previousFocus=document.activeElement;
+    $('viewerTitle').textContent=name;$('fileViewer').hidden=false;$('fileViewer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';$('closeViewer').focus();
+    body.textContent='جارٍ تجهيز المعاينة...';$('downloadFile').hidden=true;
+    if(viewerBlob){URL.revokeObjectURL(viewerBlob);viewerBlob=null}
+    try{
+      const response=await fetch(u,{mode:'cors'});if(!response.ok)throw Error('تعذر جلب الملف للمعاينة');
+      const blob=await response.blob();if(token!==viewerToken)return;
+      const type=clean(blob.type||file.file_type).toLowerCase(),path=new URL(u).pathname.toLowerCase(),filename=name.toLowerCase();
+      viewerBlob=URL.createObjectURL(blob);$('downloadFile').href=viewerBlob;$('downloadFile').download=name;$('downloadFile').hidden=false;body.replaceChildren();
+      let node;
+      if(type.includes('pdf')||/\.pdf$/.test(path)||/\.pdf$/.test(filename)){
+        node=document.createElement('iframe');node.title='معاينة '+name;node.src=viewerBlob;
+      }else if(type.startsWith('image/')||/\.(png|jpe?g|gif|webp|svg)$/.test(path)){
+        node=document.createElement('img');node.alt=name;node.src=viewerBlob;
+      }else if(type.startsWith('video/')){
+        node=document.createElement('video');node.controls=true;node.src=viewerBlob;
+      }else if(type.startsWith('audio/')){
+        node=document.createElement('audio');node.controls=true;node.src=viewerBlob;
+      }else if(/\.docx$/.test(path)||/\.docx$/.test(filename)){
+        node=document.createElement('pre');node.dir='rtl';node.style.textAlign='right';
+        if(window.mammoth){const result=await window.mammoth.extractRawText({arrayBuffer:await blob.arrayBuffer()});node.textContent=result.value||'الملف خالٍ من النص القابل للعرض.'}
+        else node.textContent='تعذّر تشغيل عارض Word في هذه الجلسة. يمكنك تنزيل الملف اختياريًا.';
+      }else if(type.startsWith('text/')||/\.(txt|csv)$/.test(path)){
+        node=document.createElement('pre');node.dir='auto';node.textContent=await blob.text();
+      }else{
+        node=document.createElement('div');node.className='notice';node.textContent='هذا النوع من الملفات لا يدعم المتصفح عرضه داخل الصفحة. يمكنك تنزيله اختياريًا من الزر أعلاه.';
+      }
+      if(token===viewerToken)body.append(node);
+    }catch(e){if(token===viewerToken){body.replaceChildren();const msg=document.createElement('div');msg.className='notice';msg.textContent='تعذرت المعاينة داخل المنصة لهذا الملف. لم يبدأ أي تنزيل تلقائي.';body.append(msg)}}
+  }
   async function loadThread(){const key=$('topic').value;$('threadList').textContent='جارٍ تحميل الردود...';try{const rows=await request('director_feedback',q=>q.select('id,manager_name,report_scope,comment,comment_text,decision,admin_reply,admin_replied_at,created_at,metadata').eq('report_type','academy_execution').eq('manager_name','د. محمد العدوان').eq('report_scope',key).order('created_at',{ascending:true}).limit(100));$('threadList').innerHTML=rows.length?rows.map(x=>`<article class="thread"><b>د. محمد العدوان</b> <span class="muted">${esc(date(x.created_at))}</span><div>${esc(x.comment_text||x.comment||'')}</div>${clean(x.admin_reply)?`<div class="reply"><b>رد إدارة البرنامج</b> <span class="muted">${esc(date(x.admin_replied_at))}</span><div>${esc(x.admin_reply)}</div></div>`:''}</article>`).join(''):'<div class="notice">لا توجد ملاحظات في هذا الموضوع حتى الآن.</div>'}catch(e){$('threadList').textContent='تعذر تحميل الردود: '+e.message}}
   $('send').onclick=async()=>{const comment=clean($('comment').value),key=$('topic').value;if(!comment){$('message').textContent='اكتب الملاحظة أولًا.';return}const button=$('send');button.disabled=true;$('message').textContent='جارٍ الحفظ...';try{await request('director_feedback',q=>q.insert({manager_name:'د. محمد العدوان',manager_role:'المدير العام للأكاديمية',report_type:'academy_execution',report_scope:key,decision:'ملاحظة تنفيذية',comment,comment_text:comment,metadata:{source:'director-general',topic:key},is_read:false}));$('comment').value='';$('message').textContent='حُفظت الملاحظة في المنصة.';await loadThread()}catch(e){$('message').textContent='تعذر حفظ الملاحظة: '+e.message}finally{button.disabled=false}};
-  loadSchools();loadReports();loadFiles();loadThread();
+  loadSchools();loadReports();loadThread();
 })();
 </script></body></html>
-
