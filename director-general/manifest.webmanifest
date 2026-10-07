@@ -1,0 +1,19 @@
+{
+  "name": "متابعة المدير العام — مكتبات أكاديمية الفلاح",
+  "short_name": "مكتبات الفلاح",
+  "description": "متابعة تطوير المكتبات الست: التقييمات والعروض والتقارير والملاحظات.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#e8f0fa",
+  "theme_color": "#0c447c",
+  "icons": [
+    {"src": "../management/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "../management/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "../management/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "../management/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

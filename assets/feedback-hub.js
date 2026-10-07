@@ -312,5 +312,60 @@
     });
     try{localStorage.setItem('director_manager_name',u.name)}catch(e){}
   }
-  window.FH={applyIdentity:applyIdentity,openViewer:openViewer,interceptLinks:interceptLinks,quickGuide:quickGuide,presentations:presentations,ownerInbox:ownerInbox,myReplies:myReplies,DIRECTOR:DIRECTOR,EXEC:EXEC,norm:norm,client:client};
+
+  /* ================= 5) لوحة روابط وأكواد الدخول (للمالك فقط) ================= */
+  var PAGE_OF={director:'director-general/',executive:'management/',owner:'director-general/'};
+  function siteBase(){var p=location.pathname;var i=p.search(/\/(director-general|management|executive-management)\//);return location.origin+(i>=0?p.slice(0,i+1):p.replace(/[^/]*$/,''))}
+  function linkFor(r){return siteBase()+PAGE_OF[r.role]+'?u='+encodeURIComponent(r.person_key)}
+  function msgFor(r){return 'السلام عليكم '+r.name+'،\n\nرابط منصة مكتبات أكاديمية الفلاح الخاص بكم:\n'+linkFor(r)+'\n\nكود الدخول (شخصي، يُطلب مرة واحدة على الجهاز):\n'+r.code+'\n\nلتثبيتها على الهاتف كتطبيق:\n• آيفون: افتح الرابط في Safari ← زر المشاركة ← «إضافة إلى الشاشة الرئيسية».\n• أندرويد: افتح الرابط في Chrome ← اضغط «تثبيت التطبيق» أو القائمة ⋮ ← «إضافة إلى الشاشة الرئيسية».\n\nمع التحية'}
+  function copy(t,btn){function ok(){var o=btn.textContent;btn.textContent='✓ تم النسخ';setTimeout(function(){btn.textContent=o},1600)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){prompt('انسخ:',t)})}else{prompt('انسخ:',t)}}
+  function accessPanel(el){
+    css();if(!el)return;el.classList.add('fh');
+    el.innerHTML='<div class="fh-card"><h2>🔑 روابط وأكواد الدخول</h2><p class="fh-sub">لكل شخص رابطه وكوده. اضغط «نسخ الرسالة» وأرسلها له برسالة خاصة؛ تحتوي الرابط والكود وطريقة التثبيت على الهاتف. هذه اللوحة تظهر لك وحدك بعد إدخال كود المالك.</p><div class="fh-body"><div class="fh-empty">جارٍ التحقق...</div></div><div class="fh-status"></div></div>';
+    var body=el.querySelector('.fh-body'),msg=el.querySelector('.fh-status'),c;
+    function locked(){
+      body.innerHTML='<div class="fh-item"><b>أدخل كود المالك لعرض الروابط والأكواد</b><input class="fh-oc" style="width:100%;box-sizing:border-box;margin-top:8px;padding:12px;border:1px solid var(--fb);border-radius:12px;font:inherit;direction:ltr;text-align:center;text-transform:uppercase" placeholder="OWNER-XXXX-XXXX-XXXX" autocomplete="off"><div class="fh-btns" style="margin-top:8px"><button class="fh-btn fh-og" type="button">فتح اللوحة</button></div></div>';
+      var inp=body.querySelector('.fh-oc');
+      function go(){c.rpc('falah_redeem_code',{p_code:inp.value.trim()}).then(function(r){if(r.error){msg.textContent='تعذر التحقق: '+r.error.message;return}if(!r.data||r.data.role!=='owner'){msg.textContent='الكود غير صحيح أو ليس كود المالك.';return}msg.textContent='';list()})}
+      body.querySelector('.fh-og').onclick=go;inp.addEventListener('keydown',function(e){if(e.key==='Enter')go()});
+    }
+    function list(){
+      c.rpc('falah_owner_list').then(function(r){
+        if(r.error){if(/owner_only/.test(r.error.message))return locked();body.innerHTML='<div class="fh-empty">تعذر التحميل: '+esc(r.error.message)+'</div>';return}
+        var rows=(r.data||[]).filter(function(x){return x.role!=='owner'}),own=(r.data||[]).filter(function(x){return x.role==='owner'})[0];
+        var RL={director:'المدير العام',executive:'الإدارة التنفيذية'};
+        body.innerHTML=rows.map(function(x){var k=esc(x.person_key);return '<div class="fh-item'+(x.active?'':' s1')+'"><div class="fh-meta"><span class="fh-pill">👤 '+esc(x.name)+'</span><span class="fh-pill">'+esc(RL[x.role]||x.role)+'</span>'+(x.active?(x.devices?'<span class="fh-pill">✅ دخل من '+x.devices+' جهاز</span>':'<span class="fh-pill new">لم يدخل بعد</span>'):'<span class="fh-pill new">⛔ موقوف</span>')+(x.last_used_at?'<span class="fh-pill">آخر تفعيل: '+esc(fmt(x.last_used_at))+'</span>':'')+'</div>'+
+          '<div style="line-height:2;overflow-wrap:anywhere"><b>الرابط:</b> <code style="direction:ltr;display:inline-block">'+esc(linkFor(x))+'</code><br><b>الكود:</b> <code style="direction:ltr;display:inline-block;font-size:17px;font-weight:800;letter-spacing:1px">'+esc(x.code||'—')+'</code></div>'+
+          '<div class="fh-btns" style="margin-top:8px"><button class="fh-btn" type="button" data-msg="'+k+'">📋 نسخ الرسالة كاملة</button><button class="fh-btn out" type="button" data-link="'+k+'">نسخ الرابط</button><button class="fh-btn out" type="button" data-code="'+k+'">نسخ الكود</button><button class="fh-btn out" type="button" data-reset="'+k+'">🔄 كود جديد</button><button class="fh-btn out" type="button" data-act="'+k+'" data-on="'+(x.active?'0':'1')+'">'+(x.active?'⛔ إيقاف':'✅ تفعيل')+'</button></div></div>'}).join('')+
+          (own?'<details style="margin-top:8px"><summary>كود المالك (لك وحدك)</summary><div class="fh-item"><code style="direction:ltr;font-size:17px;font-weight:800">'+esc(own.code)+'</code></div></details>':'');
+        function rowOf(k){return rows.filter(function(x){return x.person_key===k})[0]}
+        body.querySelectorAll('[data-msg]').forEach(function(b){b.onclick=function(){copy(msgFor(rowOf(b.dataset.msg)),b)}});
+        body.querySelectorAll('[data-link]').forEach(function(b){b.onclick=function(){copy(linkFor(rowOf(b.dataset.link)),b)}});
+        body.querySelectorAll('[data-code]').forEach(function(b){b.onclick=function(){copy(rowOf(b.dataset.code).code,b)}});
+        body.querySelectorAll('[data-reset]').forEach(function(b){b.onclick=function(){if(!confirm('إنشاء كود جديد لـ '+rowOf(b.dataset.reset).name+'؟ الكود القديم يتوقف للأجهزة الجديدة، والأجهزة المسجلة تبقى تعمل.'))return;c.rpc('falah_owner_reset_code',{p_key:b.dataset.reset}).then(function(r){msg.textContent=r.error?'تعذر: '+r.error.message:'تم إنشاء كود جديد. انسخ الرسالة وأرسلها.';list()})}});
+        body.querySelectorAll('[data-act]').forEach(function(b){b.onclick=function(){var on=b.dataset.on==='1';if(!on&&!confirm('إيقاف دخول '+rowOf(b.dataset.act).name+'؟ سيُخرج من كل أجهزته فورًا.'))return;c.rpc('falah_owner_set_active',{p_key:b.dataset.act,p_active:on}).then(function(r){msg.textContent=r.error?'تعذر: '+r.error.message:(on?'تم التفعيل.':'تم الإيقاف.');list()})}});
+      });
+    }
+    waitClient().then(function(cl){
+      c=cl;if(!c||!c.auth){body.innerHTML='<div class="fh-empty">تعذر الاتصال.</div>';return}
+      c.auth.getSession().then(function(s){return s.data&&s.data.session?null:c.auth.signInAnonymously()}).then(function(){return c.rpc('falah_whoami')}).then(function(r){if(r.data&&r.data.role==='owner')list();else locked()}).catch(function(e){body.innerHTML='<div class="fh-empty">'+esc(e.message||e)+'</div>'});
+    });
+  }
+
+  /* ================= 6) بطاقة تثبيت التطبيق على الهاتف ================= */
+  var deferredPrompt=null;
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var b=document.querySelector('.fh-install-btn');if(b)b.style.display=''});
+  function installCard(el){
+    css();if(!el)return;
+    var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
+    if(standalone){el.innerHTML='';return}
+    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent),hid=false;try{hid=localStorage.getItem('fh_install_hide')==='1'}catch(e){}
+    if(hid){el.innerHTML='';return}
+    el.classList.add('fh');
+    el.innerHTML='<div class="fh-card" style="border-right:5px solid var(--ft)"><h3>📲 ثبّت المنصة على هاتفك</h3><p class="fh-sub" style="margin:4px 0 8px">'+(ios?'في Safari: اضغط زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية».':'اضغط «تثبيت» لتظهر المنصة كتطبيق على شاشتك. إن لم يظهر الزر: من قائمة المتصفح ⋮ اختر «إضافة إلى الشاشة الرئيسية».')+'</p><div class="fh-btns"><button class="fh-btn fh-install-btn" type="button" style="'+(deferredPrompt?'':'display:none')+'">⬇️ تثبيت</button><button class="fh-btn out fh-install-x" type="button">إخفاء</button></div></div>';
+    el.querySelector('.fh-install-btn').onclick=function(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;el.innerHTML=''})};
+    el.querySelector('.fh-install-x').onclick=function(){try{localStorage.setItem('fh_install_hide','1')}catch(e){}el.innerHTML=''};
+  }
+
+  window.FH={accessPanel:accessPanel,installCard:installCard,applyIdentity:applyIdentity,openViewer:openViewer,interceptLinks:interceptLinks,quickGuide:quickGuide,presentations:presentations,ownerInbox:ownerInbox,myReplies:myReplies,DIRECTOR:DIRECTOR,EXEC:EXEC,norm:norm,client:client};
 })();
