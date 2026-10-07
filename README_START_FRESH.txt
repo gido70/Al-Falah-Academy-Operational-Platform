@@ -4,7 +4,7 @@
 2) في Supabase SQL Editor شغّل supabase_setup_complete.sql مرة واحدة لتأكيد الجداول والصلاحيات، خصوصًا director_feedback.
 3) إذا أردت تصفير بيانات التجربة القديمة، شغّل RESET_DATABASE_FOR_NEW_START.sql مرة واحدة فقط.
 4) افتح الصفحة الرئيسية مع ?localReset=1 مرة واحدة لمسح بيانات الاختبار المخزنة في المتصفح:
-   https://gido70.github.io/Al-falah-Academy-GAT2/?localReset=1
+   https://gido70.github.io/Al-Falah-Academy-Operational-Platform/?localReset=1
 5) بعد ذلك ابدأ رفع ملفات JSON أو الإدخال المباشر.
 
 ملاحظات:

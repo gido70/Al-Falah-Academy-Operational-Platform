@@ -1,6 +1,6 @@
 طريقة الرفع:
 1) فك الضغط.
-2) ارفع الملفات والمجلدات داخل مستودع GitHub للموقع Al-falah-Academy-GAT2 في الجذر نفسه الذي يوجد فيه index.html.
+2) ارفع الملفات والمجلدات داخل مستودع GitHub للموقع Al-Falah-Academy-Operational-Platform في الجذر نفسه الذي يوجد فيه index.html.
 3) لا ترفع ملف ZIP نفسه.
 4) يجب أن تظهر الملفات هكذا:
    index.html

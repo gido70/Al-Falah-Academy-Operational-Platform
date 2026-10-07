@@ -62,6 +62,7 @@ textarea{min-height:110px;resize:vertical}.span{grid-column:1/-1}
 @media(max-width:900px){.category-grid,.form-grid{grid-template-columns:1fr}.hero{padding:26px 16px}.card{padding:18px}.pdf-frame{height:420px}}
 
 </style>
+<style>html.fh-locked body>*:not(#fhGate){visibility:hidden}</style><script>document.documentElement.classList.add("fh-locked")</script>
 </head>
 <body>
 <header class="top">
@@ -92,7 +93,9 @@ textarea{min-height:110px;resize:vertical}.span{grid-column:1/-1}
 
   <div class="notice" style="text-align:center;font-size:20px;font-weight:900;padding:20px;">هذه الصفحة خاصة بعرض التقارير التنفيذية والرد عليها فقط.</div>
 
-  <section id="categories" class="card">
+  <div id="fhExecGuide"></div><div id="fhExecReplies"></div>
+<div id="fhExecPres"></div>
+<section id="categories" class="card">
     <h2>تصنيفات التقارير</h2>
     <div class="category-grid">
       <div class="category" onclick="openCategory('school','تقارير المدارس')"><span class="icon">🏫</span><b>تقارير المدارس</b><span class="desc">تقارير تنفيذية عن المدارس والمكتبات المدرسية.</span></div>
@@ -224,30 +227,37 @@ async function saveFeedback(){
   const name=document.getElementById('fbName').value.trim();
   const role=document.getElementById('fbRole').value.trim();
   const text=document.getElementById('fbText').value.trim();
+  if(!name){alert('اكتب اسمك أولاً حتى يصل رد المنسق إليك');return;}
   if(!text){alert('اكتب التعليق أولاً');return;}
   const client=sb();
   if(!client){alert('لا يوجد اتصال بقاعدة البيانات');return;}
-  const {error}=await client.from('report_feedback').insert({
-    report_id: currentReportId,
-    manager_name: (name||'الإدارة') + (role ? ' - '+role : ''),
-    comment: text,
-    is_read: false
+  const {error}=await client.from('director_feedback').insert({
+    manager_name:name, manager_role:role||null,
+    report_type:'executive_report', report_scope:String(currentReportId),
+    comment_text:text, comment:text, is_read:false, admin_reply_read:false, is_deleted:false,
+    metadata:{report_title:document.getElementById('viewTitle').textContent||''}, page_url:location.href
   });
   if(error){alert('خطأ في حفظ التعليق: '+error.message);return;}
   document.getElementById('fbText').value='';
   await renderFeedback();
+  alert('تم إرسال تعليقك إلى المنسق. سيظهر رده في أعلى هذه الصفحة ضمن «ردود المنسق».');
 }
 
+function escH(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 async function renderFeedback(){
   const box=document.getElementById('feedbackList');
   box.innerHTML='<div class="empty">جارٍ التحميل...</div>';
   const client=sb();
   if(!client){box.innerHTML='<div class="empty">لا يوجد اتصال</div>';return;}
-  const {data,error}=await client.from('report_feedback').select('*').eq('report_id',currentReportId).order('created_at',{ascending:false});
-  if(error){box.innerHTML='<div class="empty">خطأ: '+error.message+'</div>';return;}
-  if(!data||!data.length){box.innerHTML='<div class="empty">لا توجد ملاحظات حتى الآن.</div>';return;}
-  box.innerHTML=data.map(f=>`<div class="feedback-item"><b>${f.manager_name||'الإدارة'}</b> <span class="pill">${f.created_at?new Date(f.created_at).toLocaleDateString('ar'):''}</span><br>${f.comment}</div>`).join('');
+  const {data,error}=await client.from('director_feedback').select('*').eq('report_type','executive_report').eq('report_scope',String(currentReportId)).order('created_at',{ascending:false});
+  if(error){box.innerHTML='<div class="empty">خطأ: '+escH(error.message)+'</div>';return;}
+  const rows=(data||[]).filter(f=>!f.is_deleted);
+  if(!rows.length){box.innerHTML='<div class="empty">لا توجد ملاحظات حتى الآن.</div>';return;}
+  box.innerHTML=rows.map(f=>`<div class="feedback-item"><b>${escH(f.manager_name||'الإدارة')}</b>${f.manager_role?' — '+escH(f.manager_role):''} <span class="pill">${f.created_at?new Date(f.created_at).toLocaleDateString('ar'):''}</span><br>${escH(f.comment_text||f.comment)}${f.admin_reply?`<div style="background:#e1f5ee;border-radius:10px;padding:8px;margin-top:8px"><b>رد المنسق:</b><br>${escH(f.admin_reply)}</div>`:'<div class="pill" style="margin-top:6px">بانتظار رد المنسق</div>'}</div>`).join('');
 }
 </script>
+<script src="../assets/feedback-hub.js?v=20261008c"></script>
+<script src="../assets/access-gate.js?v=20261008d"></script>
+<script>FHGate.require(['executive','owner']).then(function(u){u=u||{name:"الإدارة",role:"guest"};FH.interceptLinks();FH.quickGuide(document.getElementById("fhExecGuide"),"executive");FH.myReplies(document.getElementById("fhExecReplies"),{people:FH.EXEC,me:u.name,title:"ردود المنسق على تعليقات الإدارة"});FH.presentations(document.getElementById("fhExecPres"),{viewer:u.name});if(u.role==="executive"){FH.applyIdentity(u);var r=document.getElementById("fbRole");if(r&&!r.value)r.value="الإدارة التنفيذية";}});</script>
 </body>
 </html>

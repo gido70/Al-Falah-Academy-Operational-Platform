@@ -36,7 +36,7 @@
 .presenter-row.off{opacity:.65}.presenter-meta{display:flex;gap:8px;flex-wrap:wrap}.presenter-meta .tag{background:#e6f1fb;color:var(--navy)}
 .presenter-actions{display:flex;gap:8px;flex-wrap:wrap}.presenter-status{margin-top:12px;border-radius:14px;padding:12px;font-weight:900;display:none}.presenter-status.ok{display:block;background:#e1f5ee;color:#085041;border-right:5px solid var(--teal)}.presenter-status.err{display:block;background:#fcebeb;color:#791f1f;border-right:5px solid var(--red)}
 @media(max-width:850px){.presenter-form{grid-template-columns:1fr}.presenter-admin{padding:16px}.presenter-admin h2{font-size:20px}.presenter-admin .presenter-icon{width:48px;height:48px}}
-</style></head><body><a class="alfalah-fixed-home" href="index.html">🏠 الرئيسية</a><a class="home-return-btn" href="./index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="./assets/logo.png" alt="شعار أكاديمية الفلاح"><h1>منصة تطوير مكتبات أكاديمية الفلاح</h1><p>واجهة موحدة للتقييم، الدوام، المتابعة، التقارير، والملخص التنفيذي للإدارة التعليمية</p><div class="nav"><a class="btn primary" href="index.html">🏠 الرئيسية</a></div></section><section class="director-inbox" id="directorInbox">
+</style></head><body><a class="alfalah-fixed-home" href="index.html">🏠 الرئيسية</a><a class="home-return-btn" href="./index.html">🏠 الرئيسية</a><div class="wrap"><section class="hero"><img class="logo" src="./assets/logo.png" alt="شعار أكاديمية الفلاح"><h1>منصة تطوير مكتبات أكاديمية الفلاح</h1><p>واجهة موحدة للتقييم، الدوام، المتابعة، التقارير، والملخص التنفيذي للإدارة التعليمية</p><div class="nav"><a class="btn primary" href="index.html">🏠 الرئيسية</a></div></section><section class="director-inbox" id="directorInbox" style="display:none">
   <div class="inbox-head">
     <div class="inbox-title">
       <div class="inbox-icon">💬</div>
@@ -57,6 +57,7 @@
     <div class="inbox-empty">جاري فحص ردود الإدارة...</div>
   </div>
 </section>
+<section id="fhOwnerInbox"></section>
 <h2 class="channels-title">القنوات الرئيسية للنظام</h2><section class="channels-grid">
   <article class="channel-card" data-num="1">
     <div><div class="ico">📋</div><h2>نظام تقييم المكتبات</h2><p class="muted">تقييم ميداني لكل مكتبة، حفظ في قاعدة البيانات، تقرير تلقائي، وتصدير النتائج.</p></div>
@@ -286,6 +287,7 @@ setTimeout(()=>loadManagementPresentationsAdmin(false),1200);
 
 </script>
 <script src="./assets/reset-demo-data.js?v=20260510f"></script>
-<script src="director-general/admin.js?v=20260929b" defer></script>
+<script src="assets/feedback-hub.js?v=20261008c"></script>
+<script>FH.ownerInbox(document.getElementById("fhOwnerInbox"));</script>
 </body></html>
 
