@@ -224,12 +224,21 @@
       list.innerHTML=rows.length?rows.map(function(r){
         var id=esc(r.id),isNew=!r.is_read&&lastSide(r,st.byId)==='member'&&!closed(r);
         return '<div class="fh-item'+(isNew?' s1':closed(r)?' s4':' s3')+'"><div class="fh-meta"><span class="fh-pill">👤 '+esc(who(r))+'</span>'+(r.manager_role?'<span class="fh-pill">'+esc(r.manager_role)+'</span>':'')+'<span class="fh-pill">📄 بخصوص: '+esc(topic(r))+'</span>'+statusPill(r,st.byId,'owner')+'</div>'+bubbles(r,st.byId,'owner')+
-          '<textarea data-ta="'+id+'" placeholder="'+(closed(r)?'المحادثة منتهية — الكتابة تعيد فتحها':'اكتب ردك على '+esc(norm(who(r))))+'..."></textarea><div class="fh-acts"><button class="fh-btn" type="button" data-send="'+id+'">📨 إرسال الرد</button>'+(isNew?'<button class="fh-btn out" type="button" data-seen="'+id+'">👁️ اطّلعت</button>':'')+(closed(r)?'':'<button class="fh-btn out" type="button" data-close="'+id+'">🔒 إنهاء المحادثة</button>')+'</div></div>'}).join(''):'<div class="fh-empty">لا توجد محادثات في هذه الحالة.</div>';
+          '<textarea data-ta="'+id+'" placeholder="'+(closed(r)?'المحادثة منتهية — الكتابة تعيد فتحها':'اكتب ردك على '+esc(norm(who(r))))+'..."></textarea><div class="fh-acts"><button class="fh-btn" type="button" data-send="'+id+'">📨 إرسال الرد</button>'+(isNew?'<button class="fh-btn out" type="button" data-seen="'+id+'">👁️ اطّلعت</button>':'')+(closed(r)?'':'<button class="fh-btn out" type="button" data-close="'+id+'">🔒 إنهاء المحادثة</button>')+'<button class="fh-btn out" type="button" data-del="'+id+'" style="color:#c0392b;border-color:#e8b4ae;margin-inline-start:auto">🗑️ حذف</button></div></div>'}).join(''):'<div class="fh-empty">لا توجد محادثات في هذه الحالة.</div>';
       function rowOf(id){return st.rows.filter(function(x){return x.id===id})[0]}
       function after(ok){return function(err){msg.textContent=err?'تعذر الحفظ: '+err:ok;load()}}
       list.querySelectorAll('[data-send]').forEach(function(b){b.onclick=function(){var t=list.querySelector('[data-ta="'+b.dataset.send+'"]').value.trim();if(!t){msg.textContent='اكتب الرد أولًا.';return}b.disabled=true;act('owner',rowOf(b.dataset.send),'send',t,OWNER_NAME,after('تم إرسال الرد، وسيظهر لصاحب التعليق في «ردود المنسق».'))}});
       list.querySelectorAll('[data-seen]').forEach(function(b){b.onclick=function(){act('owner',rowOf(b.dataset.seen),'seen','',OWNER_NAME,after('تم.'))}});
       list.querySelectorAll('[data-close]').forEach(function(b){b.onclick=function(){if(!confirm('إنهاء هذه المحادثة؟ يمكن إعادة فتحها بأي رد جديد.'))return;act('owner',rowOf(b.dataset.close),'close','',OWNER_NAME,after('أُنهيت المحادثة.'))}});
+      list.querySelectorAll('[data-del]').forEach(function(b){b.onclick=function(){
+        var r=rowOf(b.dataset.del);if(!r)return;
+        if(!confirm('⚠️ تنبيه: حذف هذه المحادثة\n\nمن: '+norm(who(r))+'\nبخصوص: '+topic(r)+'\n\nستُحذف من صفحتك ومن صفحة صاحبها نهائيًا.\nهل تريد الحذف فعلًا؟'))return;
+        b.disabled=true;msg.textContent='جارٍ الحذف...';
+        waitClient().then(function(c){return c.rpc('falah_owner_delete_feedback',{p_id:r.id})}).then(function(res){
+          if(res.error){b.disabled=false;msg.textContent=/owner_only/.test(res.error.message)?'الحذف متاح لحساب المنسق فقط.':'تعذر الحذف: '+res.error.message;return}
+          msg.textContent='تم حذف المحادثة.';load();
+        }).catch(function(e){b.disabled=false;msg.textContent='تعذر الحذف: '+(e.message||e)});
+      }});
       var badge=document.getElementById('directorInboxBadge');if(badge){var n=st.rows.filter(STAT[0][2]).length;badge.textContent=n;badge.classList.toggle('zero',!n)}
     }
     function load(){
