@@ -321,13 +321,11 @@
   function copy(t,btn){function ok(){var o=btn.textContent;btn.textContent='✓ تم النسخ';setTimeout(function(){btn.textContent=o},1600)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){prompt('انسخ:',t)})}else{prompt('انسخ:',t)}}
   function accessPanel(el){
     css();if(!el)return;el.classList.add('fh');
-    el.innerHTML='<div class="fh-card"><h2>🔑 روابط وأكواد الدخول</h2><p class="fh-sub">لكل شخص رابطه وكوده. اضغط «نسخ الرسالة» وأرسلها له برسالة خاصة؛ تحتوي الرابط والكود وطريقة التثبيت على الهاتف. هذه اللوحة تظهر لك وحدك بعد إدخال كود المالك.</p><div class="fh-body"><div class="fh-empty">جارٍ التحقق...</div></div><div class="fh-status"></div></div>';
+    el.innerHTML='<div class="fh-card"><h2>🔑 روابط وأكواد الدخول</h2><p class="fh-sub">لكل شخص رابطه وكوده. اضغط «نسخ الرسالة» وأرسلها له برسالة خاصة؛ تحتوي الرابط والكود وطريقة التثبيت على الهاتف. هذه اللوحة تظهر لك وحدك بعد تسجيل دخولك بالبريد.</p><div class="fh-body"><div class="fh-empty">جارٍ التحقق...</div></div><div class="fh-status"></div></div>';
     var body=el.querySelector('.fh-body'),msg=el.querySelector('.fh-status'),c;
     function locked(){
-      body.innerHTML='<div class="fh-item"><b>أدخل كود المالك لعرض الروابط والأكواد</b><input class="fh-oc" style="width:100%;box-sizing:border-box;margin-top:8px;padding:12px;border:1px solid var(--fb);border-radius:12px;font:inherit;direction:ltr;text-align:center;text-transform:uppercase" placeholder="OWNER-XXXX-XXXX-XXXX" autocomplete="off"><div class="fh-btns" style="margin-top:8px"><button class="fh-btn fh-og" type="button">فتح اللوحة</button></div></div>';
-      var inp=body.querySelector('.fh-oc');
-      function go(){c.rpc('falah_redeem_code',{p_code:inp.value.trim()}).then(function(r){if(r.error){msg.textContent='تعذر التحقق: '+r.error.message;return}if(!r.data||r.data.role!=='owner'){msg.textContent='الكود غير صحيح أو ليس كود المالك.';return}msg.textContent='';list()})}
-      body.querySelector('.fh-og').onclick=go;inp.addEventListener('keydown',function(e){if(e.key==='Enter')go()});
+      body.innerHTML='<div class="fh-item"><b>هذه اللوحة لحساب منسق المكتبات فقط.</b><div class="fh-btns" style="margin-top:8px"><button class="fh-btn fh-og" type="button">تسجيل الدخول بالبريد</button></div></div>';
+      body.querySelector('.fh-og').onclick=function(){c.auth.signOut().then(function(){location.reload()})};
     }
     function list(){
       c.rpc('falah_owner_list').then(function(r){

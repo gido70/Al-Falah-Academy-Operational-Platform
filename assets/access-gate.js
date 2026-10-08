@@ -81,6 +81,66 @@
       });
     });
   }
+
+  /* صفحة المالك: دخول بالبريد الإلكتروني وكلمة المرور فقط (نفس حساب المكتبة الذكية) */
+  function requireOwner(){
+    style();
+    return new Promise(function(resolve){
+      waitClient().then(function(c){
+        if(!c){screen('<h1>تعذر الاتصال</h1><p>تحقق من الإنترنت ثم أعد تحميل الصفحة.</p>');return}
+        function check(){
+          return c.rpc('falah_whoami').then(function(r){
+            var u=r&&r.data;
+            if(u&&u.role==='owner'){window.FH_USER=u;unlock();ownerBar(c);resolve(u);return true}
+            return false;
+          });
+        }
+        c.auth.getSession().then(function(s){
+          var ses=s.data&&s.data.session;
+          if(ses&&ses.user&&!ses.user.is_anonymous)return check();
+          return false;
+        }).then(function(ok){if(!ok)login(c,check)})
+        .catch(function(e){screen('<h1>تعذر بدء الجلسة</h1><p>'+esc(e.message||e)+'</p><button class="fhg-btn" onclick="location.reload()">إعادة المحاولة</button>')});
+      });
+    });
+  }
+  function login(c,check){
+    var g=screen('<div class="fhg-logo">🔐</div><h1>صفحة منسق المكتبات</h1><p>سجّل الدخول ببريدك الإلكتروني وكلمة المرور.</p>'+
+      '<input class="fhg-in fhg-em" id="fhgEmail" type="email" autocomplete="username" placeholder="البريد الإلكتروني" style="text-transform:none;letter-spacing:0;font-size:17px">'+
+      '<input class="fhg-in fhg-em" id="fhgPass" type="password" autocomplete="current-password" placeholder="كلمة المرور" style="text-transform:none;letter-spacing:0;font-size:17px;margin-top:10px">'+
+      '<button class="fhg-btn" id="fhgGo" type="button">دخول</button><div class="fhg-msg" id="fhgMsg" role="status"></div>'+
+      '<div class="fhg-note"><a href="#" id="fhgForgot">نسيت كلمة المرور؟</a></div>');
+    var em=g.querySelector('#fhgEmail'),pw=g.querySelector('#fhgPass'),btn=g.querySelector('#fhgGo'),msg=g.querySelector('#fhgMsg');
+    setTimeout(function(){em.focus()},50);
+    function bad(t){btn.disabled=false;msg.className='fhg-msg err';msg.textContent=t}
+    function go(){
+      var e=em.value.trim(),p=pw.value;
+      if(!e||!p)return bad('اكتب البريد وكلمة المرور.');
+      btn.disabled=true;msg.className='fhg-msg';msg.textContent='جارٍ التحقق...';
+      c.auth.signInWithPassword({email:e,password:p}).then(function(r){
+        if(r.error)return bad(/invalid/i.test(r.error.message)?'البريد أو كلمة المرور غير صحيحة.':'تعذر الدخول: '+r.error.message);
+        return check().then(function(ok){
+          if(!ok){c.auth.signOut();bad('هذا الحساب ليس حساب منسق المكتبات.')}
+        });
+      }).catch(function(x){bad('تعذر الدخول: '+(x.message||x))});
+    }
+    btn.onclick=go;pw.addEventListener('keydown',function(e){if(e.key==='Enter')go()});
+    g.querySelector('#fhgForgot').onclick=function(ev){
+      ev.preventDefault();var e=em.value.trim();
+      if(!e)return bad('اكتب بريدك أولًا ثم اضغط «نسيت كلمة المرور».');
+      c.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname}).then(function(r){
+        if(r.error)return bad('تعذر الإرسال: '+r.error.message);
+        msg.className='fhg-msg ok';msg.textContent='أُرسل رابط إعادة التعيين إلى بريدك.';
+      });
+    };
+  }
+  function ownerBar(c){
+    if(document.getElementById('fhOwnerBar'))return;
+    var b=document.createElement('button');b.id='fhOwnerBar';b.type='button';b.textContent='🔓 تسجيل الخروج';
+    b.style.cssText='position:fixed;bottom:14px;left:14px;z-index:9999;border:0;border-radius:999px;padding:9px 15px;font:inherit;font-weight:800;background:#0c447c;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.2);cursor:pointer';
+    b.onclick=function(){if(confirm('تسجيل الخروج من صفحة المنسق على هذا الجهاز؟'))c.auth.signOut().then(function(){location.reload()})};
+    document.body.appendChild(b);
+  }
   function logout(){var c=client();if(!c)return;c.auth.signOut().then(function(){location.reload()})}
-  window.FHGate={require:require,logout:logout,ROLE_LABEL:ROLE_LABEL};
+  window.FHGate={require:require,requireOwner:requireOwner,logout:logout,ROLE_LABEL:ROLE_LABEL};
 })();
