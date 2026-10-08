@@ -6,7 +6,7 @@
 (function(){
   'use strict';
   var HINTS={owner:'منسق المكتبات',adwan:'د. محمد العدوان',afifi:'د. أمل العفيفي',hammadi:'السيدة/ أسماء الحمادي',darmaki:'السيدة/ فاطمة الدرمكي'};
-  var ROLE_LABEL={owner:'منسق المكتبات',director:'المدير العام',executive:'الإدارة التنفيذية'};
+  var ROLE_LABEL={owner:'منسق المكتبات',director:'المدير العام',executive:'المتابعة الإدارية'};
   var HOME={director:'director-general/',executive:'management/',owner:''};
 
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
