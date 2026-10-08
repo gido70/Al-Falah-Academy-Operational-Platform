@@ -250,5 +250,5 @@
 })();
 </script><script src="../assets/feedback-hub.js?v=20261008f"></script>
 <script src="../assets/access-gate.js?v=20261008q"></script>
-<script>FHGate.require(['director','executive','owner']).then(function(u){u=u||{name:FH.DIRECTOR,role:"guest"};FH.installCard(document.getElementById("fhDirInstall"));FH.quickGuide(document.getElementById("fhDirGuide"),"director");if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js?v=20261008").catch(function(){});FH.myReplies(document.getElementById("fhDirReplies"),{people:[FH.DIRECTOR],title:"ردود المنسق على ملاحظاتك"});FH.presentations(document.getElementById("fhDirPres"),{viewer:u.name});});</script>
+<script>FHGate.require(['director','owner']).then(function(u){u=u||{name:FH.DIRECTOR,role:"guest"};FH.installCard(document.getElementById("fhDirInstall"));FH.quickGuide(document.getElementById("fhDirGuide"),"director");if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js?v=20261008").catch(function(){});FH.myReplies(document.getElementById("fhDirReplies"),{people:[FH.DIRECTOR],title:"ردود المنسق على ملاحظاتك"});FH.presentations(document.getElementById("fhDirPres"),{viewer:u.name});});</script>
 </body></html>
