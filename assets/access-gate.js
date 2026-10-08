@@ -75,7 +75,7 @@
         }).then(function(r){
           var u=r&&r.data;
           if(u&&allowed.indexOf(u.role)>=0){window.FH_USER=u;unlock();resolve(u);return}
-          if(u&&allowed.indexOf(u.role)<0){screen('<div class="fhg-logo">🔒</div><h1>هذه الصفحة غير متاحة لحسابك</h1><p>أنت مسجّل باسم '+esc(u.name)+' ('+esc(ROLE_LABEL[u.role]||u.role)+').</p><a class="fhg-btn" style="display:block;text-decoration:none" href="'+esc(base()+HOME[u.role])+'">افتح صفحتك</a>');return}
+          if(u&&allowed.indexOf(u.role)<0){screen('<div class="fhg-logo">🔒</div><h1>هذه الصفحة غير متاحة لحسابك</h1><p>أنت مسجّل باسم '+esc(u.name)+' ('+esc(ROLE_LABEL[u.role]||u.role)+').</p><a class="fhg-btn" style="display:block;text-decoration:none" href="'+esc(base()+HOME[u.role])+'">افتح صفحتك</a><button class="fhg-btn" type="button" style="background:#fff;color:#0c447c;border:2px solid #c6d9ef" onclick="FHGate.logout()">الدخول بحساب آخر</button>');return}
           ask(allowed,resolve,c);
         }).catch(function(e){screen('<h1>تعذر بدء الجلسة</h1><p>'+esc(e.message||e)+'</p><button class="fhg-btn" onclick="location.reload()">إعادة المحاولة</button>')});
       });
