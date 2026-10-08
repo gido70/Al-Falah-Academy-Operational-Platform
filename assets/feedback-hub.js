@@ -20,7 +20,7 @@
   function text(r){return r.comment_text||r.comment||''}
   var SCHOOL_NAME={khb:'مكتبة الخبيصي',jmi:'مكتبة الجيمي',shj:'مكتبة الشارقة',bny:'مكتبة بني ياس',mzd:'مكتبة محمد بن زايد',dan:'مكتبة الدانة'};
   function scopeName(v){v=String(v||'');var m=v.match(/^school:(\w+)$/);return m?(SCHOOL_NAME[m[1]]||v):''}
-  function topic(r){var t=TYPE_LABEL[r.report_type]||r.report_type||'تعليق';var s=SCOPE_LABEL[r.report_scope]||scopeName(r.report_scope)||(r.report_type==='executive_report'?(r.metadata&&r.metadata.report_title)||'':r.report_scope)||'';return s&&s!=='all'?t+' — '+s:t}
+  function topic(r){var t=TYPE_LABEL[r.report_type]||r.report_type||'تعليق';var s=SCOPE_LABEL[r.report_scope]||scopeName(r.report_scope)||(r.report_type==='executive_report'?(r.metadata&&r.metadata.report_title)||'':r.report_scope)||'';return s&&s!=='all'?s:t}
   function step(r){return r.admin_reply_read&&hasReply(r)?4:hasReply(r)?3:r.is_read?2:1}
   function hasReply(r){return String(r.admin_reply||'').trim().length>0}
 
@@ -169,9 +169,9 @@
     return '<div class="fh-thread">'+threadMsgs(r,byId).map(function(x){var mine=x.side===me;return '<div class="fh-bub '+(x.side==='owner'?'own':'mem')+(mine?' mine':'')+'"><div class="fh-bh"><b>'+esc(mine?'أنت':x.name)+'</b> · '+esc(fmt(x.at))+'</div>'+esc(x.body)+'</div>'}).join('')+'</div>';
   }
   function statusPill(r,byId,me){
-    if(closed(r))return '<span class="fh-pill">🔒 مغلقة'+(r.closed_by?' — أنهاها '+esc(r.closed_by===OWNER_NAME&&me==='owner'?'أنت':r.closed_by):'')+'</span>';
+    if(closed(r))return '<span class="fh-pill">✅ منتهية'+(r.closed_by?' — أنهاها '+esc(r.closed_by===OWNER_NAME&&me==='owner'?'أنت':r.closed_by):'')+'</span>';
     var turn=lastSide(r,byId)==='member'?'owner':'member';
-    return turn===me?'<span class="fh-pill new">✍️ الدور عليك</span>':'<span class="fh-pill">⏳ بانتظار '+(me==='owner'?'ردّه':'رد المنسق')+'</span>';
+    return turn===me?'<span class="fh-pill new">🔴 بانتظار ردك</span>':'<span class="fh-pill">⏳ بانتظار '+(me==='owner'?'ردّه':'رد المنسق')+'</span>';
   }
   function threadCss(){
     if(document.getElementById('fh-tstyle'))return;var s=document.createElement('style');s.id='fh-tstyle';
@@ -208,12 +208,12 @@
   function ownerInbox(el){
     css();threadCss();if(!el)return;el.classList.add('fh');
     var st={rows:[],byId:{},legacy:[],status:'mine',person:'all'};
-    el.innerHTML='<div class="fh-card"><h2>💬 صندوق الردود: محادثاتك مع المدير العام والمتابعة الإدارية</h2><p class="fh-sub">كل تعليق محادثة مستقلة. ردّك يظهر فورًا في صفحة صاحب التعليق داخل «ردود المنسق» بعلامة «رد جديد»، ويستطيع أن يرد عليك، فيعود إليك هنا في «الدور عليك». تستمر المحادثة حتى يضغط أحدكما «إنهاء المحادثة».</p>'+threadPath()+'<div class="fh-chips fh-st"></div><div class="fh-chips fh-pp"></div><div class="fh-list"><div class="fh-empty">جارٍ التحميل...</div></div><div class="fh-legacy"></div><div class="fh-status"></div><div class="fh-btns" style="margin-top:8px"><button class="fh-btn out fh-refresh" type="button">🔄 تحديث</button></div></div>';
+    el.innerHTML='<div class="fh-card"><h2>💬 صندوق الردود: محادثاتك مع المدير العام والمتابعة الإدارية</h2><p class="fh-sub">كل تعليق محادثة مستقلة. ردّك يظهر فورًا في صفحة صاحب التعليق داخل «ردود المنسق» بعلامة «رد جديد»، ويستطيع أن يرد عليك، فيعود إليك هنا في «بانتظار ردك». تستمر المحادثة حتى يضغط أحدكما «إنهاء المحادثة».</p>'+threadPath()+'<div class="fh-chips fh-st"></div><div class="fh-chips fh-pp"></div><div class="fh-list"><div class="fh-empty">جارٍ التحميل...</div></div><div class="fh-legacy"></div><div class="fh-status"></div><div class="fh-btns" style="margin-top:8px"><button class="fh-btn out fh-refresh" type="button">🔄 تحديث</button></div></div>';
     var list=el.querySelector('.fh-list'),chS=el.querySelector('.fh-st'),chP=el.querySelector('.fh-pp'),msg=el.querySelector('.fh-status');
     el.querySelector('.fh-refresh').onclick=load;
     function pk(r){var n=norm(who(r));if(n===norm(DIRECTOR))return 'dir';for(var i=0;i<EXEC.length;i++)if(n===norm(EXEC[i]))return 'e'+i;return 'other'}
     var PEOPLE=[['all','الجميع'],['dir','المدير العام'],['e0',norm(EXEC[0])],['e1',norm(EXEC[1])],['e2',norm(EXEC[2])],['other','آخرون']];
-    var STAT=[['mine','الدور عليك',function(r){return !closed(r)&&lastSide(r,st.byId)==='member'}],['theirs','بانتظار ردّهم',function(r){return !closed(r)&&lastSide(r,st.byId)==='owner'}],['closed','مغلقة',closed],['all','الكل',function(){return true}]];
+    var STAT=[['mine','بانتظار ردك',function(r){return !closed(r)&&lastSide(r,st.byId)==='member'}],['theirs','بانتظار ردّهم',function(r){return !closed(r)&&lastSide(r,st.byId)==='owner'}],['closed','منتهية',closed],['all','الكل',function(){return true}]];
     function render(){
       var byP=st.rows.filter(function(r){return st.person==='all'||pk(r)===st.person});
       chS.innerHTML=STAT.map(function(s){return '<button type="button" class="fh-chip'+(st.status===s[0]?' on':'')+'" data-s="'+s[0]+'">'+s[1]+'<span>'+byP.filter(s[2]).length+'</span></button>'}).join('');
@@ -223,8 +223,8 @@
       var f=STAT.filter(function(s){return s[0]===st.status})[0][2],rows=byP.filter(f);
       list.innerHTML=rows.length?rows.map(function(r){
         var id=esc(r.id),isNew=!r.is_read&&lastSide(r,st.byId)==='member'&&!closed(r);
-        return '<div class="fh-item'+(isNew?' s1':closed(r)?' s4':' s3')+'"><div class="fh-meta"><span class="fh-pill">👤 '+esc(who(r))+'</span>'+(r.manager_role?'<span class="fh-pill">'+esc(r.manager_role)+'</span>':'')+'<span class="fh-pill">🏷️ '+esc(topic(r))+'</span>'+statusPill(r,st.byId,'owner')+(isNew?'<span class="fh-pill new">جديد</span>':'')+'</div>'+bubbles(r,st.byId,'owner')+
-          '<textarea data-ta="'+id+'" placeholder="'+(closed(r)?'المحادثة مغلقة — الكتابة تعيد فتحها':'اكتب ردك على '+esc(norm(who(r))))+'..."></textarea><div class="fh-acts"><button class="fh-btn" type="button" data-send="'+id+'">📨 إرسال الرد</button>'+(isNew?'<button class="fh-btn out" type="button" data-seen="'+id+'">👁️ اطّلعت</button>':'')+(closed(r)?'':'<button class="fh-btn out" type="button" data-close="'+id+'">🔒 إنهاء المحادثة</button>')+'</div></div>'}).join(''):'<div class="fh-empty">لا توجد محادثات في هذه الحالة.</div>';
+        return '<div class="fh-item'+(isNew?' s1':closed(r)?' s4':' s3')+'"><div class="fh-meta"><span class="fh-pill">👤 '+esc(who(r))+'</span>'+(r.manager_role?'<span class="fh-pill">'+esc(r.manager_role)+'</span>':'')+'<span class="fh-pill">📄 بخصوص: '+esc(topic(r))+'</span>'+statusPill(r,st.byId,'owner')+'</div>'+bubbles(r,st.byId,'owner')+
+          '<textarea data-ta="'+id+'" placeholder="'+(closed(r)?'المحادثة منتهية — الكتابة تعيد فتحها':'اكتب ردك على '+esc(norm(who(r))))+'..."></textarea><div class="fh-acts"><button class="fh-btn" type="button" data-send="'+id+'">📨 إرسال الرد</button>'+(isNew?'<button class="fh-btn out" type="button" data-seen="'+id+'">👁️ اطّلعت</button>':'')+(closed(r)?'':'<button class="fh-btn out" type="button" data-close="'+id+'">🔒 إنهاء المحادثة</button>')+'</div></div>'}).join(''):'<div class="fh-empty">لا توجد محادثات في هذه الحالة.</div>';
       function rowOf(id){return st.rows.filter(function(x){return x.id===id})[0]}
       function after(ok){return function(err){msg.textContent=err?'تعذر الحفظ: '+err:ok;load()}}
       list.querySelectorAll('[data-send]').forEach(function(b){b.onclick=function(){var t=list.querySelector('[data-ta="'+b.dataset.send+'"]').value.trim();if(!t){msg.textContent='اكتب الرد أولًا.';return}b.disabled=true;act('owner',rowOf(b.dataset.send),'send',t,OWNER_NAME,after('تم إرسال الرد، وسيظهر لصاحب التعليق في «ردود المنسق».'))}});
@@ -257,8 +257,8 @@
       rows.sort(function(a,b){return (isNew(b)?1:0)-(isNew(a)?1:0)||(closed(a)?1:0)-(closed(b)?1:0)});
       list.innerHTML=rows.length?rows.map(function(r){
         var id=esc(r.id),nw=isNew(r);
-        return '<div class="fh-item'+(nw?' s3':closed(r)?' s4':' s1')+'"><div class="fh-meta">'+(people.length>1?'<span class="fh-pill">👤 '+esc(who(r))+'</span>':'')+'<span class="fh-pill">🏷️ '+esc(topic(r))+'</span>'+statusPill(r,st.byId,'member')+(nw?'<span class="fh-pill new">🔴 رد جديد</span>':'')+'</div>'+bubbles(r,st.byId,'member')+
-          '<textarea data-ta="'+id+'" placeholder="'+(closed(r)?'المحادثة مغلقة — الكتابة تعيد فتحها':'اكتب ردك على المنسق')+'..."></textarea><div class="fh-acts"><button class="fh-btn" type="button" data-send="'+id+'">📨 إرسال</button>'+(nw?'<button class="fh-btn out" type="button" data-seen="'+id+'">✅ اطّلعت على الرد</button>':'')+(closed(r)?'':'<button class="fh-btn out" type="button" data-close="'+id+'">🔒 إنهاء المحادثة</button>')+'</div></div>'}).join(''):'<div class="fh-empty">لا توجد تعليقات مسجلة بعد.</div>';
+        return '<div class="fh-item'+(nw?' s3':closed(r)?' s4':' s1')+'"><div class="fh-meta">'+(people.length>1?'<span class="fh-pill">👤 '+esc(who(r))+'</span>':'')+'<span class="fh-pill">📄 بخصوص: '+esc(topic(r))+'</span>'+statusPill(r,st.byId,'member')+(nw?'<span class="fh-pill new">🔴 رد جديد</span>':'')+'</div>'+bubbles(r,st.byId,'member')+
+          '<textarea data-ta="'+id+'" placeholder="'+(closed(r)?'المحادثة منتهية — الكتابة تعيد فتحها':'اكتب ردك على المنسق')+'..."></textarea><div class="fh-acts"><button class="fh-btn" type="button" data-send="'+id+'">📨 إرسال</button>'+(nw?'<button class="fh-btn out" type="button" data-seen="'+id+'">✅ اطّلعت على الرد</button>':'')+(closed(r)?'':'<button class="fh-btn out" type="button" data-close="'+id+'">🔒 إنهاء المحادثة</button>')+'</div></div>'}).join(''):'<div class="fh-empty">لا توجد تعليقات مسجلة بعد.</div>';
       function rowOf(id){return st.rows.filter(function(x){return x.id===id})[0]}
       function nameFor(r){return (window.FH_USER&&window.FH_USER.name)||who(r)}
       function after(ok){return function(err){msg.textContent=err?'تعذر الحفظ: '+err:ok;load()}}

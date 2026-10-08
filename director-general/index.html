@@ -248,7 +248,7 @@
   $('send').onclick=async()=>{const comment=clean($('comment').value),key=$('topic').value;if(!comment){$('message').textContent='اكتب الملاحظة أولًا.';return}const button=$('send');button.disabled=true;$('message').textContent='جارٍ الحفظ...';try{await request('director_feedback',q=>q.insert({manager_name:'د. محمد العدوان',manager_role:'المدير العام للأكاديمية',report_type:'academy_execution',report_scope:key,decision:'ملاحظة تنفيذية',comment,comment_text:comment,metadata:{source:'director-general',topic:key},is_read:false}));$('comment').value='';$('message').textContent='حُفظت الملاحظة في المنصة.';await loadThread()}catch(e){$('message').textContent='تعذر حفظ الملاحظة: '+e.message}finally{button.disabled=false}};
   loadSchools();loadReports();loadThread();
 })();
-</script><script src="../assets/feedback-hub.js?v=20261008u"></script>
+</script><script src="../assets/feedback-hub.js?v=20261008v"></script>
 <script src="../assets/access-gate.js?v=20261008u"></script>
 <script>FHGate.require(['director','owner']).then(function(u){u=u||{name:FH.DIRECTOR,role:"guest"};FH.installCard(document.getElementById("fhDirInstall"));FH.quickGuide(document.getElementById("fhDirGuide"),"director");if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js?v=20261008s").catch(function(){});FH.myReplies(document.getElementById("fhDirReplies"),{people:[FH.DIRECTOR],title:"ردود المنسق على ملاحظاتك"});FH.presentations(document.getElementById("fhDirPres"),{viewer:u.name});});</script>
 </body></html>
