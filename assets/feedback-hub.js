@@ -18,7 +18,9 @@
   function who(r){return r.manager_name||r.director_name||'غير محدد'}
   function fmt(v){if(!v)return '—';try{return new Date(v).toLocaleString('ar-AE',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return String(v)}}
   function text(r){return r.comment_text||r.comment||''}
-  function topic(r){var t=TYPE_LABEL[r.report_type]||r.report_type||'تعليق';var s=SCOPE_LABEL[r.report_scope]||(r.report_type==='executive_report'?(r.metadata&&r.metadata.report_title)||'':r.report_scope)||'';return s&&s!=='all'?t+' — '+s:t}
+  var SCHOOL_NAME={khb:'مكتبة الخبيصي',jmi:'مكتبة الجيمي',shj:'مكتبة الشارقة',bny:'مكتبة بني ياس',mzd:'مكتبة محمد بن زايد',dan:'مكتبة الدانة'};
+  function scopeName(v){v=String(v||'');var m=v.match(/^school:(\w+)$/);return m?(SCHOOL_NAME[m[1]]||v):''}
+  function topic(r){var t=TYPE_LABEL[r.report_type]||r.report_type||'تعليق';var s=SCOPE_LABEL[r.report_scope]||scopeName(r.report_scope)||(r.report_type==='executive_report'?(r.metadata&&r.metadata.report_title)||'':r.report_scope)||'';return s&&s!=='all'?t+' — '+s:t}
   function step(r){return r.admin_reply_read&&hasReply(r)?4:hasReply(r)?3:r.is_read?2:1}
   function hasReply(r){return String(r.admin_reply||'').trim().length>0}
 
