@@ -1,4 +1,4 @@
-const CACHE_NAME = "alfalah-director-v20261008";
+const CACHE_NAME = "alfalah-director-v20261008s";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
 self.addEventListener("install", event => {
   self.skipWaiting();

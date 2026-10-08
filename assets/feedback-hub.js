@@ -357,12 +357,12 @@
     css();if(!el)return;
     var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
     if(standalone){el.innerHTML='';return}
-    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent),hid=false;try{hid=localStorage.getItem('fh_install_hide')==='1'}catch(e){}
+    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent),hid=false;try{hid=localStorage.getItem('fh_install_hide:'+location.pathname.replace(/[^/]*$/,''))==='1'}catch(e){}
     if(hid){el.innerHTML='';return}
     el.classList.add('fh');
     el.innerHTML='<div class="fh-card" style="border-right:5px solid var(--ft)"><h3>📲 ثبّت المنصة على هاتفك</h3><p class="fh-sub" style="margin:4px 0 8px">'+(ios?'في Safari: اضغط زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية».':'اضغط «تثبيت» لتظهر المنصة كتطبيق على شاشتك. إن لم يظهر الزر: من قائمة المتصفح ⋮ اختر «إضافة إلى الشاشة الرئيسية».')+'</p><div class="fh-btns"><button class="fh-btn fh-install-btn" type="button" style="'+(deferredPrompt?'':'display:none')+'">⬇️ تثبيت</button><button class="fh-btn out fh-install-x" type="button">إخفاء</button></div></div>';
     el.querySelector('.fh-install-btn').onclick=function(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;el.innerHTML=''})};
-    el.querySelector('.fh-install-x').onclick=function(){try{localStorage.setItem('fh_install_hide','1')}catch(e){}el.innerHTML=''};
+    el.querySelector('.fh-install-x').onclick=function(){try{localStorage.setItem('fh_install_hide:'+location.pathname.replace(/[^/]*$/,''),'1')}catch(e){}el.innerHTML=''};
   }
 
   window.FH={accessPanel:accessPanel,installCard:installCard,applyIdentity:applyIdentity,openViewer:openViewer,interceptLinks:interceptLinks,quickGuide:quickGuide,presentations:presentations,ownerInbox:ownerInbox,myReplies:myReplies,DIRECTOR:DIRECTOR,EXEC:EXEC,norm:norm,client:client};

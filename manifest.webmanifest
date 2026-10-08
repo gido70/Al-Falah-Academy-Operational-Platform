@@ -1,27 +1,40 @@
 {
-  "name": "منصة تطوير مكتبات أكاديمية الفلاح",
-  "short_name": "الفلاح للمكتبات",
-  "description": "منصة تطوير مكتبات أكاديمية الفلاح للتقييم والمتابعة والتقارير.",
+  "id": "alfalah-owner",
+  "name": "منسق المكتبات — أكاديمية الفلاح",
+  "short_name": "المنسق",
+  "description": "صفحة منسق مكتبات أكاديمية الفلاح.",
+  "lang": "ar",
+  "dir": "rtl",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "dir": "rtl",
-  "lang": "ar",
-  "background_color": "#e8f0fa",
-  "theme_color": "#0c447c",
+  "background_color": "#fff6e0",
+  "theme_color": "#9a5e08",
   "icons": [
     {
-      "src": "assets/app/icon-192.png",
+      "src": "assets/icons/owner/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "assets/app/icon-512.png",
+      "src": "assets/icons/owner/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/owner/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/owner/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

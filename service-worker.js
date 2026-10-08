@@ -1,4 +1,4 @@
-const CACHE_NAME = "alfalah-gat2-fresh-v20260510";
+const CACHE_NAME = "alfalah-owner-20261008s";
 self.addEventListener("install", event => { self.skipWaiting(); });
 self.addEventListener("activate", event => {
   event.waitUntil((async()=>{

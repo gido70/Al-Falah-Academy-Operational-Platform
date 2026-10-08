@@ -1,4 +1,4 @@
-const CACHE_NAME = "alfalah-management-logo-fix-v20260520";
+const CACHE_NAME = "alfalah-mgmt-20261008s";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
 self.addEventListener("install", event => {
   self.skipWaiting();

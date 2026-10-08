@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 
-<meta name="theme-color" content="#0c447c">
+<meta name="theme-color" content="#0f6e56">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="متابعة الإدارة">
-<link rel="manifest" href="./manifest.webmanifest?v=20260520-logo-fix">
-<link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32.png?v=20260520-logo-fix">
-<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png?v=20260520-logo-fix">
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="./icons/icon-180.png?v=20260520-logo-fix">
+<meta name="apple-mobile-web-app-title" content="المتابعة">
+<link rel="manifest" href="./manifest.webmanifest?v=20261008s">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32.png?v=20261008s">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png?v=20261008s">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="./icons/icon-180.png?v=20261008s">
 <title>منصة المتابعة الإدارية للمكتبات</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
@@ -602,7 +602,7 @@ setTimeout(renderDirectorWeeklyAttendance, 1200);
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('./sw.js?v=20260520-logo-fix').catch(function(err){ console.warn('SW registration failed', err); });
+    navigator.serviceWorker.register('./sw.js?v=20261008s').catch(function(err){ console.warn('SW registration failed', err); });
   });
 }
 </script>
@@ -769,7 +769,7 @@ if(r && n) r.value=n;
 })();
 </script>
 
-<script src="../assets/feedback-hub.js?v=20261008r"></script>
+<script src="../assets/feedback-hub.js?v=20261008s"></script>
 <script src="../assets/access-gate.js?v=20261008r"></script>
 <script>FHGate.require(['executive','owner']).then(function(u){u=u||{name:"الإدارة",role:"guest"};FH.interceptLinks();FH.installCard(document.getElementById("fhMgmtInstall"));FH.quickGuide(document.getElementById("fhMgmtGuide"),"management");FH.myReplies(document.getElementById("fhMgmtReplies"),{people:FH.EXEC,me:u.name,title:"ردود المنسق على تعليقات الإدارة"});FH.presentations(document.getElementById("fhMgmtPres"),{viewer:u.name});if(u.role==="executive")FH.applyIdentity(u);});</script>
 </body></html>
