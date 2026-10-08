@@ -105,12 +105,20 @@
     });
   }
   function login(c,check){
-    var g=screen('<div class="fhg-logo">🔐</div><h1>صفحة منسق المكتبات</h1><p>سجّل الدخول ببريدك الإلكتروني وكلمة المرور.</p>'+
+    var g=screen('<div class="fhg-logo">🔐</div><h1>صفحة منسق المكتبات</h1><p>سجّل الدخول بحساب Google أو بالبريد وكلمة المرور.</p>'+
+      '<button class="fhg-btn" id="fhgGoogle" type="button" style="background:#fff;color:#1f1f1f;border:2px solid #c6d9ef;margin:0 0 14px"><span style="font-weight:900;color:#4285f4">G</span>&nbsp; الدخول بحساب Google</button>'+
+      '<div style="color:#8aa0b8;font-size:13px;margin-bottom:10px">— أو —</div>'+
       '<input class="fhg-in fhg-em" id="fhgEmail" type="email" autocomplete="username" placeholder="البريد الإلكتروني" style="text-transform:none;letter-spacing:0;font-size:17px">'+
       '<input class="fhg-in fhg-em" id="fhgPass" type="password" autocomplete="current-password" placeholder="كلمة المرور" style="text-transform:none;letter-spacing:0;font-size:17px;margin-top:10px">'+
       '<button class="fhg-btn" id="fhgGo" type="button">دخول</button><div class="fhg-msg" id="fhgMsg" role="status"></div>'+
       '<div class="fhg-note"><a href="#" id="fhgForgot">نسيت كلمة المرور؟</a></div>');
     var em=g.querySelector('#fhgEmail'),pw=g.querySelector('#fhgPass'),btn=g.querySelector('#fhgGo'),msg=g.querySelector('#fhgMsg');
+    g.querySelector('#fhgGoogle').onclick=function(){
+      msg.className='fhg-msg';msg.textContent='جارٍ التحويل إلى Google...';
+      c.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname,queryParams:{prompt:'select_account'}}}).then(function(r){
+        if(r.error)bad(/not enabled|Unsupported provider/i.test(r.error.message)?'الدخول بـ Google غير مفعّل بعد في إعدادات قاعدة البيانات.':'تعذر: '+r.error.message);
+      });
+    };
     setTimeout(function(){em.focus()},50);
     function bad(t){btn.disabled=false;msg.className='fhg-msg err';msg.textContent=t}
     function go(){
