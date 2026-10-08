@@ -256,7 +256,7 @@ async function renderFeedback(){
   box.innerHTML=rows.map(f=>`<div class="feedback-item"><b>${escH(f.manager_name||'الإدارة')}</b>${f.manager_role?' — '+escH(f.manager_role):''} <span class="pill">${f.created_at?new Date(f.created_at).toLocaleDateString('ar'):''}</span><br>${escH(f.comment_text||f.comment)}${f.admin_reply?`<div style="background:#e1f5ee;border-radius:10px;padding:8px;margin-top:8px"><b>رد المنسق:</b><br>${escH(f.admin_reply)}</div>`:'<div class="pill" style="margin-top:6px">بانتظار رد المنسق</div>'}</div>`).join('');
 }
 </script>
-<script src="../assets/feedback-hub.js?v=20261008s"></script>
+<script src="../assets/feedback-hub.js?v=20261008t"></script>
 <script src="../assets/access-gate.js?v=20261008r"></script>
 <script>FHGate.require(['executive','owner']).then(function(u){u=u||{name:"الإدارة",role:"guest"};FH.interceptLinks();FH.quickGuide(document.getElementById("fhExecGuide"),"executive");FH.myReplies(document.getElementById("fhExecReplies"),{people:FH.EXEC,me:u.name,title:"ردود المنسق على تعليقات الإدارة"});FH.presentations(document.getElementById("fhExecPres"),{viewer:u.name});if(u.role==="executive"){FH.applyIdentity(u);var r=document.getElementById("fbRole");if(r&&!r.value)r.value="الإدارة التنفيذية";}});</script>
 </body>
