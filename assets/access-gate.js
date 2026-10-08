@@ -40,7 +40,7 @@
 
   function ask(allowed,resolve,c){
     var hint=HINTS[new URLSearchParams(location.search).get('u')||'']||'';
-    var g=screen('<div class="fhg-logo">📚</div><h1>'+(hint?'أهلًا '+esc(hint):'منصة مكتبات أكاديمية الفلاح')+'</h1><p>أدخل كود الدخول الخاص بك. يُطلب مرة واحدة فقط على هذا الجهاز.</p><input class="fhg-in" id="fhgCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXXX-XXXX-XXXX" inputmode="text"><button class="fhg-btn" id="fhgGo" type="button">دخول</button><div class="fhg-msg" id="fhgMsg" role="status"></div><div class="fhg-note">الكود شخصي وباسمك؛ تُنسب إليك كل ملاحظة تكتبها. لا تشاركه مع أحد.</div>');
+    var g=screen('<div class="fhg-logo">📚</div><h1>'+(hint?'أهلًا '+esc(hint):'منصة مكتبات أكاديمية الفلاح')+'</h1><p>أدخل كود الدخول الخاص بك. يُطلب مرة واحدة فقط على هذا الجهاز.</p><input class="fhg-in" id="fhgCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXXX-XXXX-XXXX" inputmode="text"><button class="fhg-btn" id="fhgGo" type="button">دخول</button><div class="fhg-msg" id="fhgMsg" role="status"></div><div class="fhg-note">الكود شخصي وباسمك؛ تُنسب إليك كل ملاحظة تكتبها. لا تشاركه مع أحد.</div><div class="fhg-note"><a href="'+esc(base())+'">منسق المكتبات؟ ادخل بالبريد من هنا</a></div>');
     var inp=g.querySelector('#fhgCode'),btn=g.querySelector('#fhgGo'),msg=g.querySelector('#fhgMsg');
     setTimeout(function(){inp.focus()},50);
     function go(){
